@@ -1,0 +1,13 @@
+19:12:23 DEBUG : Logs will be stored at 'D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.sw/sram_test/IDE.log'.
+19:12:28 INFO  : Registering command handlers for Vitis TCF services
+19:12:28 INFO  : Launching XSCT server: xsct.bat -n  -interactive D:\HuaweiMoveData\Users\chx\Desktop\Sram_test\sram_test\sram_test.sw\sram_test\temp_xsdb_launch_script.tcl
+19:12:28 INFO  : Platform repository initialization has completed.
+19:12:33 INFO  : XSCT server has started successfully.
+19:12:33 INFO  : Successfully done setting XSCT server connection channel  
+19:12:37 INFO  : plnx-install-location is set to ''
+19:12:37 INFO  : Successfully done setting workspace for the tool. 
+19:12:37 INFO  : Successfully done query RDI_DATADIR 
+23:21:57 DEBUG : Logs will be stored at 'D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.sw/sram_test/IDE.log'.
+23:22:01 INFO  : Launching XSCT server: xsct.bat -n  -interactive D:\HuaweiMoveData\Users\chx\Desktop\Sram_test\sram_test\sram_test.sw\sram_test\temp_xsdb_launch_script.tcl
+23:22:01 INFO  : Registering command handlers for Vitis TCF services
+23:22:02 INFO  : Platform repository initialization has completed.

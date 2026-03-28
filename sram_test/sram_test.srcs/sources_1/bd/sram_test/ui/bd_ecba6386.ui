@@ -1,0 +1,100 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_ScaleFactor":"0.388548",
+   "Default View_TopLeft":"-476,3",
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.5.8 2022-09-21 7111 VDI=41 GEI=38 GUI=JA:10.0
+#  -string -flagsOSRD
+preplace port DDR -pg 1 -lvl 6 -x 1900 -y 990 -defaultsOSRD
+preplace port FIXED_IO -pg 1 -lvl 6 -x 1900 -y 1010 -defaultsOSRD
+preplace port port-id_sram_oe_n_0 -pg 1 -lvl 6 -x 1900 -y 140 -defaultsOSRD
+preplace port port-id_sram_we_n_0 -pg 1 -lvl 6 -x 1900 -y 120 -defaultsOSRD
+preplace port port-id_sram_ce1_n_0 -pg 1 -lvl 6 -x 1900 -y 100 -defaultsOSRD
+preplace port port-id_sram_ce0_n_0 -pg 1 -lvl 6 -x 1900 -y 80 -defaultsOSRD
+preplace port port-id_err_a_0 -pg 1 -lvl 6 -x 1900 -y 220 -defaultsOSRD
+preplace port port-id_sram_oe_n_1 -pg 1 -lvl 6 -x 1900 -y 1150 -defaultsOSRD
+preplace port port-id_sram_we_n_1 -pg 1 -lvl 6 -x 1900 -y 1130 -defaultsOSRD
+preplace port port-id_sram_ce1_n_1 -pg 1 -lvl 6 -x 1900 -y 1110 -defaultsOSRD
+preplace port port-id_sram_ce0_n_1 -pg 1 -lvl 6 -x 1900 -y 1090 -defaultsOSRD
+preplace port port-id_err_a_1 -pg 1 -lvl 6 -x 1900 -y 1230 -defaultsOSRD
+preplace port port-id_err_sys_0 -pg 1 -lvl 0 -x 0 -y 210 -defaultsOSRD
+preplace port port-id_err_sys_1 -pg 1 -lvl 0 -x 0 -y 1160 -defaultsOSRD
+preplace port port-id_uart_rst_0 -pg 1 -lvl 6 -x 1900 -y 610 -defaultsOSRD
+preplace port port-id_led_0 -pg 1 -lvl 6 -x 1900 -y 60 -defaultsOSRD
+preplace port port-id_led_1 -pg 1 -lvl 6 -x 1900 -y 1070 -defaultsOSRD
+preplace portBus err_inj_0 -pg 1 -lvl 6 -x 1900 -y 200 -defaultsOSRD
+preplace portBus sram_data_0 -pg 1 -lvl 6 -x 1900 -y 180 -defaultsOSRD
+preplace portBus sram_addr_0 -pg 1 -lvl 6 -x 1900 -y 160 -defaultsOSRD
+preplace portBus sram_data_1 -pg 1 -lvl 6 -x 1900 -y 1190 -defaultsOSRD
+preplace portBus sram_addr_1 -pg 1 -lvl 6 -x 1900 -y 1170 -defaultsOSRD
+preplace portBus err_inj_1 -pg 1 -lvl 6 -x 1900 -y 1210 -defaultsOSRD
+preplace portBus led_status_0 -pg 1 -lvl 6 -x 1900 -y 630 -defaultsOSRD
+preplace inst processing_system7_0 -pg 1 -lvl 1 -x 230 -y 1030 -defaultsOSRD
+preplace inst axi_interconnect_0 -pg 1 -lvl 2 -x 610 -y 1150 -defaultsOSRD
+preplace inst proc_sys_reset_0 -pg 1 -lvl 1 -x 230 -y 1270 -defaultsOSRD
+preplace inst axi_apb_bridge_0 -pg 1 -lvl 3 -x 910 -y 910 -defaultsOSRD
+preplace inst axi_apb_bridge_1 -pg 1 -lvl 3 -x 910 -y 1090 -defaultsOSRD
+preplace inst apb_slave_0 -pg 1 -lvl 4 -x 1300 -y 700 -defaultsOSRD
+preplace inst top_0 -pg 1 -lvl 5 -x 1660 -y 210 -defaultsOSRD
+preplace inst top_1 -pg 1 -lvl 5 -x 1660 -y 1220 -defaultsOSRD
+preplace netloc Net 1 5 1 NJ 180
+preplace netloc Net1 1 5 1 NJ 1190
+preplace netloc apb_slave_0_control_0 1 4 1 1460 190n
+preplace netloc apb_slave_0_control_1 1 4 1 1490 730n
+preplace netloc apb_slave_0_err_inj_num_0 1 4 1 1490 270n
+preplace netloc apb_slave_0_err_inj_num_1 1 4 1 1460 790n
+preplace netloc apb_slave_0_freq_0 1 4 1 1470 230n
+preplace netloc apb_slave_0_freq_1 1 4 1 1480 750n
+preplace netloc apb_slave_0_uart_rst 1 4 2 NJ 610 NJ
+preplace netloc apb_slave_0_up_down_0 1 4 1 1480 250n
+preplace netloc apb_slave_0_up_down_1 1 4 1 1470 770n
+preplace netloc clk_wizard_0_clk_out 1 0 5 20 1150 450 1290 770 1170 1060 940 1500
+preplace netloc err_sys_0_1 1 0 5 NJ 210 NJ 210 NJ 210 NJ 210 NJ
+preplace netloc err_sys_1_1 1 0 5 NJ 1160 440J 1300 NJ 1300 NJ 1300 1510J
+preplace netloc proc_sys_reset_0_peripheral_aresetn 1 1 4 460 1310 790 1180 1050 950 1510
+preplace netloc processing_system7_0_FCLK_RESET0_N 1 0 2 30 1170 430
+preplace netloc top_0_cor_data 1 3 3 1110 440 NJ 440 1810
+preplace netloc top_0_err_a 1 5 1 NJ 220
+preplace netloc top_0_err_addr 1 3 3 1090 430 NJ 430 1830
+preplace netloc top_0_err_counter 1 3 3 1070 420 NJ 420 1840
+preplace netloc top_0_err_data 1 3 3 1140 470 NJ 470 1850
+preplace netloc top_0_err_inj 1 5 1 NJ 200
+preplace netloc top_0_err_sys_hit 1 3 3 1120 450 NJ 450 1870
+preplace netloc top_0_fifo_wen 1 3 3 1130 460 NJ 460 1860
+preplace netloc top_0_m_data_s2d 1 3 3 1080 930 NJ 930 1880
+preplace netloc top_0_sram_addr 1 5 1 NJ 160
+preplace netloc top_0_sram_ce0_n 1 5 1 NJ 80
+preplace netloc top_0_sram_ce1_n 1 5 1 NJ 100
+preplace netloc top_0_sram_oe_n 1 5 1 NJ 140
+preplace netloc top_0_sram_we_n 1 5 1 NJ 120
+preplace netloc top_1_cor_data 1 3 3 1120 980 NJ 980 1850
+preplace netloc top_1_err_a 1 5 1 NJ 1230
+preplace netloc top_1_err_addr 1 3 3 1130 970 NJ 970 1830
+preplace netloc top_1_err_counter 1 3 3 1140 960 NJ 960 1810
+preplace netloc top_1_err_data 1 3 3 1070 1460 NJ 1460 1810
+preplace netloc top_1_err_inj 1 5 1 NJ 1210
+preplace netloc top_1_err_sys_hit 1 3 3 1100 1440 NJ 1440 1840
+preplace netloc top_1_fifo_wen 1 3 3 1090 1450 NJ 1450 1820
+preplace netloc top_1_m_data_s2d 1 3 3 1110 1430 NJ 1430 1860
+preplace netloc top_1_sram_addr 1 5 1 NJ 1170
+preplace netloc top_1_sram_ce0_n 1 5 1 NJ 1090
+preplace netloc top_1_sram_ce1_n 1 5 1 NJ 1110
+preplace netloc top_1_sram_oe_n 1 5 1 NJ 1150
+preplace netloc top_1_sram_we_n 1 5 1 NJ 1130
+preplace netloc top_0_led 1 5 1 NJ 60
+preplace netloc top_1_led 1 5 1 NJ 1070
+preplace netloc apb_slave_0_led_status 1 4 2 NJ 630 NJ
+preplace netloc S00_AXI_1 1 1 1 460 1030n
+preplace netloc axi_apb_bridge_0_APB_M 1 3 1 1030 530n
+preplace netloc axi_apb_bridge_1_APB_M 1 3 1 1040 550n
+preplace netloc axi_interconnect_0_M00_AXI 1 2 1 760 890n
+preplace netloc axi_interconnect_0_M01_AXI 1 2 1 780 1070n
+preplace netloc processing_system7_0_DDR 1 1 5 NJ 990 NJ 990 NJ 990 NJ 990 NJ
+preplace netloc processing_system7_0_FIXED_IO 1 1 5 NJ 1010 NJ 1010 NJ 1010 NJ 1010 NJ
+levelinfo -pg 1 0 230 610 910 1300 1660 1900
+pagesize -pg 1 -db -bbox -sgen -120 0 2070 1470
+"
+}
+{
+   "da_ps7_cnt":"1"
+}

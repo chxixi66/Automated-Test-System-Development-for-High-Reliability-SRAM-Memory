@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item key="sram_test_system-imgFile" value="D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.sw/sram_test_system/_ide/bootimage/BOOT.bin"/>
+	<item key="sram_test_system-offSet" value=""/>
+	<item key="sram_test_system-initFile" value="D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.sw/sram_test_wrapper/export/sram_test_wrapper/sw/sram_test_wrapper/boot/fsbl.elf"/>
+	<item key="sram_test_system-flashType" value="qspi-x4-single"/>
+	<item key="sram_test_system-verifyFlash" value="true"/>
+	<item key="sram_test_system-blankCheck" value="false"/>
+	<item key="sram_test_system-device" value="Auto Detect"/>
+	<item key="sram_test_system-target" value="Local"/>
+	<item key="programflash.hwplatform" value="sram_test_system"/>
+</section>

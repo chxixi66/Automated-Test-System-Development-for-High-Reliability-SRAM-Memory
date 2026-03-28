@@ -1,0 +1,236 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
+| Date         : Wed Oct 15 19:20:13 2025
+| Host         : LAPTOP-H14EUFIU running 64-bit major release  (build 9200)
+| Command      : report_drc -file sram_test_wrapper_drc_routed.rpt -pb sram_test_wrapper_drc_routed.pb -rpx sram_test_wrapper_drc_routed.rpx
+| Design       : sram_test_wrapper
+| Device       : xc7z020clg484-2
+| Speed File   : -2
+| Design State : Fully Routed
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Report DRC
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: netlist
+          Floorplan: design_1
+      Design limits: <entire design considered>
+           Ruledeck: default
+             Max violations: <unlimited>
+             Violations found: 40
++----------+----------+-------------------+------------+
+| Rule     | Severity | Description       | Violations |
++----------+----------+-------------------+------------+
+| PDRC-153 | Warning  | Gated clock check | 40         |
++----------+----------+-------------------+------------+
+
+2. REPORT DETAILS
+-----------------
+PDRC-153#1 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramrd_addr_reg[18]_i_2_n_0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramrd_addr_reg[18]_i_2/O, cell sram_test_i/top_0/inst/uut_timing/sramrd_addr_reg[18]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#2 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[0]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[0]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[0]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[0] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#3 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[10]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[10]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[10]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[10] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#4 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[11]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[11]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[11]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[11] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#5 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[12]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[12]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[12]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[12] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#6 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[13]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[13]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[13]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[13] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#7 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[14]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[14]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[14]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[14] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#8 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[15]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[15]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[15]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[15] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#9 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[16]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[16]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[16]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[16] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#10 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[17]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[17]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[17]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[17] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#11 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[18]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[18]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[18]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[18] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#12 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[1]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[1]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[1]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[1] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#13 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[2]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[2]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[2]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[2] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#14 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[3]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[3]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[3]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[3] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#15 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[4]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[4]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[4]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[4] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#16 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[5]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[5]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[5]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[5] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#17 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[6]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[6]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[6]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[6] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#18 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[7]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[7]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[7]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[7] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#19 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[8]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[8]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[8]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[8] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#20 Warning
+Gated clock check  
+Net sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[9]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[9]/L3_2/O, cell sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[9]/L3_2 (in sram_test_i/top_0/inst/uut_timing/sramwr_addr_reg[9] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#21 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramrd_addr_reg[18]_i_2_n_0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramrd_addr_reg[18]_i_2/O, cell sram_test_i/top_1/inst/uut_timing/sramrd_addr_reg[18]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#22 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[0]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[0]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[0]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[0] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#23 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[10]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[10]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[10]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[10] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#24 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[11]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[11]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[11]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[11] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#25 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[12]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[12]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[12]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[12] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#26 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[13]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[13]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[13]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[13] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#27 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[14]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[14]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[14]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[14] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#28 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[15]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[15]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[15]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[15] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#29 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[16]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[16]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[16]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[16] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#30 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[17]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[17]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[17]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[17] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#31 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[18]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[18]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[18]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[18] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#32 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[1]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[1]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[1]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[1] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#33 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[2]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[2]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[2]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[2] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#34 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[3]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[3]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[3]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[3] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#35 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[4]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[4]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[4]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[4] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#36 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[5]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[5]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[5]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[5] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#37 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[6]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[6]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[6]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[6] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#38 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[7]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[7]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[7]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[7] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#39 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[8]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[8]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[8]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[8] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#40 Warning
+Gated clock check  
+Net sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[9]/G0 is a gated clock net sourced by a combinational pin sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[9]/L3_2/O, cell sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[9]/L3_2 (in sram_test_i/top_1/inst/uut_timing/sramwr_addr_reg[9] macro). This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+

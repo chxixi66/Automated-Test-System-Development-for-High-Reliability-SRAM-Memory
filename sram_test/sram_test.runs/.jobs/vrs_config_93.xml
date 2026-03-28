@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<Runs Version="1" Minor="0">
+	<Run Id="sram_test_apb_slave_0_0_synth_1" LaunchDir="D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.runs/sram_test_apb_slave_0_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="sram_test_top_0_0_synth_1" LaunchDir="D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.runs/sram_test_top_0_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="sram_test_top_1_0_synth_1" LaunchDir="D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.runs/sram_test_top_1_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado" IsOrderedIPRun="true">
+		<Parent Id="sram_test_top_0_0_synth_1"/>
+	</Run>
+	<Run Id="sram_test_xbar_0_synth_1" LaunchDir="D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.runs/sram_test_xbar_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Parameters>
+		<Parameter Name="runs.monitorLSFJobs" Val="true" Type="bool"/>
+		<Parameter Name="runs.enableClusterConf" Val="true" Type="bool"/>
+	</Parameters>
+</Runs>
+

@@ -1,0 +1,1787 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Product Version: Vivado v2023.1 (64-bit)                                     -->
+<!--                                                                              -->
+<!-- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.                        -->
+<!-- Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.        -->
+
+<hwsession version="1" minor="2">
+  <device name="xc7z020_1" gui_info="dashboard1=hw_ila_1[xc7z020_1/hw_ila_1/Waveform=ILA_WAVE_1;xc7z020_1/hw_ila_1/Capture Setup=ILA_CAPTURE_1;xc7z020_1/hw_ila_1/Status=ILA_STATUS_1;xc7z020_1/hw_ila_1/Trigger Setup=ILA_TRIGGER_1;xc7z020_1/hw_ila_1/Settings=ILA_SETTINGS_1;],dashboard2=hw_ila_2[xc7z020_1/hw_ila_2/Capture Setup=ILA_CAPTURE_1;xc7z020_1/hw_ila_2/Settings=ILA_SETTINGS_1;xc7z020_1/hw_ila_2/Waveform=ILA_WAVE_1;xc7z020_1/hw_ila_2/Status=ILA_STATUS_1;xc7z020_1/hw_ila_2/Trigger Setup=ILA_TRIGGER_1;]"/>
+  <ObjectList object_type="hw_device" gui_info="">
+    <Object name="xc7z020_1" gui_info="">
+      <Properties Property="FULL_PROBES.FILE" value="$_project_name_.runs/impl_1/$_project_name__wrapper.ltx"/>
+      <Properties Property="PROBES.FILE" value="$_project_name_.runs/impl_1/$_project_name__wrapper.ltx"/>
+      <Properties Property="PROGRAM.HW_BITSTREAM" value="$_project_name_.runs/impl_1/$_project_name__wrapper.bit"/>
+      <Properties Property="SLR.COUNT" value="1"/>
+    </Object>
+  </ObjectList>
+  <ObjectList object_type="hw_ila" gui_info="">
+    <Object name="" gui_info="">
+      <Properties Property="CONTROL.TRIGGER_CONDITION" value="AND"/>
+      <Properties Property="CORE_REFRESH_RATE_MS" value="500"/>
+    </Object>
+    <Object name="sram_test_i/apb_slave_0/inst/uut_ila_1" gui_info="">
+      <Properties Property="CONTROL.TRIGGER_CONDITION" value="AND"/>
+      <Properties Property="CORE_REFRESH_RATE_MS" value="500"/>
+    </Object>
+    <Object name="sram_test_i/top_0/inst/uut_ila_0" gui_info="">
+      <Properties Property="CONTROL.TRIGGER_CONDITION" value="AND"/>
+      <Properties Property="CORE_REFRESH_RATE_MS" value="500"/>
+    </Object>
+    <Object name="sram_test_i/top_0/inst/uut_timing/uut_ila_1" gui_info="">
+      <Properties Property="CONTROL.TRIGGER_CONDITION" value="AND"/>
+      <Properties Property="CORE_REFRESH_RATE_MS" value="500"/>
+    </Object>
+    <Object name="sram_test_i/top_1/inst/uut_ila_0" gui_info="">
+      <Properties Property="CONTROL.TRIGGER_CONDITION" value="AND"/>
+      <Properties Property="CORE_REFRESH_RATE_MS" value="500"/>
+    </Object>
+    <Object name="sram_test_i/top_1/inst/uut_timing/uut_ila_1" gui_info="">
+      <Properties Property="CONTROL.TRIGGER_CONDITION" value="AND"/>
+      <Properties Property="CORE_REFRESH_RATE_MS" value="500"/>
+    </Object>
+  </ObjectList>
+  <ObjectList object_type="hw_probe" gui_info="">
+    <Object name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[31:0]" gui_info="Trigger Setup=0"/>
+    <Object name="sram_test_i/top_0/inst/ctrl[14:0]" gui_info=""/>
+    <Object name="sram_test_i/top_0/inst/done" gui_info=""/>
+    <Object name="sram_test_i/top_0/inst/err_a" gui_info=""/>
+    <Object name="sram_test_i/top_0/inst/err_cnt[18:0]" gui_info="Trigger Setup=0"/>
+    <Object name="sram_test_i/top_0/inst/err_cnt[19:0]" gui_info=""/>
+    <Object name="sram_test_i/top_0/inst/err_counter[18:0]" gui_info=""/>
+    <Object name="sram_test_i/top_0/inst/err_counter[19:0]" gui_info=""/>
+    <Object name="sram_test_i/top_0/inst/err_sys" gui_info=""/>
+    <Object name="sram_test_i/top_0/inst/sram_addr[18:0]" gui_info="Trigger Setup=0"/>
+    <Object name="sram_test_i/top_0/inst/sram_ce0_n" gui_info=""/>
+    <Object name="sram_test_i/top_0/inst/sram_we_n" gui_info="Trigger Setup=1"/>
+    <Object name="sram_test_i/top_0/inst/sramrd_data[7:0]" gui_info=""/>
+    <Object name="sram_test_i/top_1/inst/clk_wr" gui_info=""/>
+    <Object name="sram_test_i/top_1/inst/ctrl[14:0]" gui_info=""/>
+    <Object name="sram_test_i/top_1/inst/done" gui_info=""/>
+    <Object name="sram_test_i/top_1/inst/err_a" gui_info=""/>
+    <Object name="sram_test_i/top_1/inst/err_cnt[18:0]" gui_info=""/>
+    <Object name="sram_test_i/top_1/inst/err_counter[18:0]" gui_info="Trigger Setup=0"/>
+    <Object name="sram_test_i/top_1/inst/err_sys" gui_info=""/>
+    <Object name="sram_test_i/top_1/inst/fifo_wen" gui_info="Trigger Setup=0"/>
+    <Object name="sram_test_i/top_1/inst/sram_addr[18:0]" gui_info="Trigger Setup=1"/>
+    <Object name="sram_test_i/top_1/inst/sram_we_n" gui_info="Trigger Setup=0"/>
+    <Object name="sram_test_i/top_1/inst/sramrd_data[7:0]" gui_info=""/>
+  </ObjectList>
+  <probeset name="hw project" active="false">
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq32&apos;hXXXX_XXXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq32&apos;hXXXX_XXX1"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe0[31:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq32&apos;hXXXX_XXX1"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[31]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[30]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[29]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[28]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[27]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[26]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[25]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[24]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[23]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[22]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[21]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[20]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[19]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[18]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[17]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[16]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[15]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[14]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[13]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[12]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[11]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[10]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[9]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[8]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[7]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[6]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[5]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[4]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[3]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[2]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[1]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_0[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq32&apos;hXXXX_XXXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq32&apos;hXXXX_XXXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe1[31:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq32&apos;hXXXX_XXXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[31]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[30]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[29]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[28]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[27]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[26]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[25]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[24]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[23]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[22]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[21]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[20]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[19]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[18]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[17]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[16]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[15]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[14]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[13]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[12]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[11]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[10]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[9]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[8]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[7]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[6]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[5]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[4]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[3]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[2]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[1]"/>
+        <net name="sram_test_i/apb_slave_0/inst/fnsh_reg_1[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="sram_test_i/top_0/inst/uut_ila_0"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value=""/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/&lt;const0>"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe5[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/&lt;const1>"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe2[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/&lt;const1>_1"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe4[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/&lt;const1>_2"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe1[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/clk_rd"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe0[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/clk_wr"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq8&apos;hXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe4[7:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/cor_data[7]"/>
+        <net name="sram_test_i/top_0/inst/cor_data[6]"/>
+        <net name="sram_test_i/top_0/inst/cor_data[5]"/>
+        <net name="sram_test_i/top_0/inst/cor_data[4]"/>
+        <net name="sram_test_i/top_0/inst/cor_data[3]"/>
+        <net name="sram_test_i/top_0/inst/cor_data[2]"/>
+        <net name="sram_test_i/top_0/inst/cor_data[1]"/>
+        <net name="sram_test_i/top_0/inst/cor_data[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq15&apos;hXXXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq15&apos;hXXXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe12[14:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq15&apos;hXXXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/ctrl[14]"/>
+        <net name="sram_test_i/top_0/inst/ctrl[13]"/>
+        <net name="sram_test_i/top_0/inst/ctrl[12]"/>
+        <net name="sram_test_i/top_0/inst/ctrl[11]"/>
+        <net name="sram_test_i/top_0/inst/ctrl[10]"/>
+        <net name="sram_test_i/top_0/inst/ctrl[9]"/>
+        <net name="sram_test_i/top_0/inst/ctrl[8]"/>
+        <net name="sram_test_i/top_0/inst/ctrl[7]"/>
+        <net name="sram_test_i/top_0/inst/ctrl[6]"/>
+        <net name="sram_test_i/top_0/inst/ctrl[5]"/>
+        <net name="sram_test_i/top_0/inst/ctrl[4]"/>
+        <net name="sram_test_i/top_0/inst/ctrl[3]"/>
+        <net name="sram_test_i/top_0/inst/ctrl[2]"/>
+        <net name="sram_test_i/top_0/inst/ctrl[1]"/>
+        <net name="sram_test_i/top_0/inst/ctrl[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq7&apos;hXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq7&apos;hXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe9[6:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq7&apos;hXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/data_reg_reg[6]"/>
+        <net name="sram_test_i/top_0/inst/data_reg_reg[5]"/>
+        <net name="sram_test_i/top_0/inst/data_reg_reg[4]"/>
+        <net name="sram_test_i/top_0/inst/data_reg_reg[3]"/>
+        <net name="sram_test_i/top_0/inst/data_reg_reg[2]"/>
+        <net name="sram_test_i/top_0/inst/data_reg_reg[1]"/>
+        <net name="sram_test_i/top_0/inst/data_reg_reg[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="bus" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq8&apos;hXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe10[7:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/data_reg_reg[7]"/>
+        <net name="sram_test_i/top_0/inst/data_reg_reg[6]"/>
+        <net name="sram_test_i/top_0/inst/data_reg_reg[5]"/>
+        <net name="sram_test_i/top_0/inst/data_reg_reg[4]"/>
+        <net name="sram_test_i/top_0/inst/data_reg_reg[3]"/>
+        <net name="sram_test_i/top_0/inst/data_reg_reg[2]"/>
+        <net name="sram_test_i/top_0/inst/data_reg_reg[1]"/>
+        <net name="sram_test_i/top_0/inst/data_reg_reg[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe6[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/done"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe8[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/err_a"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq19&apos;hX_XXXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq19&apos;hX_XXXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe5[18:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq19&apos;hX_XXXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/err_addr[18]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[17]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[16]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[15]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[14]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[13]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[12]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[11]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[10]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[9]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[8]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[7]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[6]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[5]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[4]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[3]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[2]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[1]"/>
+        <net name="sram_test_i/top_0/inst/err_addr[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq19&apos;hX_XXXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq19&apos;h0_0015"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="sram_test_i/top_0/inst/uut_ila_0"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value=""/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq19&apos;h0_0015"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/err_cnt[18]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[17]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[16]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[15]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[14]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[13]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[12]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[11]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[10]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[9]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[8]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[7]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[6]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[5]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[4]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[3]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[2]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[1]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="bus" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq20&apos;hX_XXXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq20&apos;hX_XXXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe12[19:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq20&apos;hX_XXXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/err_cnt[19]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[18]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[17]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[16]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[15]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[14]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[13]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[12]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[11]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[10]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[9]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[8]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[7]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[6]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[5]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[4]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[3]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[2]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[1]"/>
+        <net name="sram_test_i/top_0/inst/err_cnt[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq19&apos;hX_XXXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq19&apos;hX_XXXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe15[18:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq19&apos;hX_XXXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/err_counter[18]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[17]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[16]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[15]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[14]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[13]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[12]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[11]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[10]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[9]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[8]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[7]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[6]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[5]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[4]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[3]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[2]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[1]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="bus" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq20&apos;hX_XXXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq20&apos;hX_XXXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe13[19:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq20&apos;hX_XXXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/err_counter[19]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[18]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[17]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[16]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[15]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[14]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[13]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[12]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[11]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[10]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[9]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[8]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[7]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[6]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[5]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[4]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[3]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[2]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[1]"/>
+        <net name="sram_test_i/top_0/inst/err_counter[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq8&apos;hXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe3[7:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/err_data[7]"/>
+        <net name="sram_test_i/top_0/inst/err_data[6]"/>
+        <net name="sram_test_i/top_0/inst/err_data[5]"/>
+        <net name="sram_test_i/top_0/inst/err_data[4]"/>
+        <net name="sram_test_i/top_0/inst/err_data[3]"/>
+        <net name="sram_test_i/top_0/inst/err_data[2]"/>
+        <net name="sram_test_i/top_0/inst/err_data[1]"/>
+        <net name="sram_test_i/top_0/inst/err_data[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="bus" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe3[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/err_inj[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe7[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/err_sys"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe2[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/fifo_wen"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq7&apos;hXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq7&apos;hXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe9[6:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq7&apos;hXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/idle2[6]"/>
+        <net name="sram_test_i/top_0/inst/idle2[5]"/>
+        <net name="sram_test_i/top_0/inst/idle2[4]"/>
+        <net name="sram_test_i/top_0/inst/idle2[3]"/>
+        <net name="sram_test_i/top_0/inst/idle2[2]"/>
+        <net name="sram_test_i/top_0/inst/idle2[1]"/>
+        <net name="sram_test_i/top_0/inst/idle2[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="bus" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq19&apos;hX_XXXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq19&apos;h0_0002"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe11[18:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq19&apos;h0_0002"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/sram_addr[18]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[17]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[16]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[15]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[14]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[13]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[12]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[11]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[10]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[9]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[8]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[7]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[6]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[5]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[4]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[3]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[2]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[1]"/>
+        <net name="sram_test_i/top_0/inst/sram_addr[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe2[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/sram_ce0_n"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="bus" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq8&apos;hXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe9[7:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/sram_data_r[7]"/>
+        <net name="sram_test_i/top_0/inst/sram_data_r[6]"/>
+        <net name="sram_test_i/top_0/inst/sram_data_r[5]"/>
+        <net name="sram_test_i/top_0/inst/sram_data_r[4]"/>
+        <net name="sram_test_i/top_0/inst/sram_data_r[3]"/>
+        <net name="sram_test_i/top_0/inst/sram_data_r[2]"/>
+        <net name="sram_test_i/top_0/inst/sram_data_r[1]"/>
+        <net name="sram_test_i/top_0/inst/sram_data_r[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe5[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/sram_oe_n"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;b1"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe4[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;b1"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/sram_we_n"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq8&apos;hXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe11[7:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/sramrd_data[7]"/>
+        <net name="sram_test_i/top_0/inst/sramrd_data[6]"/>
+        <net name="sram_test_i/top_0/inst/sramrd_data[5]"/>
+        <net name="sram_test_i/top_0/inst/sramrd_data[4]"/>
+        <net name="sram_test_i/top_0/inst/sramrd_data[3]"/>
+        <net name="sram_test_i/top_0/inst/sramrd_data[2]"/>
+        <net name="sram_test_i/top_0/inst/sramrd_data[1]"/>
+        <net name="sram_test_i/top_0/inst/sramrd_data[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq5&apos;hXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq5&apos;hXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe0[4:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq5&apos;hXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+        <Option Id="ENUM.BREAK1" value="eq5&apos;b00101"/>
+        <Option Id="ENUM.BREAK2" value="eq5&apos;b00110"/>
+        <Option Id="ENUM.DONE_ER_PRE" value="eq5&apos;b01100"/>
+        <Option Id="ENUM.DONE_ER_PRE1" value="eq5&apos;b10010"/>
+        <Option Id="ENUM.DONE_ER_PRE2" value="eq5&apos;b10011"/>
+        <Option Id="ENUM.DONE_ER_PRE3" value="eq5&apos;b10100"/>
+        <Option Id="ENUM.DONE_ER_PRE4" value="eq5&apos;b10101"/>
+        <Option Id="ENUM.DONE_R" value="eq5&apos;b01101"/>
+        <Option Id="ENUM.DONE_R_PRE" value="eq5&apos;b01011"/>
+        <Option Id="ENUM.DONE_W" value="eq5&apos;b01010"/>
+        <Option Id="ENUM.ERR_C1" value="eq5&apos;b01000"/>
+        <Option Id="ENUM.ERR_C2" value="eq5&apos;b01001"/>
+        <Option Id="ENUM.ERR_I" value="eq5&apos;b00111"/>
+        <Option Id="ENUM.IDLE" value="eq5&apos;b00000"/>
+        <Option Id="ENUM.R_ALL" value="eq5&apos;b00100"/>
+        <Option Id="ENUM.R_ALL_PRE" value="eq5&apos;b00011"/>
+        <Option Id="ENUM.START" value="eq5&apos;b00001"/>
+        <Option Id="ENUM.WAIT1" value="eq5&apos;b01110"/>
+        <Option Id="ENUM.WAIT2" value="eq5&apos;b01111"/>
+        <Option Id="ENUM.WAIT3" value="eq5&apos;b10000"/>
+        <Option Id="ENUM.WAIT4" value="eq5&apos;b10001"/>
+        <Option Id="ENUM.W_ALL" value="eq5&apos;b00010"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_0/inst/uut_timing/cstate[4]"/>
+        <net name="sram_test_i/top_0/inst/uut_timing/cstate[3]"/>
+        <net name="sram_test_i/top_0/inst/uut_timing/cstate[2]"/>
+        <net name="sram_test_i/top_0/inst/uut_timing/cstate[1]"/>
+        <net name="sram_test_i/top_0/inst/uut_timing/cstate[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="sram_test_i/top_1/inst/uut_ila_0"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value=""/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/&lt;const0>"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe5[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/&lt;const1>"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe2[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/&lt;const1>_1"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe4[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/&lt;const1>_2"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe1[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/clk_rd"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe0[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/clk_wr"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq8&apos;hXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe4[7:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/cor_data[7]"/>
+        <net name="sram_test_i/top_1/inst/cor_data[6]"/>
+        <net name="sram_test_i/top_1/inst/cor_data[5]"/>
+        <net name="sram_test_i/top_1/inst/cor_data[4]"/>
+        <net name="sram_test_i/top_1/inst/cor_data[3]"/>
+        <net name="sram_test_i/top_1/inst/cor_data[2]"/>
+        <net name="sram_test_i/top_1/inst/cor_data[1]"/>
+        <net name="sram_test_i/top_1/inst/cor_data[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq15&apos;hXXXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq15&apos;hXXXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe12[14:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq15&apos;hXXXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/ctrl[14]"/>
+        <net name="sram_test_i/top_1/inst/ctrl[13]"/>
+        <net name="sram_test_i/top_1/inst/ctrl[12]"/>
+        <net name="sram_test_i/top_1/inst/ctrl[11]"/>
+        <net name="sram_test_i/top_1/inst/ctrl[10]"/>
+        <net name="sram_test_i/top_1/inst/ctrl[9]"/>
+        <net name="sram_test_i/top_1/inst/ctrl[8]"/>
+        <net name="sram_test_i/top_1/inst/ctrl[7]"/>
+        <net name="sram_test_i/top_1/inst/ctrl[6]"/>
+        <net name="sram_test_i/top_1/inst/ctrl[5]"/>
+        <net name="sram_test_i/top_1/inst/ctrl[4]"/>
+        <net name="sram_test_i/top_1/inst/ctrl[3]"/>
+        <net name="sram_test_i/top_1/inst/ctrl[2]"/>
+        <net name="sram_test_i/top_1/inst/ctrl[1]"/>
+        <net name="sram_test_i/top_1/inst/ctrl[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq7&apos;hXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq7&apos;hXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe9[6:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq7&apos;hXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/data_reg_reg[6]"/>
+        <net name="sram_test_i/top_1/inst/data_reg_reg[5]"/>
+        <net name="sram_test_i/top_1/inst/data_reg_reg[4]"/>
+        <net name="sram_test_i/top_1/inst/data_reg_reg[3]"/>
+        <net name="sram_test_i/top_1/inst/data_reg_reg[2]"/>
+        <net name="sram_test_i/top_1/inst/data_reg_reg[1]"/>
+        <net name="sram_test_i/top_1/inst/data_reg_reg[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="bus" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq8&apos;hXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe10[7:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/data_reg_reg[7]"/>
+        <net name="sram_test_i/top_1/inst/data_reg_reg[6]"/>
+        <net name="sram_test_i/top_1/inst/data_reg_reg[5]"/>
+        <net name="sram_test_i/top_1/inst/data_reg_reg[4]"/>
+        <net name="sram_test_i/top_1/inst/data_reg_reg[3]"/>
+        <net name="sram_test_i/top_1/inst/data_reg_reg[2]"/>
+        <net name="sram_test_i/top_1/inst/data_reg_reg[1]"/>
+        <net name="sram_test_i/top_1/inst/data_reg_reg[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe6[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/done"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe8[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/err_a"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq19&apos;hX_XXXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq19&apos;hX_XXXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe5[18:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq19&apos;hX_XXXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/err_addr[18]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[17]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[16]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[15]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[14]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[13]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[12]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[11]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[10]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[9]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[8]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[7]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[6]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[5]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[4]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[3]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[2]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[1]"/>
+        <net name="sram_test_i/top_1/inst/err_addr[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq19&apos;hX_XXXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq19&apos;hX_XXXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="sram_test_i/top_1/inst/uut_ila_0"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value=""/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq19&apos;hX_XXXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/err_cnt[18]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[17]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[16]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[15]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[14]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[13]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[12]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[11]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[10]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[9]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[8]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[7]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[6]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[5]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[4]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[3]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[2]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[1]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="bus" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq20&apos;hX_XXXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq20&apos;hX_XXXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe12[19:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq20&apos;hX_XXXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/err_cnt[19]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[18]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[17]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[16]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[15]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[14]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[13]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[12]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[11]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[10]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[9]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[8]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[7]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[6]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[5]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[4]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[3]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[2]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[1]"/>
+        <net name="sram_test_i/top_1/inst/err_cnt[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq19&apos;hX_XXXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq19&apos;h0_0028"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_3"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe15[18:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq19&apos;h0_0028"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/err_counter[18]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[17]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[16]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[15]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[14]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[13]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[12]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[11]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[10]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[9]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[8]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[7]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[6]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[5]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[4]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[3]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[2]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[1]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="bus" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq20&apos;hX_XXXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq20&apos;hX_XXXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe13[19:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq20&apos;hX_XXXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/err_counter[19]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[18]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[17]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[16]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[15]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[14]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[13]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[12]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[11]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[10]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[9]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[8]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[7]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[6]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[5]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[4]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[3]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[2]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[1]"/>
+        <net name="sram_test_i/top_1/inst/err_counter[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq8&apos;hXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe3[7:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/err_data[7]"/>
+        <net name="sram_test_i/top_1/inst/err_data[6]"/>
+        <net name="sram_test_i/top_1/inst/err_data[5]"/>
+        <net name="sram_test_i/top_1/inst/err_data[4]"/>
+        <net name="sram_test_i/top_1/inst/err_data[3]"/>
+        <net name="sram_test_i/top_1/inst/err_data[2]"/>
+        <net name="sram_test_i/top_1/inst/err_data[1]"/>
+        <net name="sram_test_i/top_1/inst/err_data[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="bus" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe3[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/err_inj[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe7[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/err_sys"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;b1"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe2[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;b1"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/fifo_wen"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq7&apos;hXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq7&apos;hXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_3"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe9[6:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq7&apos;hXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/idle2[6]"/>
+        <net name="sram_test_i/top_1/inst/idle2[5]"/>
+        <net name="sram_test_i/top_1/inst/idle2[4]"/>
+        <net name="sram_test_i/top_1/inst/idle2[3]"/>
+        <net name="sram_test_i/top_1/inst/idle2[2]"/>
+        <net name="sram_test_i/top_1/inst/idle2[1]"/>
+        <net name="sram_test_i/top_1/inst/idle2[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="bus" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq19&apos;hX_XXXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq19&apos;h7_FFFE"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe11[18:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq19&apos;h7_FFFE"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/sram_addr[18]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[17]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[16]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[15]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[14]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[13]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[12]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[11]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[10]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[9]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[8]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[7]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[6]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[5]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[4]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[3]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[2]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[1]"/>
+        <net name="sram_test_i/top_1/inst/sram_addr[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe2[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/sram_ce0_n"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="bus" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq8&apos;hXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe9[7:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/sram_data_r[7]"/>
+        <net name="sram_test_i/top_1/inst/sram_data_r[6]"/>
+        <net name="sram_test_i/top_1/inst/sram_data_r[5]"/>
+        <net name="sram_test_i/top_1/inst/sram_data_r[4]"/>
+        <net name="sram_test_i/top_1/inst/sram_data_r[3]"/>
+        <net name="sram_test_i/top_1/inst/sram_data_r[2]"/>
+        <net name="sram_test_i/top_1/inst/sram_data_r[1]"/>
+        <net name="sram_test_i/top_1/inst/sram_data_r[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;bX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe5[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/sram_oe_n"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;b1"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe4[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;b1"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/sram_we_n"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq8&apos;hXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_2"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe11[7:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/sramrd_data[7]"/>
+        <net name="sram_test_i/top_1/inst/sramrd_data[6]"/>
+        <net name="sram_test_i/top_1/inst/sramrd_data[5]"/>
+        <net name="sram_test_i/top_1/inst/sramrd_data[4]"/>
+        <net name="sram_test_i/top_1/inst/sramrd_data[3]"/>
+        <net name="sram_test_i/top_1/inst/sramrd_data[2]"/>
+        <net name="sram_test_i/top_1/inst/sramrd_data[1]"/>
+        <net name="sram_test_i/top_1/inst/sramrd_data[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq5&apos;hXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq5&apos;hXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_4"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe0[4:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq5&apos;hXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+        <Option Id="ENUM.BREAK1" value="eq5&apos;b00101"/>
+        <Option Id="ENUM.BREAK2" value="eq5&apos;b00110"/>
+        <Option Id="ENUM.DONE_ER_PRE" value="eq5&apos;b01100"/>
+        <Option Id="ENUM.DONE_ER_PRE1" value="eq5&apos;b10010"/>
+        <Option Id="ENUM.DONE_ER_PRE2" value="eq5&apos;b10011"/>
+        <Option Id="ENUM.DONE_ER_PRE3" value="eq5&apos;b10100"/>
+        <Option Id="ENUM.DONE_ER_PRE4" value="eq5&apos;b10101"/>
+        <Option Id="ENUM.DONE_R" value="eq5&apos;b01101"/>
+        <Option Id="ENUM.DONE_R_PRE" value="eq5&apos;b01011"/>
+        <Option Id="ENUM.DONE_W" value="eq5&apos;b01010"/>
+        <Option Id="ENUM.ERR_C1" value="eq5&apos;b01000"/>
+        <Option Id="ENUM.ERR_C2" value="eq5&apos;b01001"/>
+        <Option Id="ENUM.ERR_I" value="eq5&apos;b00111"/>
+        <Option Id="ENUM.IDLE" value="eq5&apos;b00000"/>
+        <Option Id="ENUM.R_ALL" value="eq5&apos;b00100"/>
+        <Option Id="ENUM.R_ALL_PRE" value="eq5&apos;b00011"/>
+        <Option Id="ENUM.START" value="eq5&apos;b00001"/>
+        <Option Id="ENUM.WAIT1" value="eq5&apos;b01110"/>
+        <Option Id="ENUM.WAIT2" value="eq5&apos;b01111"/>
+        <Option Id="ENUM.WAIT3" value="eq5&apos;b10000"/>
+        <Option Id="ENUM.WAIT4" value="eq5&apos;b10001"/>
+        <Option Id="ENUM.W_ALL" value="eq5&apos;b00010"/>
+      </probeOptions>
+      <nets>
+        <net name="sram_test_i/top_1/inst/uut_timing/cstate[4]"/>
+        <net name="sram_test_i/top_1/inst/uut_timing/cstate[3]"/>
+        <net name="sram_test_i/top_1/inst/uut_timing/cstate[2]"/>
+        <net name="sram_test_i/top_1/inst/uut_timing/cstate[1]"/>
+        <net name="sram_test_i/top_1/inst/uut_timing/cstate[0]"/>
+      </nets>
+    </probe>
+  </probeset>
+</hwsession>

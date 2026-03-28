@@ -1,0 +1,2450 @@
+#include <stdio.h>
+#include <string.h>
+#include "lwip/err.h"
+#include "lwip/tcp.h"
+#include "lwip/init.h"
+#include "lwipopts.h"
+#include "netif/xadapter.h"
+#include "lwipopts.h"
+#include "xil_cache.h"
+#include "xil_printf.h"
+#include "sleep.h"
+#include "uartps_mio.h"
+#include "tcp_transmission.h"
+#include "iic_phy.h"
+
+void convert_str_to_32bit(const u8 *rece_value, u32 *output, u32 *config, u32 *freq, u32 *Round, u32 *err_num, u32 *auto_counter)
+{
+	u32 decimal = 0;
+	u32 CONFIG = 0;
+	u32 Freq = 0;
+	u32 ROUND = 0;
+	u32 ERR = 0;
+	u32 AUTO = 0;
+
+	for (int i = 0; i < 15; i++)
+	{
+		decimal = (decimal << 1) | (rece_value[i] - '0');
+	}
+	*output = decimal;
+
+	for (int i = 15; i < 19; i++)
+	{
+		CONFIG = (CONFIG << 1) | (rece_value[i] - '0');
+	}
+	*config = CONFIG;
+
+	// for(int i = 19; i < 20 ; i++){
+	Freq = (Freq << 1) | (rece_value[19] - '0');
+	//}
+	*freq = Freq;
+
+	ROUND = (ROUND << 1) | (rece_value[20] - '0');
+	*Round = ROUND;
+
+	for (int i = 21; i < 41; i++)
+	{
+		ERR = (ERR << 1) | (rece_value[i] - '0');
+	}
+	*err_num = ERR;
+
+	AUTO = (AUTO << 1) | (rece_value[41] - '0');
+	*auto_counter = AUTO;
+}
+
+void convert_char_to_16bit(const char *rece_value, u32 *output, u32 *freq)
+{
+	u32 decimal = 0;
+	//    u32 CONFIG = 0;
+	u32 Freq = 0;
+	//    u32 ROUND = 0;
+	//    u32 ERR = 0;
+	//    u32 AUTO = 0;
+
+	for (int i = 0; i < 15; i++)
+	{
+		decimal = (decimal << 1) | (rece_value[i] - '0');
+	}
+	*output = decimal;
+
+	//    for (int i = 15; i < 19; i++) {
+	//    	CONFIG = (CONFIG << 1) | (rece_value[i] - '0');
+	//    }
+	//    *config = CONFIG;
+	//
+	//	//for(int i = 19; i < 20 ; i++){
+	Freq = (Freq << 1) | (rece_value[15] - '0');
+	//	//}
+	*freq = Freq;
+	//
+	//    ROUND = (ROUND << 1)|(rece_value[20] - '0');
+	//    *Round = ROUND;
+	//
+	//    for (int i = 21; i < 41; i++) {
+	//    	ERR = (ERR << 1) | (rece_value[i] - '0');
+	//     }
+	//     *err_num = ERR;
+	//
+	//     AUTO = (AUTO << 1)| (rece_value[41] - '0');
+	//     *auto_counter = AUTO;
+}
+
+void convert_str_to_24bit(const u8 *rece_value, u32 *config, u32 *err_num)
+{
+	u32 CONFIG = 0;
+	u32 ERR = 0;
+
+	for (int i = 0; i < 4; i++)
+	{
+		CONFIG = (CONFIG << 1) | (rece_value[i] - '0');
+	}
+	*config = CONFIG;
+
+	for (int i = 4; i < 24; i++)
+	{
+		ERR = (ERR << 1) | (rece_value[i] - '0');
+	}
+	*err_num = ERR;
+}
+
+void print_header()
+{
+	if (!executed_auto)
+	{
+		xil_printf("\r\n----------------------------------------------------------------------------------------------\r\n");
+		xil_printf("                                       Single Mode Test Launched !                                \r\n");
+		xil_printf("--------------------------------------------------------------------------------------------------\r\n");
+	}
+	else
+	{
+		xil_printf("\r\n-----------------------------------------------------------------------------------------------\r\n");
+		xil_printf("                                       Start Full Modes Testing !                                  \r\n");
+		xil_printf("----------------------------------------------------------------------------------------------\r\n");
+	}
+}
+
+void copy_to_mode(RAW_info *raw, int dest_mode, uint8_t finish_flag, u32 ERR_ADDR[TEST_ROUND][fifo_depth], u64 ERR_THERO[TEST_ROUND][fifo_depth], u64 ERR_ACTUAL[TEST_ROUND][fifo_depth])
+{
+	memcpy(raw->err_addr[dest_mode],
+		   ERR_ADDR[finish_flag],
+		   fifo_depth * sizeof(u32));
+	memcpy(raw->err_actual[dest_mode],
+		   ERR_ACTUAL[finish_flag],
+		   fifo_depth * sizeof(u64));
+	memcpy(raw->err_theor[dest_mode],
+		   ERR_THERO[finish_flag],
+		   fifo_depth * sizeof(u64));
+}
+
+const char *string_0[] = {
+	"All Ones Pattern",
+	"All Zeros Pattern",
+	"Checkerboard Pattern",
+	"Inverse Checkerboard Pattern",
+	"1-bit Stuck-High Pattern",
+	"1-bit Stuck-Low Pattern",
+	"Prime Numbers Pattern",
+	"Inverse Prime Numbers Pattern",
+	"None"
+};
+
+const char *string_1[] = {
+
+	"Select 1th We trigger Write , Addr trigger Read",
+	"Select 2th We trigger Write , Addr trigger Read",
+	"Select 1th We trigger Write , Ce0 trigger Read",
+	"Select 2th We trigger Write , Ce1 trigger Read",
+	"Select 1th We trigger Write , Oe trigger Read",
+	"Select 2th We trigger Write , Oe trigger Read",
+	"Ce0 trigger Write , Addr trigger Read",
+	"Ce1 trigger Write , Addr trigger Read",
+	"Ce0 trigger Write , Ce0 trigger Read",
+	"Ce1 trigger Write , Ce1 trigger Read",
+	"Ce0 trigger Write , Oe trigger Read",
+	"Ce1 trigger Write , Oe trigger Read",
+
+	"Ce0 Single-Bit Error Injection",
+	"Ce1 Single-Bit Error Injection",
+	"Ce0 Double-bit Error Injection",
+	"Ce1 Double-bit Error Injection",
+	"Ce0 Triple-bit Error Injection",
+	"Ce1 Triple-bit Error Injection",
+	"Select 1th March C Mode",
+	"Select 2th March C Mode"
+
+};
+
+const char *string_2[] = {
+	"Write @ 100 MHz, Read @ 50 MHz.",
+	"Write @ 50 MHz, Read @ 25 MHz."
+};
+
+const char *string_3[] = {
+	"2.9(V)",
+	"3.0(V)",
+	"3.1(V)",
+	"3.2(V)",
+	"3.3(V)",
+	"3.4(V)",
+	"3.5(V)",
+	"3.6(V)",
+	"3.7(V)"
+};
+
+const char binary_array[292][17] = {
+
+	// ce0 3bit
+	"0111100011011110",
+	"0001100011011110",
+	"0010100011011110",
+	"0011100011011110",
+	"0100100011011110",
+	"0101100011011110",
+	"0110100011011110",
+	"1000100011011110",
+
+	// ce1 3bit
+	"1000100111011110", "0001100111011110",
+	"0010100111011110", "0011100111011110",
+	"0100100111011110", "0101100111011110",
+	"0110100111011110", "0111100111011110",
+
+	// [9:8]=00, [10]=0, [7]=0
+	"0111000000000110", "0010000000000110",
+	"0001000000000110", "0011000000000110",
+	"0100000000000110", "0101000000000110",
+	"0110000000000110", "1000000000000110",
+
+	// [9:8]=00, [10]=0, [7]=1
+	"0001000100000110", "0010000100000110",
+	"0011000100000110", "0100000100000110",
+	"0101000100000110", "0110000100000110",
+	"0111000100000110", "1000000100000110",
+
+	// [9:8]=00, [10]=1, [7]=0
+	"0001100000000110", "0010100000000110",
+	"0011100000000110", "0100100000000110",
+	"0101100000000110", "0110100000000110",
+	"0111100000000110", "1000100000000110",
+
+	// [9:8]=00, [10]=1, [7]=1
+	"0001100100000110", "0010100100000110",
+	"0011100100000110", "0100100100000110",
+	"0101100100000110", "0110100100000110",
+	"0111100100000110", "1000100100000110",
+
+	// [9:8]=01, [10]=0, [7]=0
+	"0001001000000110", "0010001000000110",
+	"0011001000000110", "0100001000000110",
+	"0101001000000110", "0110001000000110",
+	"0111001000000110", "1000001000000110",
+
+	// [9:8]=01, [10]=0, [7]=1
+	"0001001100000110", "0010001100000110",
+	"0011001100000110", "0100001100000110",
+	"0101001100000110", "0110001100000110",
+	"0111001100000110", "1000001100000110",
+
+	// [9:8]=01, [10]=1, [7]=0
+	"0001101000000110", "0010101000000110",
+	"0011101000000110", "0100101000000110",
+	"0101101000000110", "0110101000000110",
+	"0111101000000110", "1000101000000110",
+
+	// [9:8]=01, [10]=1, [7]=1
+	"0001101100000110", "0010101100000110",
+	"0011101100000110", "0100101100000110",
+	"0101101100000110", "0110101100000110",
+	"0111101100000110", "1000101100000110",
+
+	// [9:8]=10, [10]=0, [7]=0
+	"0001010000000110", "0010010000000110",
+	"0011010000000110", "0100010000000110",
+	"0101010000000110", "0110010000000110",
+	"0111010000000110", "1000010000000110",
+
+	// [9:8]=10, [10]=0, [7]=1
+	"0001010100000110", "0010010100000110",
+	"0011010100000110", "0100010100000110",
+	"0101010100000110", "0110010100000110",
+	"0111010100000110", "1000010100000110",
+
+	// [9:8]=10, [10]=1, [7]=0
+	"0001110000000110", "0010110000000110",
+	"0011110000000110", "0100110000000110",
+	"0101110000000110", "0110110000000110",
+	"0111110000000110", "1000110000000110",
+
+	// [9:8]=10, [10]=1, [7]=1
+	"0001110100000110", "0010110100000110",
+	"0011110100000110", "0100110100000110",
+	"0101110100000110", "0110110100000110",
+	"0111110100000110", "1000110100000110",
+
+	// March c
+	"0000000000000010", "0000000100000010",
+
+	// [9:8]=00, [10]=0, [7]=0
+	"0001000000000111", "0010000000000111",
+	"0011000000000111", "0100000000000111",
+	"0101000000000111", "0110000000000111",
+	"0111000000000111", "1000000000000111",
+
+	// [9:8]=00, [10]=0, [7]=1
+	"0001000100000111", "0010000100000111",
+	"0011000100000111", "0100000100000111",
+	"0101000100000111", "0110000100000111",
+	"0111000100000111", "1000000100000111",
+
+	// [9:8]=00, [10]=1, [7]=0
+	"0001100000000111", "0010100000000111",
+	"0011100000000111", "0100100000000111",
+	"0101100000000111", "0110100000000111",
+	"0111100000000111", "1000100000000111",
+
+	// [9:8]=00, [10]=1, [7]=1
+	"0001100100000111", "0010100100000111",
+	"0011100100000111", "0100100100000111",
+	"0101100100000111", "0110100100000111",
+	"0111100100000111", "1000100100000111",
+
+	// [9:8]=01, [10]=0, [7]=0
+	"0001001000000111", "0010001000000111",
+	"0011001000000111", "0100001000000111",
+	"0101001000000111", "0110001000000111",
+	"0111001000000111", "1000001000000111",
+
+	// [9:8]=01, [10]=0, [7]=1
+	"0001001100000111", "0010001100000111",
+	"0011001100000111", "0100001100000111",
+	"0101001100000111", "0110001100000111",
+	"0111001100000111", "1000001100000111",
+
+	// [9:8]=01, [10]=1, [7]=0
+	"0001101000000111", "0010101000000111",
+	"0011101000000111", "0100101000000111",
+	"0101101000000111", "0110101000000111",
+	"0111101000000111", "1000101000000111",
+
+	// [9:8]=01, [10]=1, [7]=1
+	"0001101100000111", "0010101100000111",
+	"0011101100000111", "0100101100000111",
+	"0101101100000111", "0110101100000111",
+	"0111101100000111", "1000101100000111",
+
+	// [9:8]=10, [10]=0, [7]=0
+	"0001010000000111", "0010010000000111",
+	"0011010000000111", "0100010000000111",
+	"0101010000000111", "0110010000000111",
+	"0111010000000111", "1000010000000111",
+
+	// [9:8]=10, [10]=0, [7]=1
+	"0001010100000111", "0010010100000111",
+	"0011010100000111", "0100010100000111",
+	"0101010100000111", "0110010100000111",
+	"0111010100000111", "1000010100000111",
+
+	// [9:8]=10, [10]=1, [7]=0
+	"0001110000000111", "0010110000000111",
+	"0011110000000111", "0100110000000111",
+	"0101110000000111", "0110110000000111",
+	"0111110000000111", "1000110000000111",
+
+	// [9:8]=10, [10]=1, [7]=1
+	"0001110100000111", "0010110100000111",
+	"0011110100000111", "0100110100000111",
+	"0101110100000111", "0110110100000111",
+	"0111110100000111", "1000110100000111",
+
+	// March c
+	"0000000000000011", "0000000100000011",
+
+	// ce0 1bit
+	"0001100001011110", "0010100001011110",
+	"0011100001011110", "0100100001011110",
+	"0101100001011110", "0110100001011110",
+	"0111100001011110", "1000100001011110",
+
+	// ce0 2bit
+	"0001100010011110", "0010100010011110",
+	"0011100010011110", "0100100010011110",
+	"0101100010011110", "0110100010011110",
+	"0111100010011110", "1000100010011110",
+
+	// ce1 1bit
+	"0001100101011110", "0010100101011110",
+	"0011100101011110", "0100100101011110",
+	"0101100101011110", "0110100101011110",
+	"0111100101011110", "1000100101011110",
+
+	// ce1 2bit
+	"0001100110011110", "0010100110011110",
+	"0011100110011110", "0100100110011110",
+	"0101100110011110", "0110100110011110",
+	"0111100110011110", "1000100110011110",
+
+	// ce0 1bit
+	"0001100001011111", "0010100001011111",
+	"0011100001011111", "0100100001011111",
+	"0101100001011111", "0110100001011111",
+	"0111100001011111", "1000100001011111",
+
+	// ce0 2bit
+	"0001100010011111", "0010100010011111",
+	"0011100010011111", "0100100010011111",
+	"0101100010011111", "0110100010011111",
+	"0111100010011111", "1000100010011111",
+
+	// ce0 3bit
+	"0001100011011111", "0010100011011111",
+	"0011100011011111", "0100100011011111",
+	"0101100011011111", "0110100011011111",
+	"0111100011011111", "1000100011011111",
+
+	// ce1 1bit
+	"0001100101011111", "0010100101011111",
+	"0011100101011111", "0100100101011111",
+	"0101100101011111", "0110100101011111",
+	"0111100101011111", "1000100101011111",
+
+	// ce1 2bit
+	"0001100110011111", "0010100110011111",
+	"0011100110011111", "0100100110011111",
+	"0101100110011111", "0110100110011111",
+	"0111100110011111", "1000100110011111",
+
+	// ce1 3bit
+	"0001100111011111", "0010100111011111",
+	"0011100111011111", "0100100111011111",
+	"0101100111011111", "0110100111011111",
+	"0111100111011111", "1000100111011111"
+
+};
+
+void send_data()
+{
+#if __arm__
+	int copy = 3;
+#else
+	int copy = 0;
+#endif
+
+	u8 Auto_rece_Buffer[1];
+	u8 Autoconfig[24];
+	u32 freq_data;
+	u32 round_data;
+	u32 auto_data;
+
+	xSemaphoreTake(xSemaphore, portMAX_DELAY);
+
+	  // if(xQueueReceive(xQueue, RecvBuffer, portMAX_DELAY) == pdTRUE)
+
+	if (!executed_auto)
+	{
+		xQueueReceive(xQueue, Auto_rece_Buffer, portMAX_DELAY);
+
+		Auto_flag = Auto_rece_Buffer[0] - '0';
+
+		switch (Auto_flag)
+		{
+		case 0x01:
+			executed_auto = true;
+
+			XUartPs_Recv(&UartPs, Autoconfig, 24);
+			break;
+
+		case 0x00:
+			executed_auto = false;
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	if (!executed_auto)
+	{
+
+		ReceivedCount = XUartPs_Recv(&UartPs, RecvBuffer, 42);
+		if (ReceivedCount == 42)
+		{
+
+			timeoutflag = 1;
+
+			convert_str_to_32bit(RecvBuffer, &converted_data, &config_data, &freq_data, &round_data, &err_data, &auto_data);
+
+			switch (config_data)
+			{
+			case 0x0:
+				voltage_config(0xad);
+				xil_printf("Set the supply voltage to 3.0 volts (V).\r\n");
+				break;
+
+			case 0x1:
+				voltage_config(0xb1);
+				xil_printf("Set the supply voltage to 3.1 volts (V).\r\n");
+
+				break;
+
+			case 0x2:
+
+				voltage_config(0xb5);
+				xil_printf("Set the supply voltage to 3.2 volts (V).\r\n");
+
+				break;
+			case 0x3:
+
+				voltage_config(0xb7);
+				xil_printf("Set the supply voltage to 3.3 volts (V).\r\n");
+
+				break;
+
+			case 0x4:
+
+				voltage_config(0xbb);
+				xil_printf("Set the supply voltage to 3.4 volts (V).\r\n");
+
+				break;
+			case 0x5:
+
+				voltage_config(0xbf);
+				xil_printf("Set the supply voltage to 3.5 volts (V).\r\n");
+
+				break;
+			case 0x6:
+
+				voltage_config(0xc1);
+				xil_printf("Set the supply voltage to 3.6 volts (V).\r\n");
+
+				break;
+			case 0x7:
+
+				voltage_config(0xc5);
+				xil_printf("Set the supply voltage to 3.7 volts (V).\r\n");
+
+				break;
+			case 0x8:
+				voltage_config(0xaa);
+				xil_printf("Set the supply voltage to 2.9 volts (V).\r\n");
+
+				break;
+			default:
+				xil_printf("Please configure the correct voltage .\r\n");
+				break;
+			}
+
+			switch (freq_data)
+			{
+			case 0x0:
+				Xil_Out32((u32)freq_reg_0, (u32)0x0);
+				Xil_Out32((u32)freq_reg_1, (u32)0x0);
+				xil_printf("Test Frequencies: Write @ 100 MHz, Read @ 50 MHz.\r\n");
+				break;
+			case 0x1:
+				Xil_Out32((u32)freq_reg_0, (u32)0x1);
+				Xil_Out32((u32)freq_reg_1, (u32)0x1);
+				xil_printf("Test Frequencies: Write @ 50 MHz, Read @ 25 MHz.\r\n");
+				break;
+
+			default:
+				xil_printf("Please configure the correct frequencies.\r\n");
+				break;
+			}
+
+			switch (auto_data)
+			{
+			case 0x0:
+				auto_flag = 0;
+				break;
+			case 0x1:
+				auto_flag = 1;
+				break;
+			}
+
+			switch (round_data)
+			{
+			case 0x0:
+				test_round = 1;
+				break;
+			case 0x1:
+				if (((converted_data == rd_counter_1_ce0) || (converted_data == rd_counter_2_ce0) || (converted_data == rd_counter_3_ce0) || (converted_data == rd_counter_addr_ce0) || (converted_data == rd_counter_1_ce1) || (converted_data == rd_counter_2_ce1) || (converted_data == rd_counter_3_ce1) || (converted_data == rd_counter_addr_ce1)) || 
+				(((converted_data & mask_inj) == 0x09) && (!auto_flag) && (((converted_data & mask_inj_p) == 0x29) || ((converted_data & mask_inj_p) == 0x49) || ((converted_data & mask_inj_p) == 0x69))) || 
+				(((converted_data & mask_wr) == 0x07) && ((converted_data & mask_inj) != (u32)0x09)) || 
+				(((converted_data & mask_rd) == 0x0) && ((converted_data != (u32)0x01) && (converted_data != (u32)0x81)) && ((converted_data & mask_inj) != (u32)0x09)))
+				{
+					test_round = 1;
+				}
+				else
+				{
+					test_round = 10;
+				}
+				break;
+			}
+
+			if (err_data == 0x0)
+			{
+				err_data = inj_err_max;
+			}
+
+			Xil_Out32(err_inj_num_reg_0, err_data);
+			Xil_Out32(err_inj_num_reg_1, err_data);
+
+			if ((converted_data != (u32)0x01) && (converted_data != (u32)0x81))
+			{
+				state[auto_round * Mode + flag] = DEFAULT;
+				if ((converted_data & mask_inj) == 0x09)
+				{
+					if (auto_flag)
+					{
+						xil_printf("Auto-Error Injection Error mode.\r\n");
+					}
+					else
+					{
+						xil_printf("Manual-Error Injection Error mode.\r\n");
+					}
+
+					xil_printf("The number of injected errors is %d.\r\n", err_data);
+				}
+			}
+			else
+			{
+				if ((converted_data == (u32)0x01))
+				{
+					state[auto_round * Mode + flag] = STATE_MARCHC_0;
+					xil_printf("%s\r\n", string_1[18]);
+					combinations[auto_round * Mode + flag].type2_string = string_1[18];
+				}
+				else
+				{
+					state[auto_round * Mode + flag] = STATE_MARCHC_1;
+					xil_printf("%s\r\n", string_1[19]);
+					combinations[auto_round * Mode + flag].type2_string = string_1[19];
+				}
+			}
+
+			xil_printf("The number of test rounds is %d.\r\n", test_round);
+
+			xil_printf("Command sent successfully !\r\n");
+
+			print_header();
+
+			vTaskDelay(pdMS_TO_TICKS(1500));
+
+			if ((state[auto_round * Mode + flag] != STATE_MARCHC_0) && (state[auto_round * Mode + flag] != STATE_MARCHC_1))
+			{
+				Xil_Out32((u32)crtl_reg_0, (u32)converted_data);
+				Xil_Out32((u32)crtl_reg_1, (u32)converted_data);
+			}
+			else
+			{
+
+				if (state[auto_round * Mode + flag] == STATE_MARCHC_0)
+				{
+					Xil_Out32((u32)crtl_reg_0, (u32)up_w0_r0_0);
+					Xil_Out32((u32)crtl_reg_1, (u32)up_w0_r0_0);
+				}
+				else
+				{
+					Xil_Out32((u32)crtl_reg_0, (u32)up_w0_r0_1);
+					Xil_Out32((u32)crtl_reg_1, (u32)up_w0_r0_1);
+				}
+			}
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+
+			taskENTER_CRITICAL();
+			send_flag_0 = 1;
+			send_flag_1 = 1;
+			taskEXIT_CRITICAL();
+		}
+		else {
+
+			xil_printf("Serial port command reception error.\r\n");
+			xil_printf("Please resend the command ! \r\n");
+
+		}
+	}
+	else
+	{
+
+		char oneDimen[16];
+
+		memcpy(oneDimen, binary_array[flag], 16);
+
+		convert_char_to_16bit(oneDimen, &converted_data, &freq_data);
+
+		if (flag == 0x0)
+		{
+
+			if ((auto_round * Mode + flag) == 0x0)
+			{
+				convert_str_to_24bit(Autoconfig, &config_data, &err_data);
+
+				if (err_data == 0x0)
+				{
+					err_data = inj_err_max;
+				}
+			}
+
+			switch (config_data)
+			{
+			case 0x0:
+				voltage_config(0xad);
+				xil_printf("Set the supply voltage to 3.0 volts (V).\r\n");
+				for(int i = 0; i < Mode ; i = i + 1) {
+					combinations[auto_round * Mode + i].type3_string = string_3[1];
+				}
+				voltage_info = strdup("The supply voltage is 3.0 volts (V).");
+				break;
+
+			case 0x1:
+				voltage_config(0xb1);
+				xil_printf("Set the supply voltage to 3.1 volts (V).\r\n");
+				for(int i = 0; i < Mode ; i = i + 1) {
+				combinations[auto_round * Mode + i].type3_string = string_3[2];
+				}
+				voltage_info = strdup("The supply voltage is 3.1 volts (V).");
+				break;
+
+			case 0x2:
+
+				voltage_config(0xb5);
+				xil_printf("Set the supply voltage to 3.2 volts (V).\r\n");
+				for(int i = 0; i < Mode ; i = i + 1) {
+				combinations[auto_round * Mode + i].type3_string = string_3[3];
+				}
+				voltage_info = strdup("The supply voltage is 3.2 volts (V).");
+				break;
+			case 0x3:
+
+				voltage_config(0xb7);
+				xil_printf("Set the supply voltage to 3.3 volts (V).\r\n");
+				for(int i = 0; i < Mode ; i = i + 1) {
+				combinations[auto_round * Mode + i].type3_string = string_3[4];
+				}
+				voltage_info = strdup("The supply voltage is 3.3 volts (V).");
+				break;
+
+			case 0x4:
+
+				voltage_config(0xbb);
+				xil_printf("Set the supply voltage to 3.4 volts (V).\r\n");
+				for(int i = 0; i < Mode ; i = i + 1) {
+				combinations[auto_round * Mode + i].type3_string = string_3[5];
+				}
+				voltage_info = strdup("The supply voltage is 3.4 volts (V).");
+				break;
+			case 0x5:
+
+				voltage_config(0xbf);
+				xil_printf("Set the supply voltage to 3.5 volts (V).\r\n");
+				for(int i = 0; i < Mode ; i = i + 1) {
+				combinations[auto_round * Mode + i].type3_string = string_3[6];
+				}
+				voltage_info = strdup("The supply voltage is 3.5 volts (V).");
+				break;
+			case 0x6:
+
+				voltage_config(0xc1);
+				xil_printf("Set the supply voltage to 3.6 volts (V).\r\n");
+				for(int i = 0; i < Mode ; i = i + 1) {
+				combinations[auto_round * Mode + i].type3_string = string_3[7];
+				}
+				voltage_info = strdup("The supply voltage is 3.6 volts (V).");
+				break;
+			case 0x7:
+
+				voltage_config(0xc5);
+				xil_printf("Set the supply voltage to 3.7 volts (V).\r\n");
+				for(int i = 0; i < Mode ; i = i + 1) {
+				combinations[auto_round * Mode + i].type3_string = string_3[8];
+				}
+				voltage_info = strdup("The supply voltage is 3.7 volts (V).");
+				break;
+			case 0x8:
+
+				voltage_config(0xaa);
+				xil_printf("Set the supply voltage to 2.9 volts (V).\r\n");
+				for(int i = 0; i < Mode ; i = i + 1) {
+				combinations[auto_round * Mode + i].type3_string = string_3[0];
+				}
+				voltage_info = strdup("The supply voltage is 2.9 volts (V).");
+				break;
+
+			default:
+				break;
+			}
+
+			xil_printf("Configure Error Injection Count is %d.\r\n", err_data);
+			print_header();
+			vTaskDelay(pdMS_TO_TICKS(1000));
+		}
+
+		xil_printf("Mode Voltage Configure: %s\r\n", voltage_info);
+		switch (freq_data)
+		{
+		case 0x0:
+			Xil_Out32((u32)freq_reg_0, (u32)0x0);
+			Xil_Out32((u32)freq_reg_1, (u32)0x0);
+			xil_printf("%s\r\n", string_2[0]);
+			combinations[auto_round * Mode + flag].type0_string = string_2[0];
+
+			break;
+		case 0x1:
+			Xil_Out32((u32)freq_reg_0, (u32)0x1);
+			Xil_Out32((u32)freq_reg_1, (u32)0x1);
+			xil_printf("%s\r\n", string_2[1]);
+			combinations[auto_round * Mode + flag].type0_string = string_2[1];
+
+			break;
+
+		default:
+			break;
+		}
+		auto_flag = 1;
+		test_round = 1;
+
+		Xil_Out32(err_inj_num_reg_0, (u32)err_data);
+		Xil_Out32(err_inj_num_reg_1, (u32)err_data);
+
+		xil_printf("Test Mode %d :\r\n", auto_round * Mode + flag + 1);
+
+		if ((converted_data != (u32)0x01) && (converted_data != (u32)0x81))
+		{
+
+			xil_printf("Data format :");
+			switch (converted_data & mask_data_mode)
+			{
+			case 0x0800:
+				xil_printf("%s\r\n", string_0[0]);
+				combinations[auto_round * Mode + flag].type1_string = string_0[0];
+				break;
+			case 0x1000:
+				xil_printf("%s\r\n", string_0[1]);
+				combinations[auto_round * Mode + flag].type1_string = string_0[1];
+				break;
+			case 0x1800:
+				xil_printf("%s\r\n", string_0[2]);
+				combinations[auto_round * Mode + flag].type1_string = string_0[2];
+				break;
+			case 0x2000:
+				xil_printf("%s\r\n", string_0[3]);
+				combinations[auto_round * Mode + flag].type1_string = string_0[3];
+				break;
+			case 0x2800:
+				xil_printf("%s\r\n", string_0[4]);
+				combinations[auto_round * Mode + flag].type1_string = string_0[4];
+				break;
+			case 0x3000:
+				xil_printf("%s\r\n", string_0[5]);
+				combinations[auto_round * Mode + flag].type1_string = string_0[5];
+				break;
+			case 0x3800:
+				xil_printf("%s\r\n", string_0[6]);
+				combinations[auto_round * Mode + flag].type1_string = string_0[6];
+				break;
+			case 0x4000:
+				xil_printf("%s\r\n", string_0[7]);
+				combinations[auto_round * Mode + flag].type1_string = string_0[7];
+				break;
+			}
+
+			if ((converted_data & mask_inj) == 0x09)
+			{
+				switch (converted_data & mask_inj_p)
+				{
+				case 0x29:
+					state[auto_round * Mode + flag] = STATE_INJ_0;
+					if ((converted_data & mask_sel) == 0x80)
+					{
+						xil_printf("%s\r\n", string_1[13]);
+						combinations[auto_round * Mode + flag].type2_string = string_1[13];
+					}
+					else
+					{
+						xil_printf("%s\r\n", string_1[12]);
+						combinations[auto_round * Mode + flag].type2_string = string_1[12];
+					}
+					break;
+				case 0x49:
+					state[auto_round * Mode + flag] = STATE_INJ_0;
+					if ((converted_data & mask_sel) == 0x80)
+					{
+						xil_printf("%s\r\n", string_1[15]);
+						combinations[auto_round * Mode + flag].type2_string = string_1[15];
+					}
+					else
+					{
+						xil_printf("%s\r\n", string_1[14]);
+						combinations[auto_round * Mode + flag].type2_string = string_1[14];
+					}
+					break;
+
+				case 0x69:
+
+					if ((converted_data & mask_sel) == 0x80)
+					{
+						state[auto_round * Mode + flag] = STATE_INJ_2; // ce1 3bit
+						xil_printf("%s\r\n", string_1[17]);
+						combinations[auto_round * Mode + flag].type2_string = string_1[17];
+					}
+					else
+					{
+						state[auto_round * Mode + flag] = STATE_INJ_1; // ce0 3bit
+						xil_printf("%s\r\n", string_1[16]);
+						combinations[auto_round * Mode + flag].type2_string = string_1[16];
+					}
+					break;
+
+					break;
+				default:
+
+					break;
+				}
+			}
+			else
+			{
+
+				state[auto_round * Mode + flag] = STATE_RAW;
+				switch (converted_data & mask_pro_mode)
+				{
+				case 0x000:
+					xil_printf("%s\r\n", string_1[0]);
+					combinations[auto_round * Mode + flag].type2_string = string_1[0];
+					break;
+				case 0x100:
+					xil_printf("%s\r\n", string_1[2]);
+					combinations[auto_round * Mode + flag].type2_string = string_1[2];
+					break;
+				case 0x200:
+					xil_printf("%s\r\n", string_1[4]);
+					combinations[auto_round * Mode + flag].type2_string = string_1[4];
+					break;
+				case 0x400:
+					xil_printf("%s\r\n", string_1[6]);
+					combinations[auto_round * Mode + flag].type2_string = string_1[6];
+					break;
+				case 0x500:
+					xil_printf("%s\r\n", string_1[8]);
+					combinations[auto_round * Mode + flag].type2_string = string_1[8];
+					break;
+				case 0x600:
+					xil_printf("%s\r\n", string_1[10]);
+					combinations[auto_round * Mode + flag].type2_string = string_1[10];
+					break;
+				case 0x080:
+					xil_printf("%s\r\n", string_1[1]);
+					combinations[auto_round * Mode + flag].type2_string = string_1[1];
+					break;
+				case 0x180:
+					xil_printf("%s\r\n", string_1[3]);
+					combinations[auto_round * Mode + flag].type2_string = string_1[3];
+					break;
+				case 0x280:
+					xil_printf("%s\r\n", string_1[5]);
+					combinations[auto_round * Mode + flag].type2_string = string_1[5];
+					break;
+				case 0x480:
+					xil_printf("%s\r\n", string_1[7]);
+					combinations[auto_round * Mode + flag].type2_string = string_1[7];
+					break;
+				case 0x580:
+					xil_printf("%s\r\n", string_1[9]);
+					combinations[auto_round * Mode + flag].type2_string = string_1[9];
+					break;
+				case 0x680:
+					xil_printf("%s\r\n", string_1[11]);
+					combinations[auto_round * Mode + flag].type2_string = string_1[11];
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		else
+		{
+			combinations[auto_round * Mode + flag].type1_string = string_0[8];
+
+			if ((converted_data == (u32)0x01))
+			{
+				state[auto_round * Mode + flag] = STATE_MARCHC_0;
+				xil_printf("%s\r\n", string_1[18]);
+				combinations[auto_round * Mode + flag].type2_string = string_1[18];
+			}
+			else
+			{
+				state[auto_round * Mode + flag] = STATE_MARCHC_1;
+				xil_printf("%s\r\n", string_1[19]);
+				combinations[auto_round * Mode + flag].type2_string = string_1[19];
+			}
+		}
+
+		if ((state[auto_round * Mode + flag] != STATE_MARCHC_0) && (state[auto_round * Mode + flag] != STATE_MARCHC_1))
+		{
+			Xil_Out32((u32)crtl_reg_0, (u32)converted_data);
+			Xil_Out32((u32)crtl_reg_1, (u32)converted_data);
+		}
+		else
+		{
+			if (state[auto_round * Mode + flag] == STATE_MARCHC_0)
+			{
+				Xil_Out32((u32)crtl_reg_0, (u32)up_w0_r0_0);
+				Xil_Out32((u32)crtl_reg_1, (u32)up_w0_r0_0);
+			}
+			else
+			{
+				Xil_Out32((u32)crtl_reg_0, (u32)up_w0_r0_1);
+				Xil_Out32((u32)crtl_reg_1, (u32)up_w0_r0_1);
+			}
+		}
+		Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+
+
+
+		taskENTER_CRITICAL();
+		send_flag_0 = 1;
+		send_flag_1 = 1;
+		taskEXIT_CRITICAL();
+
+	}
+
+}
+
+void Marchc_collect(Marchc_info *m, u32 rcv_data, int lane, int ch, uint8_t round)
+{
+
+	uint32_t cnt = (u32)((rcv_data & 0x007ffff8) >> 3);
+
+	Marchc_err_info *info = NULL;
+
+	switch (ch)
+	{
+	case 0:
+		m->Mar_err_cnt_0[round] = cnt;
+		break;
+	case 1:
+		m->Mar_err_cnt_1[round] = cnt;
+		break;
+	case 2:
+		m->Mar_err_cnt_2[round] = cnt;
+		break;
+	case 3:
+		m->Mar_err_cnt_3[round] = cnt;
+		break;
+	case 4:
+		m->Mar_err_cnt_4[round] = cnt;
+		break;
+	default:
+		break;
+	}
+
+	switch (ch)
+	{
+	case 0:
+		info = &err_info_0[round];
+		break;
+	case 1:
+		info = &err_info_1[round];
+		break;
+	case 2:
+		info = &err_info_2[round];
+		break;
+	case 3:
+		info = &err_info_3[round];
+		break;
+	case 4:
+		info = &err_info_4[round];
+		break;
+	default:
+		break;
+	}
+
+	switch (lane)
+	{
+	case 0:
+		Mar_count_0[ch] = (cnt >= (fifo_depth - 1)) ? (fifo_depth - 1) : cnt;
+		break;
+	case 1:
+		Mar_count_1[ch] = (cnt >= (fifo_depth - 1)) ? (fifo_depth - 1) : cnt;
+		break;
+	default:
+		break;
+	}
+
+	if (cnt > 0)
+	{
+		for (int i = 0; i < ((cnt >= (fifo_depth - 1)) ? (fifo_depth - 1) : cnt) + 1; i = i + 1)
+		{
+
+			switch (lane)
+			{
+			case 0:
+			{
+				info->err_addr_0[i] = Xil_In32((u32)err_addr_reg_0);
+				u32 da = Xil_In32((u32)data_a_reg_0);
+				u32 db = Xil_In32((u32)data_b_reg_0);
+				u32 dc = Xil_In32((u32)data_c_reg_0);
+
+				u32 c_low = dc & 0xff;
+				u32 c_mid = (dc >> 8) & 0xff;
+
+				info->err_theor_0[i] = (u64)(((u64)c_low << 32) | db);
+				info->err_actual_0[i] = (u64)(((u64)c_mid << 32) | da);
+				break;
+			}
+			case 1:
+			{
+				info->err_addr_1[i] = Xil_In32((u32)err_addr_reg_1);
+				u32 da = Xil_In32((u32)data_a_reg_1);
+				u32 db = Xil_In32((u32)data_b_reg_1);
+				u32 dc = Xil_In32((u32)data_c_reg_1);
+
+				u32 c_low = dc & 0xff;
+				u32 c_mid = (dc >> 8) & 0xff;
+
+				info->err_theor_1[i] = (u64)(((u64)c_low << 32) | db);
+				info->err_actual_1[i] = (u64)(((u64)c_mid << 32) | da);
+				break;
+			}
+			default:
+				break;
+			}
+		}
+	}
+}
+
+void Read_FIFO(uint8_t lane)
+{
+	switch (lane)
+	{
+	case 0x0:
+		for (int i = 0; i < count_0 + 1; i = i + 1)
+		{
+
+			err_addr_0[finsh_flag_0][i] = Xil_In32((u32)err_addr_reg_0);
+
+			err_data_b_0[finsh_flag_0][i] = Xil_In32((u32)data_b_reg_0);
+			err_data_a_0[finsh_flag_0][i] = Xil_In32((u32)data_a_reg_0);
+			err_data_c_0[finsh_flag_0][i] = Xil_In32((u32)data_c_reg_0);
+
+			u32 data_c_low8 = err_data_c_0[finsh_flag_0][i] & 0xff;
+			u32 data_c_mid8 = (err_data_c_0[finsh_flag_0][i] >> 8) & 0xff;
+
+			Theor_data_0[finsh_flag_0][i] = (u64)(((u64)data_c_low8 << 32) | err_data_b_0[finsh_flag_0][i]);
+			Actual_data_0[finsh_flag_0][i] = (u64)(((u64)data_c_mid8 << 32) | err_data_a_0[finsh_flag_0][i]);
+		}
+		break;
+	case 0x1:
+		for (int i = 0; i < count_1 + 1; i = i + 1)
+		{
+			err_addr_1[finsh_flag_1][i] = Xil_In32((u32)err_addr_reg_1);
+
+			err_data_b_1[finsh_flag_1][i] = Xil_In32((u32)data_b_reg_1);
+			err_data_a_1[finsh_flag_1][i] = Xil_In32((u32)data_a_reg_1);
+			err_data_c_1[finsh_flag_1][i] = Xil_In32((u32)data_c_reg_1);
+
+			u32 data_c_low8 = err_data_c_1[finsh_flag_1][i] & 0xff;
+			u32 data_c_mid8 = (err_data_c_1[finsh_flag_1][i] >> 8) & 0xff;
+
+			Theor_data_1[finsh_flag_1][i] = (u64)(((u64)data_c_low8 << 32) | err_data_b_1[finsh_flag_1][i]);
+			Actual_data_1[finsh_flag_1][i] = (u64)(((u64)data_c_mid8 << 32) | err_data_a_1[finsh_flag_1][i]);
+		}
+		break;
+
+	default:
+		break;
+	}
+}
+
+void Marchc(uint8_t lane, uint8_t select, u32 received_data)
+{
+	u32 received_data_0;
+	u32 received_data_1;
+	u32 received_data_2;
+	u32 received_data_3;
+	u32 received_data_4;
+	switch ((lane << 1) | select)
+	{
+	case 0: // a=0, b=0
+		Marchc_collect(&Marchc_0, received_data, 0, 0, finsh_flag_0);
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_0, (u32)up_w1_r1_0);
+		Xil_Out32(crtl_reg_0, (u32)0x0);
+
+		while (1)
+		{
+			received_data_0 = Xil_In32((u32)fnsh_reg_0);
+			if ((received_data_0 & mask_bit30) == mask_bit30)
+			{
+				Marchc_collect(&Marchc_0, received_data_0, 0, 1, finsh_flag_0);
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_0, (u32)up_w0_0);
+		Xil_Out32(crtl_reg_0, (u32)0x0);
+
+		while (1)
+		{
+			received_data_1 = Xil_In32((u32)fnsh_reg_0);
+			if ((received_data_1 & mask_bit30) == mask_bit30)
+			{
+				break;
+			}
+		}
+
+		Xil_Out32(up_down_0, (u32)0x01);
+		vTaskDelay(pdMS_TO_TICKS(5));
+
+		Xil_Out32(crtl_reg_0, (u32)down_r0_0);
+		Xil_Out32(crtl_reg_0, (u32)0x0);
+
+		while (1)
+		{
+			received_data_2 = Xil_In32((u32)fnsh_reg_0);
+			if ((received_data_2 & mask_bit30) == mask_bit30)
+			{
+				Marchc_collect(&Marchc_0, received_data_2, 0, 2, finsh_flag_0);
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_0, (u32)down_w1_r1_0);
+		Xil_Out32(crtl_reg_0, (u32)0x0);
+
+		while (1)
+		{
+			received_data_3 = Xil_In32((u32)fnsh_reg_0);
+			if ((received_data_3 & mask_bit30) == mask_bit30)
+			{
+				Marchc_collect(&Marchc_0, received_data_3, 0, 3, finsh_flag_0);
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_0, (u32)down_w0_r0_0);
+		Xil_Out32(crtl_reg_0, (u32)0x0);
+
+		while (1)
+		{
+			received_data_4 = Xil_In32((u32)fnsh_reg_0);
+			if ((received_data_4 & mask_bit30) == mask_bit30)
+			{
+				Marchc_collect(&Marchc_0, received_data_4, 0, 4, finsh_flag_0);
+				break;
+			}
+		}
+
+		Xil_Out32(up_down_0, (u32)0x00);
+		vTaskDelay(pdMS_TO_TICKS(5));
+		break;
+	case 1: // a=0, b=1
+		Marchc_collect(&Marchc_0, received_data, 0, 0, finsh_flag_0);
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_0, (u32)up_w1_r1_1);
+		Xil_Out32(crtl_reg_0, (u32)0x0);
+
+		while (1)
+		{
+			received_data_0 = Xil_In32((u32)fnsh_reg_0);
+			if ((received_data_0 & mask_bit30) == mask_bit30)
+			{
+				Marchc_collect(&Marchc_0, received_data_0, 0, 1, finsh_flag_0);
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_0, (u32)up_w0_1);
+		Xil_Out32(crtl_reg_0, (u32)0x0);
+
+		while (1)
+		{
+			received_data_1 = Xil_In32((u32)fnsh_reg_0);
+			if ((received_data_1 & mask_bit30) == mask_bit30)
+			{
+				break;
+			}
+		}
+
+		Xil_Out32(up_down_0, (u32)0x01);
+		vTaskDelay(pdMS_TO_TICKS(5));
+
+		Xil_Out32(crtl_reg_0, (u32)down_r0_1);
+		Xil_Out32(crtl_reg_0, (u32)0x0);
+
+		while (1)
+		{
+			received_data_2 = Xil_In32((u32)fnsh_reg_0);
+			if ((received_data_2 & mask_bit30) == mask_bit30)
+			{
+				Marchc_collect(&Marchc_0, received_data_2, 0, 2, finsh_flag_0);
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_0, (u32)down_w1_r1_1);
+		Xil_Out32(crtl_reg_0, (u32)0x0);
+
+		while (1)
+		{
+			received_data_3 = Xil_In32((u32)fnsh_reg_0);
+			if ((received_data_3 & mask_bit30) == mask_bit30)
+			{
+				Marchc_collect(&Marchc_0, received_data_3, 0, 3, finsh_flag_0);
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_0, (u32)down_w0_r0_1);
+		Xil_Out32(crtl_reg_0, (u32)0x0);
+
+		while (1)
+		{
+			received_data_4 = Xil_In32((u32)fnsh_reg_0);
+			if ((received_data_4 & mask_bit30) == mask_bit30)
+			{
+				Marchc_collect(&Marchc_0, received_data_4, 0, 4, finsh_flag_0);
+				break;
+			}
+		}
+
+		Xil_Out32(up_down_0, (u32)0x00);
+		vTaskDelay(pdMS_TO_TICKS(5));
+		break;
+	case 2: // a=1, b=0
+		Marchc_collect(&Marchc_1, received_data, 1, 0, finsh_flag_1);
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_1, (u32)up_w1_r1_0);
+		Xil_Out32(crtl_reg_1, (u32)0x0);
+
+		while (1)
+		{
+			received_data_0 = Xil_In32((u32)fnsh_reg_1);
+			if ((received_data_0 & mask_bit30) == mask_bit30)
+			{
+				Marchc_collect(&Marchc_1, received_data_0, 1, 1, finsh_flag_1);
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_1, (u32)up_w0_0);
+		Xil_Out32(crtl_reg_1, (u32)0x0);
+
+		while (1)
+		{
+			received_data_1 = Xil_In32((u32)fnsh_reg_1);
+			if ((received_data_1 & mask_bit30) == mask_bit30)
+			{
+				break;
+			}
+		}
+
+		Xil_Out32(up_down_1, (u32)0x01);
+		vTaskDelay(pdMS_TO_TICKS(5));
+
+		Xil_Out32(crtl_reg_1, (u32)down_r0_0);
+		Xil_Out32(crtl_reg_1, (u32)0x0);
+
+		while (1)
+		{
+			received_data_2 = Xil_In32((u32)fnsh_reg_1);
+			if ((received_data_2 & mask_bit30) == mask_bit30)
+			{
+				Marchc_collect(&Marchc_1, received_data_2, 1, 2, finsh_flag_1);
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_1, (u32)down_w1_r1_0);
+		Xil_Out32(crtl_reg_1, (u32)0x0);
+
+		while (1)
+		{
+			received_data_3 = Xil_In32((u32)fnsh_reg_1);
+			if ((received_data_3 & mask_bit30) == mask_bit30)
+			{
+				Marchc_collect(&Marchc_1, received_data_3, 1, 3, finsh_flag_1);
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_1, (u32)down_w0_r0_0);
+		Xil_Out32(crtl_reg_1, (u32)0x0);
+
+		while (1)
+		{
+			received_data_4 = Xil_In32((u32)fnsh_reg_1);
+			if ((received_data_4 & mask_bit30) == mask_bit30)
+			{
+				Marchc_collect(&Marchc_1, received_data_4, 1, 4, finsh_flag_1);
+				break;
+			}
+		}
+
+		Xil_Out32(up_down_1, (u32)0x00);
+		vTaskDelay(pdMS_TO_TICKS(5));
+		break;
+	case 3: // a=1, b=1
+		Marchc_collect(&Marchc_1, received_data, 1, 0, finsh_flag_1);
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_1, (u32)up_w1_r1_1);
+		Xil_Out32(crtl_reg_1, (u32)0x0);
+
+		while (1)
+		{
+			received_data_0 = Xil_In32((u32)fnsh_reg_1);
+			if ((received_data_0 & mask_bit30) == mask_bit30)
+			{
+				Marchc_collect(&Marchc_1, received_data_0, 1, 1, finsh_flag_1);
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_1, (u32)up_w0_1);
+		Xil_Out32(crtl_reg_1, (u32)0x0);
+
+		while (1)
+		{
+			received_data_1 = Xil_In32((u32)fnsh_reg_1);
+			if ((received_data_1 & mask_bit30) == mask_bit30)
+			{
+				break;
+			}
+		}
+
+		Xil_Out32(up_down_1, (u32)0x01);
+		vTaskDelay(pdMS_TO_TICKS(5));
+
+		Xil_Out32(crtl_reg_1, (u32)down_r0_1);
+		Xil_Out32(crtl_reg_1, (u32)0x0);
+
+		while (1)
+		{
+			received_data_2 = Xil_In32((u32)fnsh_reg_1);
+			if ((received_data_2 & mask_bit30) == mask_bit30)
+			{
+				Marchc_collect(&Marchc_1, received_data_2, 1, 2, finsh_flag_1);
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_1, (u32)down_w1_r1_1);
+		Xil_Out32(crtl_reg_1, (u32)0x0);
+
+		while (1)
+		{
+			received_data_3 = Xil_In32((u32)fnsh_reg_1);
+			if ((received_data_3 & mask_bit30) == mask_bit30)
+			{
+				Marchc_collect(&Marchc_1, received_data_3, 1, 3, finsh_flag_1);
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_1, (u32)down_w0_r0_1);
+		Xil_Out32(crtl_reg_1, (u32)0x0);
+
+		while (1)
+		{
+			received_data_4 = Xil_In32((u32)fnsh_reg_1);
+			if ((received_data_4 & mask_bit30) == mask_bit30)
+			{
+				Marchc_collect(&Marchc_1, received_data_4, 1, 4, finsh_flag_1);
+				break;
+			}
+		}
+
+		Xil_Out32(up_down_1, (u32)0x00);
+		vTaskDelay(pdMS_TO_TICKS(5));
+		break;
+	}
+}
+void inj_1_EDC(uint8_t lane, u32 received_inj, u32 rd_addr_trigger)
+{
+	// static bool executed_0[TEST_ROUND] = {false};
+	// static bool executed_1[TEST_ROUND] = {false};
+	switch (lane)
+	{
+	case 0x0:
+		if ((converted_data & 0x00008000) == 0x8000)
+		{
+			Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_1_ce1);
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		}
+		else
+		{
+			Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_1_ce0);
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		}
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_0);
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_0, (u32)rd_addr_trigger);
+		Xil_Out32(crtl_reg_0, (u32)0x0);
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_0);
+		// 	if ((!executed_0[finsh_flag_0]) && (((received_inj & mask_bit31) == mask_bit31) || ((received_inj & mask_bit32) == mask_bit32)))
+	    //    {
+        //     for(int i = 0 ; i < 2 ; i = i + 1) {
+		//      IIC_monitor1(finsh_flag_0);
+		// 	}
+		//      executed_0[finsh_flag_0] = true;
+	    //    }
+
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				err_cnt_0[finsh_flag_0] = (received_inj & err_mask) >> 3;
+				count_0 = (err_cnt_0[finsh_flag_0] >= (fifo_depth - 1)) ? (fifo_depth - 1) : err_cnt_0[finsh_flag_0];
+				if (count_0 > 0)
+				{
+					Read_FIFO(0);
+					copy_to_mode(&RAW_0, (auto_round * Mode + flag), finsh_flag_0, err_addr_0, Theor_data_0, Actual_data_0);
+				}
+
+				break;
+			}
+		}
+		vTaskDelay(pdMS_TO_TICKS(5));
+		if ((converted_data & 0x00008000) == 0x8000)
+		{
+			Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_1_ce1);
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		}
+		else
+		{
+			Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_1_ce0);
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		}
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_0);
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				err_inj_0[finsh_flag_0] = Xil_In32((u32)err_counter_reg_0);
+				break;
+			}
+		}
+
+		inj_0.err_cnt[auto_round * Mode + flag] = err_cnt_0[finsh_flag_0];
+		inj_0.err_counter[auto_round * Mode + flag] = err_inj_0[finsh_flag_0];
+		break;
+	case 0x1:
+		if ((converted_data & 0x00008000) == 0x8000)
+		{
+			Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_1_ce1);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		}
+		else
+		{
+			Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_1_ce0);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		}
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_1);
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_1, (u32)rd_addr_trigger);
+		Xil_Out32(crtl_reg_1, (u32)0x0);
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_1);
+
+	// if ((!executed_1[finsh_flag_1]) && (((received_inj & mask_bit31) == mask_bit31) || ((received_inj & mask_bit32) == mask_bit32)))
+	// {
+    //   for(int i = 0 ; i < 2 ; i = i + 1) {
+	// 	IIC_monitor3(finsh_flag_1);
+	//   }
+
+	// 	executed_1[finsh_flag_1] = true;
+	// }
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				err_cnt_1[finsh_flag_1] = (received_inj & err_mask) >> 3;
+				count_1 = (err_cnt_1[finsh_flag_1] >= (fifo_depth - 1)) ? (fifo_depth - 1) : err_cnt_1[finsh_flag_1];
+				if (count_1 > 0)
+				{
+					Read_FIFO(1);
+					copy_to_mode(&RAW_1, (auto_round * Mode + flag), finsh_flag_1, err_addr_1, Theor_data_1, Actual_data_1);
+				}
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		if ((converted_data & 0x00008000) == 0x8000)
+		{
+			Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_1_ce1);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		}
+		else
+		{
+			Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_1_ce0);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		}
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_1);
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				err_inj_1[finsh_flag_1] = Xil_In32((u32)err_counter_reg_1);
+				break;
+			}
+		}
+
+		inj_1.err_cnt[auto_round * Mode + flag] = err_cnt_1[finsh_flag_1];
+		inj_1.err_counter[auto_round * Mode + flag] = err_inj_1[finsh_flag_1];
+		break;
+	default:
+		break;
+	}
+
+}
+
+void inj_2_EDC(uint8_t lane, u32 received_inj, u32 rd_addr_trigger)
+{
+	// static bool executed_0[TEST_ROUND] = {false};
+	// static bool executed_1[TEST_ROUND] = {false};
+	switch (lane)
+	{
+	case 0x0:
+		if ((converted_data & 0x00008000) == 0x8000)
+		{
+			Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_2_ce1);
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		}
+		else
+		{
+			Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_2_ce0);
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		}
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_0);
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				break;
+			}
+		}
+		vTaskDelay(pdMS_TO_TICKS(5));
+
+		Xil_Out32((u32)crtl_reg_0, (u32)rd_addr_trigger);
+		Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_0);
+		// 	if ((!executed_0[finsh_flag_0]) && (((received_inj & mask_bit31) == mask_bit31) || ((received_inj & mask_bit32) == mask_bit32)))
+	    //    {
+        //     for(int i = 0 ; i < 2 ; i = i + 1) {
+		//      IIC_monitor1(finsh_flag_0);
+		// 	}
+		//      executed_0[finsh_flag_0] = true;
+	    //    }
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				err_cnt_0[finsh_flag_0] = (received_inj & err_mask) >> 3;
+				count_0 = (err_cnt_0[finsh_flag_0] >= (fifo_depth - 1)) ? (fifo_depth - 1) : err_cnt_0[finsh_flag_0];
+				if (count_0 > 0)
+				{
+					Read_FIFO(0);
+					copy_to_mode(&RAW_0, (auto_round * Mode + flag), finsh_flag_0, err_addr_0, Theor_data_0, Actual_data_0);
+				}
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		if ((converted_data & 0x00008000) == 0x8000)
+		{
+			Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_2_ce1);
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		}
+		else
+		{
+			Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_2_ce0);
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		}
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_0);
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				err_inj_0[finsh_flag_0] = Xil_In32((u32)err_counter_reg_0);
+				break;
+			}
+		}
+
+		inj_0.err_cnt[auto_round * Mode + flag] = err_cnt_0[finsh_flag_0];
+		inj_0.err_counter[auto_round * Mode + flag] = err_inj_0[finsh_flag_0];
+		break;
+	case 0x1:
+		if ((converted_data & 0x00008000) == 0x8000)
+		{
+			Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_2_ce1);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		}
+		else
+		{
+			Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_2_ce0);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		}
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_1);
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				break;
+			}
+		}
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32(crtl_reg_1, (u32)rd_addr_trigger);
+		Xil_Out32(crtl_reg_1, (u32)0x0);
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_1);
+	// 		if ((!executed_1[finsh_flag_1]) && (((received_inj & mask_bit31) == mask_bit31) || ((received_inj & mask_bit32) == mask_bit32)))
+	// {
+    //    for(int i = 0 ; i < 2 ; i = i + 1) {
+	// 	IIC_monitor3(finsh_flag_1);
+	//    }
+	// 	executed_1[finsh_flag_1] = true;
+	// }
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				err_cnt_1[finsh_flag_1] = (received_inj & err_mask) >> 3;
+				count_1 = (err_cnt_1[finsh_flag_1] >= (fifo_depth - 1)) ? (fifo_depth - 1) : err_cnt_1[finsh_flag_1];
+				if (count_1 > 0)
+				{
+					Read_FIFO(1);
+					copy_to_mode(&RAW_1, (auto_round * Mode + flag), finsh_flag_1, err_addr_1, Theor_data_1, Actual_data_1);
+				}
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+
+		if ((converted_data & 0x00008000) == 0x8000)
+		{
+			Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_2_ce1);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		}
+		else
+		{
+			Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_2_ce0);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		}
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_1);
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				err_inj_1[finsh_flag_1] = Xil_In32((u32)err_counter_reg_1);
+				break;
+			}
+		}
+
+		inj_1.err_cnt[auto_round * Mode + flag] = err_cnt_1[finsh_flag_1];
+		inj_1.err_counter[auto_round * Mode + flag] = err_inj_1[finsh_flag_1];
+		break;
+	default:
+		break;
+	}
+}
+
+void inj_3_EDC(uint8_t lane, u32 received_inj, u32 rd_addr_trigger)
+{
+	// static bool executed_0[TEST_ROUND] = {false};
+	// static bool executed_1[TEST_ROUND] = {false};
+	switch (lane)
+	{
+	case 0x0:
+		if ((converted_data & 0x00008000) == 0x8000)
+		{
+			Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_3_ce1);
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		}
+		else
+		{
+			Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_3_ce0);
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		}
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_0);
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32((u32)crtl_reg_0, (u32)rd_addr_trigger);
+		Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_0);
+		// 	if ((!executed_0[finsh_flag_0]) && (((received_inj & mask_bit31) == mask_bit31) || ((received_inj & mask_bit32) == mask_bit32)))
+	    //    {
+        //     for(int i = 0 ; i < 2 ; i = i + 1) {
+		//      IIC_monitor1(finsh_flag_0);
+		// 	}
+		//      executed_0[finsh_flag_0] = true;
+	    //    }
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				err_cnt_0[finsh_flag_0] = (received_inj & err_mask) >> 3;
+				count_0 = (err_cnt_0[finsh_flag_0] >= (fifo_depth - 1)) ? (fifo_depth - 1) : err_cnt_0[finsh_flag_0];
+				if (count_0 > 0)
+				{
+					Read_FIFO(0);
+					copy_to_mode(&RAW_0, (auto_round * Mode + flag), finsh_flag_0, err_addr_0, Theor_data_0, Actual_data_0);
+				}
+				break;
+			}
+		}
+		vTaskDelay(pdMS_TO_TICKS(5));
+		if ((converted_data & 0x00008000) == 0x8000)
+		{
+			Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_3_ce1);
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		}
+		else
+		{
+			Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_3_ce0);
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		}
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_0);
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				err_inj_0[finsh_flag_0] = Xil_In32((u32)err_counter_reg_0);
+
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		if ((converted_data & 0x00008000) == 0x8000)
+		{
+			Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_3_ce1);
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		}
+		else
+		{
+			Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_3_ce0);
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		}
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_0);
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		if ((converted_data & 0x00008000) == 0x8000)
+		{
+			Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_addr_ce1);
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		}
+		else
+		{
+			Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_addr_ce0);
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		}
+
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_0);
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				err_inj_addr_0[finsh_flag_0] = Xil_In32((u32)err_counter_reg_0);
+				break;
+			}
+		}
+
+		inj_0.err_cnt[auto_round * Mode + flag] = err_cnt_0[finsh_flag_0];
+		inj_0.err_counter[auto_round * Mode + flag] = err_inj_0[finsh_flag_0];
+		inj_0.err_counter_addr[auto_round * Mode + flag] = err_inj_addr_0[finsh_flag_0];
+		break;
+	case 0x1:
+		if ((converted_data & 0x00008000) == 0x8000)
+		{
+			Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_3_ce1);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		}
+		else
+		{
+			Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_3_ce0);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		}
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_1);
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		Xil_Out32((u32)crtl_reg_1, (u32)rd_addr_trigger);
+		Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_1);
+	// 		if ((!executed_1[finsh_flag_1]) && (((received_inj & mask_bit31) == mask_bit31) || ((received_inj & mask_bit32) == mask_bit32)))
+	// {
+    //         for(int i = 0 ; i < 2 ; i = i + 1) {
+	// 	     IIC_monitor3(finsh_flag_1);
+	// 		}
+
+	// 	      executed_1[finsh_flag_1] = true;
+	// }
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				err_cnt_1[finsh_flag_1] = (received_inj & err_mask) >> 3;
+
+				count_1 = (err_cnt_1[finsh_flag_1] >= (fifo_depth - 1)) ? (fifo_depth - 1) : err_cnt_1[finsh_flag_1];
+				if (count_1 > 0)
+				{
+					Read_FIFO(1);
+					copy_to_mode(&RAW_1, (auto_round * Mode + flag), finsh_flag_1, err_addr_1, Theor_data_1, Actual_data_1);
+				}
+				break;
+			}
+		}
+		vTaskDelay(pdMS_TO_TICKS(5));
+
+		if ((converted_data & 0x00008000) == 0x8000)
+		{
+			Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_3_ce1);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		}
+		else
+		{
+			Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_3_ce0);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		}
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_1);
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				err_inj_1[finsh_flag_1] = Xil_In32((u32)err_counter_reg_1);
+				break;
+			}
+		}
+		vTaskDelay(pdMS_TO_TICKS(5));
+		if ((converted_data & 0x00008000) == 0x8000)
+		{
+			Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_3_ce1);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		}
+		else
+		{
+			Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_3_ce0);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		}
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_1);
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				break;
+			}
+		}
+
+		vTaskDelay(pdMS_TO_TICKS(5));
+		if ((converted_data & 0x00008000) == 0x8000)
+		{
+			Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_addr_ce1);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		}
+		else
+		{
+			Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_addr_ce0);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		}
+		while (1)
+		{
+			received_inj = Xil_In32((u32)fnsh_reg_1);
+			if ((received_inj & mask_bit30) == mask_bit30)
+			{
+
+				err_inj_addr_1[finsh_flag_1] = Xil_In32((u32)err_counter_reg_1);
+				break;
+			}
+		}
+
+		inj_1.err_cnt[auto_round * Mode + flag] = err_cnt_1[finsh_flag_1];
+		inj_1.err_counter[auto_round * Mode + flag] = err_inj_1[finsh_flag_1];
+		inj_1.err_counter_addr[auto_round * Mode + flag] = err_inj_addr_1[finsh_flag_1];
+		break;
+	default:
+		break;
+	}
+}
+
+void auto_read_counter(uint8_t lane, u32 received_counter, uint8_t auto_flag)
+{
+	switch (lane)
+	{
+	case 0x0:
+		if ((converted_data == rd_counter_1_ce0) || (converted_data == rd_counter_2_ce0) || (converted_data == rd_counter_3_ce0) || (converted_data == rd_counter_addr_ce0) || (converted_data == rd_counter_1_ce1) || (converted_data == rd_counter_2_ce1) || (converted_data == rd_counter_3_ce1) || (converted_data == rd_counter_addr_ce1))
+		{
+
+			err_inj_0[finsh_flag_0] = Xil_In32((u32)err_counter_reg_0);
+
+			err_counter_0 = 1;
+		}
+		else if (((converted_data & mask_wr) == 0x00000007) || ((converted_data & mask_inj) == 0x00000009))
+		{
+			err_inj_0[finsh_flag_0] = 0x0;
+			err_counter_0 = 0;
+		}
+		else if ((converted_data & mask_rd) == 0x0)
+		{
+			err_inj_0[finsh_flag_0] = 0x0;
+
+			err_counter_0 = 1;
+			rd_flag_0 = 1;
+		}
+		else
+		{
+			if (auto_flag)
+			{
+				
+				if ((converted_data & 0x00008000) == 0x8000)
+				{
+					Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_3_ce1);
+					Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+				}
+				else
+				{
+					Xil_Out32((u32)crtl_reg_0, (u32)rd_counter_3_ce0);
+					Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+				}
+
+				while (1)
+				{
+					received_counter = Xil_In32((u32)fnsh_reg_0);
+
+					if ((received_counter & mask_bit30) == mask_bit30)
+					{
+
+						err_inj_0[finsh_flag_0] = Xil_In32((u32)err_counter_reg_0);
+
+						err_counter_0 = 1;
+
+						break;
+					}
+				}
+			  
+			}
+			else
+			{
+				err_counter_0 = 1;
+			}
+		}
+		break;
+	case 0x1:
+		if ((converted_data == rd_counter_1_ce0) || (converted_data == rd_counter_2_ce0) || (converted_data == rd_counter_3_ce0) || (converted_data == rd_counter_addr_ce0) || (converted_data == rd_counter_1_ce1) || (converted_data == rd_counter_2_ce1) || (converted_data == rd_counter_3_ce1) || (converted_data == rd_counter_addr_ce1))
+		{
+
+			err_inj_1[finsh_flag_1] = Xil_In32((u32)err_counter_reg_1);
+
+			err_counter_1 = 1;
+		}
+		else if (((converted_data & mask_wr) == 0x00000007) || ((converted_data & mask_inj) == 0x00000009))
+		{
+			err_inj_1[finsh_flag_1] = 0x0;
+
+			err_counter_1 = 0;
+		}
+		else if ((converted_data & mask_rd) == 0x0)
+		{
+			err_inj_1[finsh_flag_1] = 0x0;
+
+			err_counter_1 = 1;
+			rd_flag_1 = 1;
+		}
+		else
+		{
+
+			if (auto_flag)
+			{
+				
+				if ((converted_data & 0x00008000) == 0x8000)
+				{
+					Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_3_ce1);
+					Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+				}
+				else
+				{
+					Xil_Out32((u32)crtl_reg_1, (u32)rd_counter_3_ce0);
+					Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+				}
+
+				while (1)
+				{
+					received_counter = Xil_In32((u32)fnsh_reg_1);
+					if ((received_counter & mask_bit30) == mask_bit30)
+					{
+
+						err_inj_1[finsh_flag_1] = Xil_In32((u32)err_counter_reg_1);
+
+						err_counter_1 = 1;
+						break;
+					}
+				}
+			  
+			}
+			else
+			{
+				err_counter_1 = 1;
+			}
+		}
+		break;
+	default:
+		break;
+	}
+}
+
+void read_err_sys(uint8_t lane)
+{
+	switch (lane)
+	{
+	case 0x0:
+		if (((converted_data & mask_addr) == 0x00000001) || ((converted_data & mask_addr) == 0x00000003))
+		{
+			err_sys_0[finsh_flag_0] = Xil_In32((u32)err_sys_reg_0);
+			err_sys_flag_0 = 1;
+		}
+		else
+		{
+			err_sys_0[finsh_flag_0] = 0x0;
+			err_sys_flag_0 = 0;
+		}
+		break;
+	case 0x1:
+		if (((converted_data & mask_addr) == 0x00000001) || ((converted_data & mask_addr) == 0x00000003))
+		{
+			err_sys_1[finsh_flag_1] = Xil_In32((u32)err_sys_reg_1);
+			err_sys_flag_1 = 1;
+		}
+		else
+		{
+			err_sys_1[finsh_flag_1] = 0x0;
+			err_sys_flag_1 = 0;
+		}
+		break;
+
+	default:
+		break;
+	}
+}
+
+void receive_data_0()
+{
+	u32 received_data = 0x0;
+	u32 received_counter = 0x0;
+	u32 received_inj = 0x0;
+
+	received_data = Xil_In32((u32)fnsh_reg_0);
+	static bool executed_0[TEST_ROUND] = {false};
+
+	if ((!executed_0[finsh_flag_0])/* && (((received_data & mask_bit31) == mask_bit31) || ((received_data & mask_bit32) == mask_bit32))*/)
+	{
+       for(int i = 0; i < 2 ; i = i + 1){
+		IIC_monitor1(finsh_flag_0);
+       }
+		executed_0[finsh_flag_0] = true;
+	}
+
+	if ((received_data & mask_bit30) == mask_bit30)
+	{
+
+		switch (state[auto_round * Mode + flag])
+		{
+		case STATE_MARCHC_0:
+		{
+			Marchc(0, 0, received_data);
+
+			break;
+		}
+		case STATE_MARCHC_1:
+		{
+
+			Marchc(0, 1, received_data);
+
+			break;
+		}
+		default:
+			err_cnt_0[finsh_flag_0] = (received_data & err_mask) >> 3;
+
+			RAW_0.err_cnt[auto_round * Mode + flag] = err_cnt_0[finsh_flag_0];
+
+			count_0 = (err_cnt_0[finsh_flag_0] >= (fifo_depth - 1)) ? (fifo_depth - 1) : err_cnt_0[finsh_flag_0];
+
+			if (count_0 > 0)
+			{
+				Read_FIFO(0);
+				if (executed_auto){
+				copy_to_mode(&RAW_0, (auto_round * Mode + flag), finsh_flag_0, err_addr_0, Theor_data_0, Actual_data_0);
+				}
+			}
+
+			auto_read_counter(0, received_counter, auto_flag);
+
+
+			read_err_sys(0);
+
+			if ((converted_data & mask_inj) == 0x00000009)
+			{
+				u32 rd_addr_trigger = ((converted_data & 0x00007800) | (converted_data & 0x00000080) | 0x00000001);
+				if (auto_flag)
+				{
+					switch (converted_data & mask_inj_p)
+					{
+					case 0x29:
+
+						inj_1_EDC(0, received_inj, rd_addr_trigger);
+						break;
+					case 0x49:
+
+						inj_2_EDC(0, received_inj, rd_addr_trigger);
+						break;
+
+					case 0x69:
+
+						inj_3_EDC(0, received_inj, rd_addr_trigger);
+						break;
+					default:
+						if (mod)
+						{
+							xil_printf("Sram 1 automatic error Injection mode configuration error.");
+						}
+						else
+						{
+							xil_printf("Sram 3 automatic error Injection mode configuration error.");
+						}
+						break;
+					}
+				}
+				err_inj_flag_0 = 1;
+			}
+			else
+			{
+				err_inj_flag_0 = 0;
+			}
+			break;
+		}
+
+		taskENTER_CRITICAL();
+		print_flag_0 = 1;
+		taskEXIT_CRITICAL();
+		// xEventGroupSetBits(xEventGroup,BIT_0);
+
+		if (finsh_flag_0 == test_round - 1)
+		{
+
+			for (int i = 0; i < test_round; i++)
+			{
+				executed_0[i] = false;
+			}
+
+			taskENTER_CRITICAL();
+			send_flag_0 = 0;
+			taskEXIT_CRITICAL();
+		}
+		else
+		{
+
+			xSemaphoreTake(xSemaphore_0, portMAX_DELAY);
+
+			Xil_Out32((u32)crtl_reg_0, converted_data);
+			Xil_Out32((u32)crtl_reg_0, (u32)0x0);
+		}
+	}
+}
+
+void receive_data_1()
+{
+	u32 received_data = 0x0;
+	u32 received_counter = 0x0;
+	u32 received_inj = 0x0;
+
+	received_data = Xil_In32((u32)fnsh_reg_1);
+
+	static bool executed_1[TEST_ROUND] = {false};
+
+	if ((!executed_1[finsh_flag_1])/* && (((received_data & mask_bit31) == mask_bit31) || ((received_data & mask_bit32) == mask_bit32))*/)
+	{
+		for(int i = 0; i < 2 ; i = i + 1){
+		IIC_monitor3(finsh_flag_1);
+		}
+		executed_1[finsh_flag_1] = true;
+	}
+
+	if ((received_data & mask_bit30) == mask_bit30)
+	{
+		switch (state[auto_round * Mode + flag])
+		{
+		case STATE_MARCHC_0:
+		{
+
+			Marchc(1, 0, received_data);
+
+			break;
+		}
+		case STATE_MARCHC_1:
+		{
+
+			Marchc(1, 1, received_data);
+
+			break;
+		}
+		default:
+
+			err_cnt_1[finsh_flag_1] = (received_data & err_mask) >> 3;
+
+			RAW_1.err_cnt[auto_round * Mode + flag] = err_cnt_1[finsh_flag_1];
+			Marchc_1.Mar_err_cnt_0[finsh_flag_1] = err_cnt_1[finsh_flag_1];
+
+			count_1 = (err_cnt_1[finsh_flag_1] >= (fifo_depth - 1)) ? (fifo_depth - 1) : err_cnt_1[finsh_flag_1];
+			if (count_1 > 0)
+			{
+				Read_FIFO(1);
+				if (executed_auto){
+				copy_to_mode(&RAW_1, (auto_round * Mode + flag), finsh_flag_1, err_addr_1, Theor_data_1, Actual_data_1);
+				}
+			}
+
+			auto_read_counter(1, received_counter, auto_flag);
+
+
+			read_err_sys(1);
+
+			if ((converted_data & mask_inj) == 0x00000009)
+			{
+				u32 rd_addr_trigger = ((converted_data & 0x00007800) | (converted_data & 0x00000080) | 0x00000001);
+				if (auto_flag)
+				{
+					switch (converted_data & mask_inj_p)
+					{
+					case 0x29:
+
+						inj_1_EDC(1, received_inj, rd_addr_trigger);
+						break;
+					case 0x49:
+
+						inj_2_EDC(1, received_inj, rd_addr_trigger);
+						break;
+
+					case 0x69:
+						inj_3_EDC(1, received_inj, rd_addr_trigger);
+						break;
+					default:
+						if (mod)
+						{
+							xil_printf("Sram 2 automatic error Injection mode configuration error.");
+						}
+						else
+						{
+							xil_printf("Sram 4 automatic error Injection mode configuration error.");
+						}
+						break;
+					}
+				}
+				err_inj_flag_1 = 1;
+			}
+			else
+			{
+				err_inj_flag_1 = 0;
+			}
+
+			break;
+		}
+
+		taskENTER_CRITICAL();
+		print_flag_1 = 1;
+		taskEXIT_CRITICAL();
+		// xEventGroupSetBits(xEventGroup,BIT_1);
+
+		if (finsh_flag_1 == test_round - 1)
+		{
+
+			for (int i = 0; i < test_round; i++)
+			{
+				executed_1[i] = false;
+			}
+
+			taskENTER_CRITICAL();
+			send_flag_1 = 0;
+			taskEXIT_CRITICAL();
+		}
+		else
+		{
+
+			xSemaphoreTake(xSemaphore_1, portMAX_DELAY);
+
+			Xil_Out32((u32)crtl_reg_1, converted_data);
+			Xil_Out32((u32)crtl_reg_1, (u32)0x0);
+		}
+	}
+}

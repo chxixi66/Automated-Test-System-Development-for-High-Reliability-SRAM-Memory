@@ -1,0 +1,190 @@
+#-----------------------------------------------------------
+# Vivado v2023.1 (64-bit)
+# SW Build 3865809 on Sun May  7 15:05:29 MDT 2023
+# IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
+# SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
+# Start of session at: Wed Nov 12 19:39:39 2025
+# Process ID: 14784
+# Current directory: D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent21028 D:\HuaweiMoveData\Users\chx\Desktop\Sram_test\sram_test\sram_test.xpr
+# Log file: D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/vivado.log
+# Journal file: D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test\vivado.jou
+# Running On: LAPTOP-H14EUFIU, OS: Windows, CPU Frequency: 2304 MHz, CPU Physical cores: 4, Host memory: 17000 MB
+#-----------------------------------------------------------
+start_gui
+open_project D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository 'd:/HuaweiMoveData/Users/chx/Desktop/Sram_test/ip_apb'.
+INFO: [IP_Flow 19-1700] Loaded user IP repository 'd:/HuaweiMoveData/Users/chx/Desktop/Sram_test/ip_sram_controller'.
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu105:part0:1.6 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kcu105/1.6/board.xml as part xcku040-ffva1156-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu105:part0:1.7 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kcu105/1.7/board.xml as part xcku040-ffva1156-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu116:part0:1.4 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kcu116/1.4/board.xml as part xcku5p-ffvb676-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu116:part0:1.5 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kcu116/1.5/board.xml as part xcku5p-ffvb676-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu1500:part0:1.2 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kcu1500/1.2/board.xml as part xcku115-flvb2104-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:2.2 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/2.2/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.0/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.1 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.1/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.2 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.2/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_newl:part0:1.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190_newl/production/1.0/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_newl:part0:1.1 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190_newl/production/1.1/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu108:part0:1.6 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu108/1.6/board.xml as part xcvu095-ffva2104-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu108:part0:1.7 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu108/1.7/board.xml as part xcvu095-ffva2104-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu110:part0:1.4 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu110/1.4/board.xml as part xcvu190-flgc2104-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu118:part0:2.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu118/2.0/board.xml as part xcvu9p-flga2104-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu118:part0:2.3 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu118/2.3/board.xml as part xcvu9p-flga2104-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu118:part0:2.4 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu118/2.4/board.xml as part xcvu9p-flga2104-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu128:part0:1.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu128/production/1.0/board.xml as part xcvu37p-fsvh2892-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu129:part0:1.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu129/production/1.0/board.xml as part xcvu29p-fsga2577-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu1525:part0:1.3 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu1525/1.3/board.xml as part xcvu9p-fsgd2104-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280_es:part0:1.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/es/rev_a/1.0/board.xml as part xcve2802-vsvh1760-2lp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280_es:part0:1.1 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/es/rev_a/1.1/board.xml as part xcve2802-vsvh1760-2lp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280_es_revb:part0:1.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/es/rev_b/1.0/board.xml as part xcve2802-vsvh1760-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280_es_revb:part0:1.1 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/es/rev_b/1.1/board.xml as part xcve2802-vsvh1760-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vhk158:part0:1.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vhk158/production/1.0/board.xml as part xcvh1582-vsva3697-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vhk158_es:part0:1.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vhk158/es/1.0/board.xml as part xcvh1582-vsva3697-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vhk158_es:part0:1.1 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vhk158/es/1.1/board.xml as part xcvh1582-vsva3697-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:2.2 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/2.2/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:3.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/3.0/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:3.1 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/3.1/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:3.2 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/3.2/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180_newl:part0:1.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180_newl/production/1.0/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180_newl:part0:1.1 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180_newl/production/1.1/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120:part0:1.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/production/1.0/board.xml as part xcvp1202-vsva2785-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120:part0:1.1 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/production/1.1/board.xml as part xcvp1202-vsva2785-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120_es:part0:1.2 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/es/1.2/board.xml as part xcvp1202-vsva2785-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120_es:part0:1.3 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/es/1.3/board.xml as part xcvp1202-vsva2785-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120_es_revb:part0:1.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120_revb/es/1.0/board.xml as part xcvp1202-vsva2785-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120_es_revb:part0:1.1 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120_revb/es/1.1/board.xml as part xcvp1202-vsva2785-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk180:part0:1.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk180/production/1.0/board.xml as part xcvp1802-lsvc4072-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk180:part0:1.1 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk180/production/1.1/board.xml as part xcvp1802-lsvc4072-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk180_es:part0:1.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk180/es/1.0/board.xml as part xcvp1802-lsvc4072-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk180_es:part0:1.1 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk180/es/1.1/board.xml as part xcvp1802-lsvc4072-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208ld:part0:2.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208ld/production/2.0/board.xml as part xczu58dr-fsvg1517-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216ld:part0:2.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216ld/production/2.0/board.xml as part xczu59dr-ffvf1760-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu670:part0:2.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu670/2.0/board.xml as part xczu67dr-fsve1156-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu670ld:part0:1.0 available at D:/Xilinx/Vivado/2023.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu670ld/1.0/board.xml as part xczu57dr-fsve1156-2-i specified in board_part file is either invalid or not available
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'D:/Xilinx/Vivado/2023.1/data/ip'.
+open_project: Time (s): cpu = 00:00:30 ; elapsed = 00:00:18 . Memory (MB): peak = 1530.277 ; gain = 240.324
+update_compile_order -fileset sources_1
+create_ip_run [get_files -of_objects [get_fileset sources_1] D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.srcs/sources_1/bd/sram_test/sram_test.bd]
+synth_design -rtl -rtl_skip_mlo -name rtl_1
+Command: synth_design -rtl -rtl_skip_mlo -name rtl_1
+Starting synth_design
+Using part: xc7z020clg484-2
+Top: sram_test_wrapper
+INFO: [Device 21-403] Loading part xc7z020clg484-2
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 2317.914 ; gain = 402.113
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'sram_test_wrapper' [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/hdl/sram_test_wrapper.v:13]
+INFO: [Synth 8-6157] synthesizing module 'sram_test' [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:568]
+INFO: [Synth 8-6157] synthesizing module 'sram_test_apb_slave_0_0' [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_apb_slave_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'sram_test_apb_slave_0_0' (0#1) [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_apb_slave_0_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'sram_test_axi_apb_bridge_0_0' [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_axi_apb_bridge_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'sram_test_axi_apb_bridge_0_0' (0#1) [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_axi_apb_bridge_0_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'sram_test_axi_apb_bridge_1_0' [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_axi_apb_bridge_1_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'sram_test_axi_apb_bridge_1_0' (0#1) [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_axi_apb_bridge_1_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'sram_test_axi_interconnect_0_0' [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:1128]
+INFO: [Synth 8-6157] synthesizing module 'm00_couplers_imp_WFOMK7' [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:13]
+INFO: [Synth 8-6155] done synthesizing module 'm00_couplers_imp_WFOMK7' (0#1) [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:13]
+INFO: [Synth 8-6157] synthesizing module 'm01_couplers_imp_198CSJ3' [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:138]
+INFO: [Synth 8-6155] done synthesizing module 'm01_couplers_imp_198CSJ3' (0#1) [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:138]
+INFO: [Synth 8-6157] synthesizing module 's00_couplers_imp_1TPCPKB' [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:263]
+INFO: [Synth 8-6157] synthesizing module 'sram_test_auto_pc_0' [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_auto_pc_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'sram_test_auto_pc_0' (0#1) [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_auto_pc_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 's00_couplers_imp_1TPCPKB' (0#1) [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:263]
+INFO: [Synth 8-6157] synthesizing module 'sram_test_xbar_0' [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_xbar_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'sram_test_xbar_0' (0#1) [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_xbar_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'm_axi_awprot' of module 'sram_test_xbar_0' is unconnected for instance 'xbar' [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:1618]
+WARNING: [Synth 8-7071] port 'm_axi_wstrb' of module 'sram_test_xbar_0' is unconnected for instance 'xbar' [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:1618]
+WARNING: [Synth 8-7071] port 'm_axi_arprot' of module 'sram_test_xbar_0' is unconnected for instance 'xbar' [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:1618]
+WARNING: [Synth 8-7023] instance 'xbar' of module 'sram_test_xbar_0' has 40 connections declared, but only 37 given [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:1618]
+INFO: [Synth 8-6155] done synthesizing module 'sram_test_axi_interconnect_0_0' (0#1) [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:1128]
+INFO: [Synth 8-6157] synthesizing module 'sram_test_proc_sys_reset_0_0' [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_proc_sys_reset_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'sram_test_proc_sys_reset_0_0' (0#1) [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_proc_sys_reset_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'mb_reset' of module 'sram_test_proc_sys_reset_0_0' is unconnected for instance 'proc_sys_reset_0' [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:1008]
+WARNING: [Synth 8-7071] port 'bus_struct_reset' of module 'sram_test_proc_sys_reset_0_0' is unconnected for instance 'proc_sys_reset_0' [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:1008]
+WARNING: [Synth 8-7071] port 'peripheral_reset' of module 'sram_test_proc_sys_reset_0_0' is unconnected for instance 'proc_sys_reset_0' [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:1008]
+WARNING: [Synth 8-7071] port 'interconnect_aresetn' of module 'sram_test_proc_sys_reset_0_0' is unconnected for instance 'proc_sys_reset_0' [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:1008]
+WARNING: [Synth 8-7023] instance 'proc_sys_reset_0' of module 'sram_test_proc_sys_reset_0_0' has 10 connections declared, but only 6 given [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:1008]
+INFO: [Synth 8-6157] synthesizing module 'sram_test_processing_system7_0_0' [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_processing_system7_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'sram_test_processing_system7_0_0' (0#1) [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_processing_system7_0_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'sram_test_top_0_0' [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_top_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'sram_test_top_0_0' (0#1) [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_top_0_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'sram_test_top_1_0' [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_top_1_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'sram_test_top_1_0' (0#1) [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/.Xil/Vivado-14784-LAPTOP-H14EUFIU/realtime/sram_test_top_1_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'sram_test' (0#1) [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/synth/sram_test.v:568]
+INFO: [Synth 8-6155] done synthesizing module 'sram_test_wrapper' (0#1) [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/hdl/sram_test_wrapper.v:13]
+WARNING: [Synth 8-7129] Port M_ACLK in module s00_couplers_imp_1TPCPKB is either unconnected or has no load
+WARNING: [Synth 8-7129] Port M_ARESETN in module s00_couplers_imp_1TPCPKB is either unconnected or has no load
+WARNING: [Synth 8-7129] Port M_ACLK in module m01_couplers_imp_198CSJ3 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port M_ARESETN in module m01_couplers_imp_198CSJ3 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port S_ACLK in module m01_couplers_imp_198CSJ3 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port S_ARESETN in module m01_couplers_imp_198CSJ3 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port M_ACLK in module m00_couplers_imp_WFOMK7 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port M_ARESETN in module m00_couplers_imp_WFOMK7 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port S_ACLK in module m00_couplers_imp_WFOMK7 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port S_ARESETN in module m00_couplers_imp_WFOMK7 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port M00_ACLK in module sram_test_axi_interconnect_0_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port M00_ARESETN in module sram_test_axi_interconnect_0_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port M01_ACLK in module sram_test_axi_interconnect_0_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port M01_ARESETN in module sram_test_axi_interconnect_0_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port S00_ACLK in module sram_test_axi_interconnect_0_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port S00_ARESETN in module sram_test_axi_interconnect_0_0 is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 2414.793 ; gain = 498.992
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 2414.793 ; gain = 498.992
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 2414.793 ; gain = 498.992
+---------------------------------------------------------------------------------
+INFO: [Project 1-454] Reading design checkpoint 'd:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_apb_slave_0_0/sram_test_apb_slave_0_0.dcp' for cell 'sram_test_i/apb_slave_0'
+INFO: [Project 1-454] Reading design checkpoint 'd:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_axi_apb_bridge_0_0/sram_test_axi_apb_bridge_0_0.dcp' for cell 'sram_test_i/axi_apb_bridge_0'
+INFO: [Project 1-454] Reading design checkpoint 'd:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_axi_apb_bridge_1_0/sram_test_axi_apb_bridge_1_0.dcp' for cell 'sram_test_i/axi_apb_bridge_1'
+INFO: [Project 1-454] Reading design checkpoint 'd:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_proc_sys_reset_0_0/sram_test_proc_sys_reset_0_0.dcp' for cell 'sram_test_i/proc_sys_reset_0'
+INFO: [Project 1-454] Reading design checkpoint 'd:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_processing_system7_0_0/sram_test_processing_system7_0_0.dcp' for cell 'sram_test_i/processing_system7_0'
+INFO: [Project 1-454] Reading design checkpoint 'd:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_top_0_0/sram_test_top_0_0.dcp' for cell 'sram_test_i/top_0'
+INFO: [Project 1-454] Reading design checkpoint 'd:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_top_1_0/sram_test_top_1_0.dcp' for cell 'sram_test_i/top_1'
+INFO: [Project 1-454] Reading design checkpoint 'd:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_xbar_0/sram_test_xbar_0.dcp' for cell 'sram_test_i/axi_interconnect_0/xbar'
+INFO: [Project 1-454] Reading design checkpoint 'd:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_auto_pc_0/sram_test_auto_pc_0.dcp' for cell 'sram_test_i/axi_interconnect_0/s00_couplers/auto_pc'
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.088 . Memory (MB): peak = 2414.793 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 452 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2023.1
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_processing_system7_0_0/sram_test_processing_system7_0_0.xdc] for cell 'sram_test_i/processing_system7_0/inst'
+Finished Parsing XDC File [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_processing_system7_0_0/sram_test_processing_system7_0_0.xdc] for cell 'sram_test_i/processing_system7_0/inst'
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_processing_system7_0_0/sram_test_processing_system7_0_0.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/sram_test_wrapper_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/sram_test_wrapper_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Parsing XDC File [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_proc_sys_reset_0_0/sram_test_proc_sys_reset_0_0_board.xdc] for cell 'sram_test_i/proc_sys_reset_0/U0'
+Finished Parsing XDC File [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_proc_sys_reset_0_0/sram_test_proc_sys_reset_0_0_board.xdc] for cell 'sram_test_i/proc_sys_reset_0/U0'
+Parsing XDC File [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_proc_sys_reset_0_0/sram_test_proc_sys_reset_0_0.xdc] for cell 'sram_test_i/proc_sys_reset_0/U0'
+Finished Parsing XDC File [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_proc_sys_reset_0_0/sram_test_proc_sys_reset_0_0.xdc] for cell 'sram_test_i/proc_sys_reset_0/U0'
+Parsing XDC File [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/constrain.xdc]
+Finished Parsing XDC File [D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/constrain.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 2496.715 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 162 instances were transformed.
+  IOBUF => IOBUF (IBUF, OBUFT): 80 instances
+  LDCP => LDCP (GND, LDCE, LUT3(x2), VCC): 38 instances
+  RAM32M => RAM32M (RAMD32(x6), RAMS32(x2)): 32 instances
+  RAM32X1D => RAM32X1D (RAMD32(x2)): 12 instances
+
+RTL Elaboration Complete:  : Time (s): cpu = 00:00:22 ; elapsed = 00:00:16 . Memory (MB): peak = 2598.180 ; gain = 682.379
+46 Infos, 25 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:26 ; elapsed = 00:00:30 . Memory (MB): peak = 2598.180 ; gain = 1050.758
+exit
+INFO: [Common 17-206] Exiting Vivado at Wed Nov 12 19:43:43 2025...

@@ -1,0 +1,30 @@
+
+*** Running vivado
+    with args -log sram_test_top_1_0.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source sram_test_top_1_0.tcl
+
+
+ECHO 处于关闭状态。
+ECHO 处于关闭状态。
+
+****** Vivado v2023.1 (64-bit)
+  **** SW Build 3865809 on Sun May  7 15:05:29 MDT 2023
+  **** IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
+  **** SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source sram_test_top_1_0.tcl -notrace
+create_project: Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 452.195 ; gain = 161.234
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository 'd:/HuaweiMoveData/Users/chx/Desktop/Sram_test/ip_apb'.
+INFO: [IP_Flow 19-1700] Loaded user IP repository 'd:/HuaweiMoveData/Users/chx/Desktop/Sram_test/ip_sram_controller'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'D:/Xilinx/Vivado/2023.1/data/ip'.
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: sram_test_top_1_0
+INFO: [IP_Flow 19-6922] IPCACHE: Exporting cached entry e876b0d1a88e7394 to dir: D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.runs/sram_test_top_1_0_synth_1
+INFO: [IP_Flow 19-6928] IPCACHE: copied cached file d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.cache/ip/2023.1/e/8/e876b0d1a88e7394/sram_test_top_0_0.dcp to D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.runs/sram_test_top_1_0_synth_1/sram_test_top_1_0.dcp.
+INFO: [IP_Flow 19-6928] IPCACHE: copied cached file d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.cache/ip/2023.1/e/8/e876b0d1a88e7394/sram_test_top_0_0_sim_netlist.v to D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.runs/sram_test_top_1_0_synth_1/sram_test_top_1_0_sim_netlist.v.
+INFO: [IP_Flow 19-6928] IPCACHE: copied cached file d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.cache/ip/2023.1/e/8/e876b0d1a88e7394/sram_test_top_0_0_sim_netlist.vhdl to D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.runs/sram_test_top_1_0_synth_1/sram_test_top_1_0_sim_netlist.vhdl.
+INFO: [IP_Flow 19-6928] IPCACHE: copied cached file d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.cache/ip/2023.1/e/8/e876b0d1a88e7394/sram_test_top_0_0_stub.v to D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.runs/sram_test_top_1_0_synth_1/sram_test_top_1_0_stub.v.
+INFO: [IP_Flow 19-6928] IPCACHE: copied cached file d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.cache/ip/2023.1/e/8/e876b0d1a88e7394/sram_test_top_0_0_stub.vhdl to D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.runs/sram_test_top_1_0_synth_1/sram_test_top_1_0_stub.vhdl.
+INFO: [IP_Flow 19-4838] Using cached IP synthesis design for IP sram_test_top_1_0, cache-ID = e876b0d1a88e7394.
+INFO: [Common 17-206] Exiting Vivado at Wed Sep 17 13:09:06 2025...

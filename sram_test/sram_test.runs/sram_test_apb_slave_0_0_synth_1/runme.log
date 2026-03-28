@@ -1,0 +1,314 @@
+
+*** Running vivado
+    with args -log sram_test_apb_slave_0_0.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source sram_test_apb_slave_0_0.tcl
+
+
+ECHO 处于关闭状态。
+ECHO 处于关闭状态。
+
+****** Vivado v2023.1 (64-bit)
+  **** SW Build 3865809 on Sun May  7 15:05:29 MDT 2023
+  **** IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
+  **** SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source sram_test_apb_slave_0_0.tcl -notrace
+create_project: Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 452.328 ; gain = 161.305
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository 'd:/HuaweiMoveData/Users/chx/Desktop/Sram_test/ip_apb'.
+INFO: [IP_Flow 19-1700] Loaded user IP repository 'd:/HuaweiMoveData/Users/chx/Desktop/Sram_test/ip_sram_controller'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'D:/Xilinx/Vivado/2023.1/data/ip'.
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: sram_test_apb_slave_0_0
+Command: synth_design -top sram_test_apb_slave_0_0 -part xc7z020clg484-2 -incremental_mode off -mode out_of_context
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Device 21-403] Loading part xc7z020clg484-2
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 30356
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:09 ; elapsed = 00:00:11 . Memory (MB): peak = 1303.438 ; gain = 410.258
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'sram_test_apb_slave_0_0' [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_apb_slave_0_0/synth/sram_test_apb_slave_0_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'apb_slave' [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ipshared/016d/src/apb_slave.v:1]
+INFO: [Synth 8-6157] synthesizing module 'fifo' [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ipshared/016d/src/fifo.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'fifo' (0#1) [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ipshared/016d/src/fifo.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'apb_slave' (0#1) [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ipshared/016d/src/apb_slave.v:1]
+INFO: [Synth 8-6155] done synthesizing module 'sram_test_apb_slave_0_0' (0#1) [d:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.gen/sources_1/bd/sram_test/ip/sram_test_apb_slave_0_0/synth/sram_test_apb_slave_0_0.v:53]
+WARNING: [Synth 8-7129] Port m_data_s2d_0[39] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_0[38] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_0[37] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_0[36] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_0[35] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_0[34] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_0[33] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_0[32] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_1[39] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_1[38] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_1[37] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_1[36] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_1[35] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_1[34] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_1[33] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_1[32] in module apb_slave is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:11 ; elapsed = 00:00:13 . Memory (MB): peak = 1398.906 ; gain = 505.727
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:12 ; elapsed = 00:00:14 . Memory (MB): peak = 1398.906 ; gain = 505.727
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:12 ; elapsed = 00:00:14 . Memory (MB): peak = 1398.906 ; gain = 505.727
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.022 . Memory (MB): peak = 1398.906 ; gain = 0.000
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1493.832 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.100 . Memory (MB): peak = 1493.832 ; gain = 0.000
+INFO: [Designutils 20-5008] Incremental synthesis strategy off
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:25 ; elapsed = 00:00:27 . Memory (MB): peak = 1493.832 ; gain = 600.652
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z020clg484-2
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:25 ; elapsed = 00:00:27 . Memory (MB): peak = 1493.832 ; gain = 600.652
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:25 ; elapsed = 00:00:28 . Memory (MB): peak = 1493.832 ; gain = 600.652
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:25 ; elapsed = 00:00:28 . Memory (MB): peak = 1493.832 ; gain = 600.652
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input    5 Bit       Adders := 24    
+	   3 Input    5 Bit       Adders := 8     
++---Registers : 
+	               32 Bit    Registers := 22    
+	                5 Bit    Registers := 16    
+	                1 Bit    Registers := 8     
++---RAMs : 
+	              512 Bit	(16 X 32 bit)          RAMs := 8     
++---Muxes : 
+	   2 Input   32 Bit        Muxes := 4     
+	   2 Input   20 Bit        Muxes := 2     
+	   2 Input    1 Bit        Muxes := 12    
+	   5 Input    1 Bit        Muxes := 8     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 220 (col length:60)
+BRAMs: 280 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-7129] Port m_data_s2d_0[39] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_0[38] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_0[37] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_0[36] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_0[35] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_0[34] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_0[33] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_0[32] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_1[39] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_1[38] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_1[37] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_1[36] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_1[35] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_1[34] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_1[33] in module apb_slave is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m_data_s2d_1[32] in module apb_slave is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:33 ; elapsed = 00:00:36 . Memory (MB): peak = 1493.832 ; gain = 600.652
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Distributed RAM: Preliminary Mapping Report (see note below)
++------------------------+---------------------------------+-----------+----------------------+-------------+
+|Module Name             | RTL Object                      | Inference | Size (Depth x Width) | Primitives  | 
++------------------------+---------------------------------+-----------+----------------------+-------------+
+|sram_test_apb_slave_0_0 | inst/fifo_err_addr_0/memory_reg | Implied   | 16 x 32              | RAM32M x 6  | 
+|sram_test_apb_slave_0_0 | inst/fifo_data_a_0/memory_reg   | Implied   | 16 x 32              | RAM32M x 6  | 
+|sram_test_apb_slave_0_0 | inst/fifo_data_b_0/memory_reg   | Implied   | 16 x 32              | RAM32M x 6  | 
+|sram_test_apb_slave_0_0 | inst/fifo_data_c_0/memory_reg   | Implied   | 16 x 32              | RAM32M x 6  | 
+|sram_test_apb_slave_0_0 | inst/fifo_err_addr_1/memory_reg | Implied   | 16 x 32              | RAM32M x 6  | 
+|sram_test_apb_slave_0_0 | inst/fifo_data_a_1/memory_reg   | Implied   | 16 x 32              | RAM32M x 6  | 
+|sram_test_apb_slave_0_0 | inst/fifo_data_b_1/memory_reg   | Implied   | 16 x 32              | RAM32M x 6  | 
+|sram_test_apb_slave_0_0 | inst/fifo_data_c_1/memory_reg   | Implied   | 16 x 32              | RAM32M x 6  | 
++------------------------+---------------------------------+-----------+----------------------+-------------+
+
+Note: The table above is a preliminary report that shows the Distributed RAMs at the current stage of the synthesis flow. Some Distributed RAMs may be reimplemented as non Distributed RAM primitives later in the synthesis flow. Multiple instantiated RAMs are reported only once.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:43 ; elapsed = 00:00:46 . Memory (MB): peak = 1493.832 ; gain = 600.652
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:43 ; elapsed = 00:00:47 . Memory (MB): peak = 1493.832 ; gain = 600.652
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Distributed RAM: Final Mapping Report
++------------------------+---------------------------------+-----------+----------------------+-------------+
+|Module Name             | RTL Object                      | Inference | Size (Depth x Width) | Primitives  | 
++------------------------+---------------------------------+-----------+----------------------+-------------+
+|sram_test_apb_slave_0_0 | inst/fifo_err_addr_0/memory_reg | Implied   | 16 x 32              | RAM32M x 6  | 
+|sram_test_apb_slave_0_0 | inst/fifo_data_a_0/memory_reg   | Implied   | 16 x 32              | RAM32M x 6  | 
+|sram_test_apb_slave_0_0 | inst/fifo_data_b_0/memory_reg   | Implied   | 16 x 32              | RAM32M x 6  | 
+|sram_test_apb_slave_0_0 | inst/fifo_data_c_0/memory_reg   | Implied   | 16 x 32              | RAM32M x 6  | 
+|sram_test_apb_slave_0_0 | inst/fifo_err_addr_1/memory_reg | Implied   | 16 x 32              | RAM32M x 6  | 
+|sram_test_apb_slave_0_0 | inst/fifo_data_a_1/memory_reg   | Implied   | 16 x 32              | RAM32M x 6  | 
+|sram_test_apb_slave_0_0 | inst/fifo_data_b_1/memory_reg   | Implied   | 16 x 32              | RAM32M x 6  | 
+|sram_test_apb_slave_0_0 | inst/fifo_data_c_1/memory_reg   | Implied   | 16 x 32              | RAM32M x 6  | 
++------------------------+---------------------------------+-----------+----------------------+-------------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:44 ; elapsed = 00:00:47 . Memory (MB): peak = 1493.832 ; gain = 600.652
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:52 ; elapsed = 00:00:56 . Memory (MB): peak = 1493.832 ; gain = 600.652
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:52 ; elapsed = 00:00:56 . Memory (MB): peak = 1493.832 ; gain = 600.652
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:52 ; elapsed = 00:00:56 . Memory (MB): peak = 1493.832 ; gain = 600.652
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:52 ; elapsed = 00:00:56 . Memory (MB): peak = 1493.832 ; gain = 600.652
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:52 ; elapsed = 00:00:56 . Memory (MB): peak = 1493.832 ; gain = 600.652
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:52 ; elapsed = 00:00:56 . Memory (MB): peak = 1493.832 ; gain = 600.652
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+---------+------+
+|      |Cell     |Count |
++------+---------+------+
+|1     |LUT1     |    17|
+|2     |LUT2     |    78|
+|3     |LUT3     |    24|
+|4     |LUT4     |    87|
+|5     |LUT5     |   105|
+|6     |LUT6     |   284|
+|7     |RAM32M   |    32|
+|8     |RAM32X1D |    12|
+|9     |FDCE     |   664|
++------+---------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:52 ; elapsed = 00:00:56 . Memory (MB): peak = 1493.832 ; gain = 600.652
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 17 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:38 ; elapsed = 00:00:52 . Memory (MB): peak = 1493.832 ; gain = 505.727
+Synthesis Optimization Complete : Time (s): cpu = 00:00:53 ; elapsed = 00:00:56 . Memory (MB): peak = 1493.832 ; gain = 600.652
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.029 . Memory (MB): peak = 1493.832 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 44 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1493.832 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 44 instances were transformed.
+  RAM32M => RAM32M (RAMD32(x6), RAMS32(x2)): 32 instances
+  RAM32X1D => RAM32X1D (RAMD32(x2)): 12 instances
+
+Synth Design complete | Checksum: 9e5c7ff0
+INFO: [Common 17-83] Releasing license: Synthesis
+26 Infos, 33 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:01:01 ; elapsed = 00:01:17 . Memory (MB): peak = 1493.832 ; gain = 1006.602
+INFO: [Common 17-1381] The checkpoint 'D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.runs/sram_test_apb_slave_0_0_synth_1/sram_test_apb_slave_0_0.dcp' has been generated.
+INFO: [Coretcl 2-1648] Added synthesis output to IP cache for IP sram_test_apb_slave_0_0, cache-ID = 60a468bf1b985ea4
+INFO: [Coretcl 2-1174] Renamed 9 cell refs.
+INFO: [Common 17-1381] The checkpoint 'D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.runs/sram_test_apb_slave_0_0_synth_1/sram_test_apb_slave_0_0.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file sram_test_apb_slave_0_0_utilization_synth.rpt -pb sram_test_apb_slave_0_0_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Wed Sep 17 13:08:37 2025...

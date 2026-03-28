@@ -1,0 +1,263 @@
+#ifndef TCP_TRANSMISSION_H_
+#define TCP_TRANSMISSION_H_
+
+#include <stdio.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include "xadcps.h"
+#include "xil_types.h"
+#include "Xscugic.h"
+#include "Xil_exception.h"
+#include "xuartps.h"
+#include "iic_phy.h"
+
+#define RECV_BUFFER_SIZE 1024
+#define Mode_all 292
+#define Mode_wr 196
+#define Mode_err 96
+#define round_all 3
+#define round_select 1
+#define fifo_depth 17
+#define Mode_1 876
+#define V_adder 3
+#define inj_err_max 0x80000
+
+#define mask_bit32 0x00000001
+#define mask_bit31 0x00000002
+#define mask_bit30 0x00000004
+#define mask_addr 0x0000037f
+#define mask_wr 0x0000007f
+#define mask_inj 0x00000019
+#define mask_inj_p 0x00000079
+#define mask_rd 0x00000006
+#define err_mask 0x007ffff8
+#define mask_sel 0x00000080
+#define mask_data_mode 0x00007800
+#define mask_pro_mode 0x00000780
+
+#define crtl_reg_0 0x43c00000
+#define crtl_reg_1 0x43c10000
+
+#define fnsh_reg_0 0x43c00008
+#define fnsh_reg_1 0x43c10008
+
+#define freq_reg_0 0x43c0000c
+#define freq_reg_1 0x43c1000c
+
+#define err_inj_num_reg_0 0x43c00028
+#define err_inj_num_reg_1 0x43c10028
+
+#define err_addr_reg_0 0x43c00010
+#define err_addr_reg_1 0x43c10010
+
+#define data_a_reg_0 0x43c00014
+#define data_b_reg_0 0x43c00018
+#define data_c_reg_0 0x43c0001c
+
+#define data_a_reg_1 0x43c10014
+#define data_b_reg_1 0x43c10018
+#define data_c_reg_1 0x43c1001c
+
+#define err_counter_reg_0 0x43c00024
+#define err_counter_reg_1 0x43c10024
+
+#define err_sys_reg_0 0x43c00020
+#define err_sys_reg_1 0x43c10020
+
+#define rd_counter_1_ce0 0x3d37
+#define rd_counter_2_ce0 0x3d57
+#define rd_counter_3_ce0 0x3d77
+#define rd_counter_addr_ce0 0x3d17
+
+#define rd_counter_1_ce1 0x3db7
+#define rd_counter_2_ce1 0x3dd7
+#define rd_counter_3_ce1 0x3df7
+#define rd_counter_addr_ce1 0x3d97
+
+#define up_down_0 0x43c00004
+#define up_down_1 0x43c10004
+
+#define BIT_0 (1 << 0)
+#define BIT_1 (1 << 1)
+
+#define up_w0_r0_0 0x1003
+#define up_w1_r1_0 0x0803
+#define up_w0_0 0x1007
+#define down_r0_0 0x1001
+#define down_w1_r1_0 0x0803
+#define down_w0_r0_0 0x1003
+
+#define up_w0_r0_1 0x1083
+#define up_w1_r1_1 0x0883
+#define up_w0_1 0x1087
+#define down_r0_1 0x1081
+#define down_w1_r1_1 0x0883
+#define down_w0_r0_1 0x1083
+
+extern volatile uint8_t send_flag_0;
+extern volatile uint8_t send_flag_1;
+extern volatile uint8_t finsh_flag_0;
+extern volatile uint8_t finsh_flag_1;
+extern volatile uint8_t print_flag_0;
+extern volatile uint8_t print_flag_1;
+extern volatile uint8_t rd_flag_0;
+extern volatile uint8_t rd_flag_1;
+extern volatile uint8_t auto_flag;
+extern volatile uint8_t mod;
+extern volatile uint8_t Auto_flag;
+
+extern volatile int flag;
+extern volatile bool executed_auto;
+extern u32 auto_round;
+
+extern XScuGic Intc;	// intr
+extern XScuTimer Timer; // timer
+
+extern QueueHandle_t xQueue;
+extern SemaphoreHandle_t xSemaphore_0;
+extern SemaphoreHandle_t xSemaphore_1;
+extern EventGroupHandle_t xEventGroup;
+
+extern int Status;
+
+extern u8 RecvBuffer[RECV_BUFFER_SIZE];
+
+extern u32 ReceivedCount;
+extern XUartPs UartPs;
+extern XUartPs_Config *uart_Config;
+
+extern u32 err_cnt_0[TEST_ROUND];
+extern u32 err_cnt_1[TEST_ROUND];
+extern u32 err_sys_0[TEST_ROUND]; // 20
+extern u32 err_sys_1[TEST_ROUND];
+extern u32 err_inj_0[TEST_ROUND];
+extern u32 err_inj_1[TEST_ROUND]; // 24
+
+extern u32 err_addr_0[TEST_ROUND][fifo_depth];
+extern u32 err_data_a_0[TEST_ROUND][fifo_depth];
+extern u32 err_data_b_0[TEST_ROUND][fifo_depth];
+extern u32 err_data_c_0[TEST_ROUND][fifo_depth];
+extern u64 Actual_data_0[TEST_ROUND][fifo_depth];
+extern u64 Theor_data_0[TEST_ROUND][fifo_depth];
+
+extern u32 err_addr_1[TEST_ROUND][fifo_depth];
+extern u32 err_data_a_1[TEST_ROUND][fifo_depth];
+extern u32 err_data_b_1[TEST_ROUND][fifo_depth];
+extern u32 err_data_c_1[TEST_ROUND][fifo_depth];
+extern u64 Actual_data_1[TEST_ROUND][fifo_depth];
+extern u64 Theor_data_1[TEST_ROUND][fifo_depth];
+
+extern u32 err_inj_addr_0[TEST_ROUND]; // read counter 3 addr
+extern u32 err_inj_addr_1[TEST_ROUND];
+extern u32 config_select;
+
+
+extern u32 converted_data;
+extern u32 err_data;
+extern u32 config_data;
+extern u32 Mode;
+extern u32 round_cnt;
+
+extern int count_0;
+extern int count_1;
+
+extern volatile uint8_t err_sys_flag_0;
+extern volatile uint8_t err_sys_flag_1;
+extern volatile uint8_t err_counter_0;
+extern volatile uint8_t err_counter_1;
+extern volatile uint8_t err_inj_flag_0;
+extern volatile uint8_t err_inj_flag_1;
+
+
+extern bool mode_cnt_0[Mode_1];
+extern bool mode_cnt_1[Mode_1];
+
+typedef struct
+{
+	const char *type0_string;
+	const char *type1_string;
+	const char *type2_string;
+	const char *type3_string;
+	
+} CombinedStrings;
+
+extern CombinedStrings combinations[Mode_1];
+
+typedef struct
+{
+	u32 err_cnt[Mode_1];
+	u32 err_addr[Mode_1][fifo_depth];
+	u64 err_actual[Mode_1][fifo_depth];
+	u64 err_theor[Mode_1][fifo_depth];
+
+} RAW_info;
+
+typedef struct
+{
+	u32 err_cnt[Mode_1];
+	u32 err_counter[Mode_1];
+	u32 err_counter_addr[Mode_1];
+
+} inj_info;
+
+typedef struct
+{
+	u32 err_addr_0[fifo_depth];
+	u64 err_actual_0[fifo_depth];
+	u64 err_theor_0[fifo_depth];
+
+	u32 err_addr_1[fifo_depth];
+	u64 err_actual_1[fifo_depth];
+	u64 err_theor_1[fifo_depth];
+
+} Marchc_err_info;
+
+typedef struct
+{
+	u32 Mar_err_cnt_0[TEST_ROUND];
+	//Marchc_err_info err_info_0[TEST_ROUND];
+	u32 Mar_err_cnt_1[TEST_ROUND];
+	//Marchc_err_info err_info_1[TEST_ROUND];
+	u32 Mar_err_cnt_2[TEST_ROUND];
+	//Marchc_err_info err_info_2[TEST_ROUND];
+	u32 Mar_err_cnt_3[TEST_ROUND];
+	//Marchc_err_info err_info_3[TEST_ROUND];
+	u32 Mar_err_cnt_4[TEST_ROUND];
+	//Marchc_err_info err_info_4[TEST_ROUND];
+
+} Marchc_info;
+
+typedef enum
+{
+	STATE_RAW = 0,
+	STATE_INJ_0 = 1,
+	STATE_INJ_1 = 2, // ce0 3bit
+	STATE_INJ_2 = 3, // ce1 3bit
+	STATE_MARCHC_0 = 4,
+	STATE_MARCHC_1 = 5,
+	DEFAULT = 6
+} SIXState;
+
+extern RAW_info RAW_0;
+extern RAW_info RAW_1;
+extern inj_info inj_0;
+extern inj_info inj_1;
+extern Marchc_info Marchc_0;
+extern Marchc_info Marchc_1;
+extern Marchc_err_info err_info_0[TEST_ROUND];
+extern Marchc_err_info err_info_1[TEST_ROUND];
+extern Marchc_err_info err_info_2[TEST_ROUND];
+extern Marchc_err_info err_info_3[TEST_ROUND];
+extern Marchc_err_info err_info_4[TEST_ROUND];
+extern SIXState state[Mode_1];
+
+extern char *voltage_info;
+
+extern volatile uint32_t Mar_count_0[5];
+extern volatile uint32_t Mar_count_1[5];
+
+void send_data();
+void receive_data_0();
+void receive_data_1();
+
+#endif /* TCP_TRANSMISSION_H_ */

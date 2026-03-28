@@ -1,0 +1,12 @@
+/* C:/Users/chx/AppData/Local/Temp/bootgen_sram_test_system5409424848043911140/sd_card_temp/boot.bif */
+/* Command to create bitstream .bin file:       */
+/*   bootgen -image <bif_file> -split bin -w    */
+/* Command to create BOOT.BIN file:             */
+/*   bootgen  -image <bif_file> -w -o i BOOT.BIN */
+/*sram_test_wrapper*/
+the_ROM_image:
+{
+ [bootloader] D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.sw/sram_test_wrapper/export/sram_test_wrapper/sw/sram_test_wrapper/boot/fsbl.elf
+ D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.sw/sram_test/_ide/bitstream/sram_test_wrapper.bit
+ D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.sw/sram_test/Debug/sram_test.elf
+}

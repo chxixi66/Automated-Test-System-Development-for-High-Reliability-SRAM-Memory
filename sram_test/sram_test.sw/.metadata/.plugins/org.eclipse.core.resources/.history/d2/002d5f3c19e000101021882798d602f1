@@ -1,0 +1,2234 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+#include "xparameters.h"
+#include "netif/xadapter.h"
+#include "platform_config.h"
+#include "xil_printf.h"
+#include "sys_intr.h"
+#include "tcp_transmission.h"
+#include "task.h"
+#include "timers.h"
+#include "queue.h"
+#include "lwip/sockets.h"
+#include "lwipopts.h"
+#include "lwip/tcp.h"
+#include "lwip/err.h"
+#include "sleep.h"
+
+//int main_thread();
+//void lwip_init();
+
+#define THREAD_STACKSIZE 1024
+
+#define GPIO_DEVICE_ID XPAR_XGPIOPS_0_DEVICE_ID
+
+#define Gpio_0 0
+#define Gpio_28 28 // A_P3V3_EN
+#define Gpio_37 37 // A_P1V1_EN
+
+#define Gpio_40 40 // BRD_ID0
+#define Gpio_41 41 // BRD_ID3
+#define Gpio_42 42 // BRD_ID2
+#define Gpio_43 43 // BRD_ID1
+#define Gpio_45 45 // sys_led
+
+#define Gpio_10 10 // MOD_ID   0:A 1:B
+
+
+#define TIMER_LOAD_VALUE XPAR_CPU_CORTEXA9_0_CPU_CLK_FREQ_HZ / 8 //   675000000/8
+
+#define CHECK_DELAY 3
+
+#define MAX_CONNECTIONS 8
+
+int new_sd[MAX_CONNECTIONS];
+
+int connection_index;
+
+u8 rece_value[RECV_BUFFER_SIZE];
+
+volatile uint8_t send_flag_0;
+volatile uint8_t send_flag_1;
+volatile uint8_t finsh_flag_0;
+volatile uint8_t finsh_flag_1;
+volatile uint8_t print_flag_0;
+volatile uint8_t print_flag_1;
+volatile uint8_t err_sys_flag_0;
+volatile uint8_t err_sys_flag_1;
+volatile uint8_t err_counter_0;
+volatile uint8_t err_counter_1;
+volatile uint8_t err_inj_flag_0;
+volatile uint8_t err_inj_flag_1;
+volatile uint8_t rd_flag_0;
+volatile uint8_t rd_flag_1;
+volatile uint8_t auto_flag;
+volatile uint8_t mod;
+volatile uint8_t timeoutflag;
+volatile uint8_t send_lock_counter;
+volatile int flag;
+
+volatile bool executed_auto;
+volatile uint8_t Auto_flag;
+
+u16_t echo_port = 7;
+
+XUartPs UartPs; // Uart
+XScuGic Intc;	// GIC
+XGpioPs Gpio;	// GPIO
+XIicPs IicPs_0; // IIC
+XUartPs_Config *uart_Config;
+XIicPs_Config *IicPsCfgPtr_0;
+XGpioPs_Config *ConfigPtr;
+XScuTimer Timer; // timer
+SemaphoreHandle_t xSemaphore;
+EventGroupHandle_t xEventGroup;
+SemaphoreHandle_t xSemaphore_0;
+SemaphoreHandle_t xSemaphore_1;
+
+err_t err;
+
+//static struct netif server_netif;
+//struct netif *echo_netif;
+
+QueueHandle_t xQueue = NULL;
+
+
+int Status;
+
+const TickType_t x5msecond = pdMS_TO_TICKS(CHECK_DELAY);
+
+u8 RecvBuffer[RECV_BUFFER_SIZE];
+
+u32 err_cnt_0[TEST_ROUND];
+u32 err_cnt_1[TEST_ROUND];
+u32 err_sys_0[TEST_ROUND]; // 20
+u32 err_sys_1[TEST_ROUND];
+u32 err_inj_0[TEST_ROUND];
+u32 err_inj_1[TEST_ROUND]; // 24
+u32 err_inj_addr_0[TEST_ROUND];
+u32 err_inj_addr_1[TEST_ROUND];
+
+u32 err_addr_0[TEST_ROUND][fifo_depth];
+u32 err_data_a_0[TEST_ROUND][fifo_depth];
+u32 err_data_b_0[TEST_ROUND][fifo_depth];
+u32 err_data_c_0[TEST_ROUND][fifo_depth];
+u64 Actual_data_0[TEST_ROUND][fifo_depth];
+u64 Theor_data_0[TEST_ROUND][fifo_depth];
+
+u32 err_addr_1[TEST_ROUND][fifo_depth];
+u32 err_data_a_1[TEST_ROUND][fifo_depth];
+u32 err_data_b_1[TEST_ROUND][fifo_depth];
+u32 err_data_c_1[TEST_ROUND][fifo_depth];
+u64 Actual_data_1[TEST_ROUND][fifo_depth];
+u64 Theor_data_1[TEST_ROUND][fifo_depth];
+
+bool mode_cnt_0[Mode_1];
+bool mode_cnt_1[Mode_1];
+
+u32 ReceivedCount;
+u32 converted_data;
+u32 err_data;
+u32 config_select;
+u32 Mode;
+u32 round_cnt;
+
+int count_0;
+int count_1;
+volatile uint32_t Mar_count_0[5];
+volatile uint32_t Mar_count_1[5];
+
+u32 test_round;
+CombinedStrings combinations[Mode_1];
+
+RAW_info RAW_0;
+RAW_info RAW_1;
+inj_info inj_0;
+inj_info inj_1;
+Marchc_info Marchc_0;
+Marchc_info Marchc_1;
+lane_status lane_0;
+lane_status lane_1;
+
+Marchc_err_info err_info_0[TEST_ROUND];
+Marchc_err_info err_info_1[TEST_ROUND];
+Marchc_err_info err_info_2[TEST_ROUND];
+Marchc_err_info err_info_3[TEST_ROUND];
+Marchc_err_info err_info_4[TEST_ROUND];
+
+SIXState state[Mode_1];
+
+char *voltage_info = NULL;
+
+u32 auto_round;
+u32 config_data;
+
+
+// inj_flag = ((converted_data & 0x00000019) == 0x09);
+//  inj_1_flag = ((converted_data & 0x00000079) == 0x29);
+//  inj_2_flag = ((converted_data & 0x00000079) == 0x49);
+//  inj_3_flag = ((converted_data & 0x00000079) == 0x69);
+//  rd_only_flag = ((converted_data & 0x00000006) == 0x0);
+//  wr_only_flag = ((converted_data & 0x0000007f) == 0x07);
+//  rd_addr_flag = (((converted_data & 0x0000037f) == 0x01) || ((converted_data & 0x0000037f) == 0x03));
+
+//void print_ip(char *msg, ip_addr_t *ip)
+//{
+//	xil_printf(msg);
+//	xil_printf("%d.%d.%d.%d\n\r", ip4_addr1(ip), ip4_addr2(ip),
+//			   ip4_addr3(ip), ip4_addr4(ip));
+//}
+//
+//void print_ip_settings(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw)
+//{
+//	print_ip("Board IP: ", ip);
+//	print_ip("Netmask : ", mask);
+//	print_ip("Gateway : ", gw);
+//}
+
+void XGpioPs_init()
+{
+
+	ConfigPtr = XGpioPs_LookupConfig(GPIO_DEVICE_ID);
+	XGpioPs_CfgInitialize(&Gpio, ConfigPtr, ConfigPtr->BaseAddr);
+}
+
+void Print_MOD_id()
+{
+	XGpioPs_SetDirectionPin(&Gpio, Gpio_10, 0x0);	 // input
+	XGpioPs_SetOutputEnablePin(&Gpio, Gpio_10, 0x0); // input
+
+	u32 MOD_ID;
+	MOD_ID = XGpioPs_ReadPin(&Gpio, Gpio_10);
+	if (MOD_ID == 0x0)
+	{
+		xil_printf("ZYNQ_MOD_A\n\r");
+		mod = 1;
+	}
+	else
+	{
+		xil_printf("ZYNQ_MOD_B\n\r");
+		mod = 0;
+	}
+}
+
+void Print_BRD_id()
+{
+
+	XGpioPs_SetDirectionPin(&Gpio, Gpio_40, 0x0);	 // input
+	XGpioPs_SetOutputEnablePin(&Gpio, Gpio_40, 0x0); // input
+	XGpioPs_SetDirectionPin(&Gpio, Gpio_43, 0x0);	 // input
+	XGpioPs_SetOutputEnablePin(&Gpio, Gpio_43, 0x0); // input
+	XGpioPs_SetDirectionPin(&Gpio, Gpio_42, 0x0);	 // input
+	XGpioPs_SetOutputEnablePin(&Gpio, Gpio_42, 0x0); // input
+	XGpioPs_SetDirectionPin(&Gpio, Gpio_41, 0x0);	 // input
+	XGpioPs_SetOutputEnablePin(&Gpio, Gpio_41, 0x0); // input
+
+	u32 BRD_ID[4];
+	BRD_ID[0] = XGpioPs_ReadPin(&Gpio, Gpio_40);
+	BRD_ID[1] = XGpioPs_ReadPin(&Gpio, Gpio_43);
+	BRD_ID[2] = XGpioPs_ReadPin(&Gpio, Gpio_42);
+	BRD_ID[3] = XGpioPs_ReadPin(&Gpio, Gpio_41);
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (BRD_ID[i] == 0x1)
+		{
+			xil_printf("BRD %d status is enabled.\n\r", i + 1);
+		}
+		else
+		{
+
+			xil_printf("BRD %d status is disabled.\n\r", i + 1);
+		}
+	}
+}
+
+void lit_led()
+{
+	XGpioPs_SetDirectionPin(&Gpio, Gpio_0, 0x1);	// output
+	XGpioPs_SetOutputEnablePin(&Gpio, Gpio_0, 0x1); // output
+	XGpioPs_WritePin(&Gpio, Gpio_0, 0x0);			// light up the led
+}
+
+void init_flag()
+{
+
+	send_flag_0 = 0;
+
+	send_flag_1 = 0;
+
+	finsh_flag_0 = 0;
+
+	finsh_flag_1 = 0;
+
+	print_flag_0 = 0;
+
+	print_flag_1 = 0;
+
+	count_0 = 0;
+
+	count_1 = 0;
+
+	err_sys_flag_0 = 0;
+
+	err_sys_flag_1 = 0;
+
+	err_counter_0 = 0;
+
+	err_counter_1 = 0;
+
+	err_inj_flag_0 = 0;
+
+	err_inj_flag_1 = 0;
+
+	rd_flag_0 = 0;
+
+	rd_flag_1 = 0;
+
+	send_lock_counter = 0;
+
+	timeoutflag = 0;
+
+	flag = 0;
+
+	auto_round = 0;
+
+	config_select = 0;
+
+	Mode = 292;
+
+	round_cnt = 3;
+
+	executed_auto = false;
+
+	memset(&RAW_0, 0, sizeof(RAW_info));
+
+	memset(&RAW_1, 0, sizeof(RAW_info));
+
+	memset(&inj_0, 0, sizeof(inj_info));
+
+	memset(&inj_1, 0, sizeof(inj_info));
+
+	memset(&Marchc_0, 0, sizeof(Marchc_0));
+
+	memset(&Marchc_1, 0, sizeof(Marchc_1));
+
+	memset(err_info_0, 0, sizeof(Marchc_err_info) * TEST_ROUND);
+
+	memset(err_info_1, 0, sizeof(Marchc_err_info) * TEST_ROUND);
+
+	memset(err_info_2, 0, sizeof(Marchc_err_info) * TEST_ROUND);
+
+	memset(err_info_3, 0, sizeof(Marchc_err_info) * TEST_ROUND);
+
+	memset(err_info_4, 0, sizeof(Marchc_err_info) * TEST_ROUND); // 5 channels
+
+	memset(&lane_0, 0, sizeof(lane_status));
+
+	memset(&lane_1, 0, sizeof(lane_status)); // 2 lanes
+
+	memset(combinations, 0, sizeof(CombinedStrings) * Mode_1);
+}
+
+void init_intr_sys()
+{
+	XGpioPs_init();
+
+	Timer_init(&Timer, TIMER_LOAD_VALUE, TIMER_DEVICE_ID);
+
+	Init_Intr_System(&Intc);
+
+	Setup_Intr_Exception(&Intc);
+
+	Timer_Setup_Intr_System(&Intc, &Timer, TIMER_IRPT_INTR);
+
+	uart_init();
+
+	initIicPs(&IicPs_0, IicPsCfgPtr_0, IIC_DEVICE_ID_1);
+
+	init_flag();
+
+	xQueue = xQueueCreate(1, sizeof(uint8_t));
+
+	configASSERT(xQueue);
+
+	xSemaphore = xSemaphoreCreateBinary();
+
+	xEventGroup = xEventGroupCreate();
+
+	xSemaphore_0 = xSemaphoreCreateBinary();
+
+	xSemaphore_1 = xSemaphoreCreateBinary();
+
+	xSemaphoreGive(xSemaphore);
+
+	xSemaphoreGive(xSemaphore_0);
+
+	xSemaphoreGive(xSemaphore_1);
+
+	Timer_start(&Timer);
+
+	Print_MOD_id();
+
+	Print_BRD_id();
+
+	IIC_config();
+
+	lit_led();
+}
+
+// void network_thread(void *p)
+// {
+// 	struct netif *netif;
+// 	unsigned char mac_ethernet_address[] = {0x00, 0x0a, 0x35, 0x00, 0x01, 0x02};
+
+// 	ip_addr_t ipaddr, netmask, gw;
+// 	netif = &server_netif;
+
+// 	if (!xemac_add(netif, &ipaddr, &netmask, &gw, mac_ethernet_address, PLATFORM_EMAC_BASEADDR))
+// 	{
+// 		xil_printf("Error adding N/W interface\r\n");
+// 		return;
+// 	}
+// 	netif_set_default(netif);
+
+// 	netif_set_up(netif);
+
+// 	sys_thread_new("xemacif_input_thread", (void (*)(void *))xemacif_input_thread, netif,
+// 				   THREAD_STACKSIZE,
+// 				   DEFAULT_THREAD_PRIO);
+
+// 	vTaskDelete(NULL);
+// }
+
+// void process_echo_request(void *p)
+// {
+// 	int sd = *(int *)p;
+// 	// int n, nwrote;
+// 	int n;
+
+// 	while (1)
+// 	{
+
+// 		/* read a max of RECV_BUF_SIZE bytes from socket */
+// 		if ((n = read(sd, rece_value, 43)) < 0)
+// 		{
+
+// 			xil_printf("%s: error reading from socket %d, closing socket\r\n", __FUNCTION__, sd);
+
+// 			break;
+// 		}
+
+// 		// if (!strncmp(rece_value, "quit", 4)) {
+
+// 		// break;
+// 		//}
+
+// 		if (n <= 0)
+// 		{
+
+// 			break;
+// 		}
+
+// 		else
+// 		{
+
+// 			xQueueSend(xQueue, &rece_value[0], 0UL);
+// 		}
+
+// 		/* handle request */
+// 		// if ((nwrote = write(sd, rece_value, n)) < 0) {
+
+// 		// 	xil_printf("%s: ERROR responding to client echo request. received = %d, written = %d\r\n",
+// 		// 			__FUNCTION__, n, nwrote);
+// 		// 	xil_printf("Closing socket %d\r\n", sd);
+
+// 		// 	break;
+// 		// }
+// 	}
+// 	/* close connection */
+// 	close(sd);
+// 	vTaskDelete(NULL);
+// }
+
+// void echo_application_thread()
+// {
+// 	int sock;
+// 	int size;
+// 	struct sockaddr_in address, remote;
+
+// 	memset(&address, 0, sizeof(address));
+
+// 	if ((sock = lwip_socket(AF_INET, SOCK_STREAM, 0)) < 0)
+// 	{
+// 		return;
+// 	}
+// 	address.sin_family = AF_INET;
+// 	address.sin_port = htons(echo_port);
+// 	address.sin_addr.s_addr = INADDR_ANY;
+
+// 	if (lwip_bind(sock, (struct sockaddr *)&address, sizeof(address)) < 0)
+// 	{
+// 		return;
+// 	}
+// 	lwip_listen(sock, 0);
+
+// 	size = sizeof(remote);
+
+// 	while (1)
+// 	{
+// 		if ((new_sd[connection_index] = lwip_accept(sock, (struct sockaddr *)&remote, (socklen_t *)&size)) > 0)
+// 		{
+// 			sys_thread_new("echos", process_echo_request,
+// 						   (void *)&(new_sd[connection_index]),
+// 						   THREAD_STACKSIZE,
+// 						   DEFAULT_THREAD_PRIO);
+
+// 			if (++connection_index >= MAX_CONNECTIONS)
+// 			{
+// 				break;
+// 			}
+// 		}
+// 	}
+// 	xil_printf("Maximum number of connections reached, No further connections will be accepted\r\n");
+
+// 	vTaskSuspend(NULL);
+// }
+
+void print_passed()
+{
+	xil_printf("\r\n-----------------------------------------------------------------------------------------------\r\n");
+	xil_printf("                                      TEST PASSED !                                          \r\n");
+	xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+}
+
+void print_failed()
+{
+	xil_printf("\r\n-----------------------------------------------------------------------------------------------\r\n");
+	xil_printf("                                      TEST FAILED !                                          \r\n");
+	xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+}
+
+void print_injection_result(int i)
+{
+	switch (converted_data & mask_inj_p)
+	{
+	case 0x29:
+		xil_printf("SRAM %d one bit error injection completed !\r\n", i);
+		break;
+	case 0x49:
+		xil_printf("SRAM %d two bits error injection completed !\r\n", i);
+		break;
+	case 0x69:
+		xil_printf("SRAM %d three bits error injection completed !\r\n", i);
+		break;
+	default:
+		xil_printf("SRAM %d Injection error failed !\r\n", i);
+		break;
+	}
+}
+
+void print_1(int intel)
+{
+	if (err_counter_0)
+	{
+		xil_printf("SRAM %d testing completed !\r\n", intel);
+		xil_printf("SRAM %d Test result:\r\n", intel);
+
+		if (!((converted_data == rd_counter_1_ce0) || (converted_data == rd_counter_2_ce0) || (converted_data == rd_counter_3_ce0) || (converted_data == rd_counter_addr_ce0) || (converted_data == rd_counter_1_ce1) || (converted_data == rd_counter_2_ce1) || (converted_data == rd_counter_3_ce1) || (converted_data == rd_counter_addr_ce1)))
+		{
+			if (!rd_flag_0)
+			{
+				xil_printf("SRAM %d Test Round %d Error Count: %u\r\n", intel, finsh_flag_0 + 1, err_cnt_0[finsh_flag_0]);
+				if (auto_flag)
+				{
+					xil_printf("SRAM %d Test Round %d Read counter 3: %u\r\n", intel, finsh_flag_0 + 1, err_inj_0[finsh_flag_0]);
+				}
+				if (err_sys_flag_0)
+				{
+					xil_printf("SRAM %d Test Round %d Three-Bit Error Injection Alarms Count: %u\r\n", intel, finsh_flag_0 + 1, err_sys_0[finsh_flag_0]);
+					err_sys_flag_0 = 0;
+				}
+				if (count_0 > 0)
+				{
+					xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+					xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+					for (int i = 1; i < count_0 + 1; i = i + 1)
+					{
+						printf("  Test Error %d : \r\n", i);
+						printf("  SRAM %d Error Addr: 0x%08lx\r\n", intel, err_addr_0[finsh_flag_0][i]);
+						printf("  SRAM %d Error Theoretical Data: 0x%016llx\r\n", intel, Theor_data_0[finsh_flag_0][i]);
+						printf("  SRAM %d Error Actual Data: 0x%016llx\r\n", intel, Actual_data_0[finsh_flag_0][i]);
+						printf("-----------------------------------------------------------------------------------------------\r\n");
+					}
+					print_failed();
+				}
+				else
+				{
+					print_passed();
+				}
+
+				err_counter_0 = 0;
+			}
+			else
+			{
+				xil_printf("SRAM %d Test Error Count: %u\r\n", intel, err_cnt_0[finsh_flag_0]);
+				for (int i = 1; i < count_0 + 1; i = i + 1)
+				{
+					printf("  Test Error %d : \r\n", i);
+					printf("  SRAM %d Error Addr: 0x%08lx\r\n", intel,  err_addr_0[finsh_flag_0][i]);
+					printf("  SRAM %d Error Theoretical Data: 0x%016llx\r\n", intel, Theor_data_0[finsh_flag_0][i]);
+					printf("  SRAM %d Error Actual Data: 0x%016llx\r\n", intel, Actual_data_0[finsh_flag_0][i]);
+					printf("-----------------------------------------------------------------------------------------------\r\n");
+				}
+				if (err_sys_flag_0)
+				{
+					xil_printf("SRAM %d Test Round %d Three-Bit Error Injection Alarms Count: %u\r\n", intel, finsh_flag_0 + 1, err_sys_0[finsh_flag_0]);
+					err_sys_flag_0 = 0;
+				}
+				rd_flag_0 = 0;
+			}
+		}
+		else
+		{
+			switch (converted_data)
+			{
+			case rd_counter_1_ce0:
+				xil_printf("SRAM %d Read Counter 1 : %u\r\n", intel, err_inj_0[finsh_flag_0]);
+				break;
+			case rd_counter_1_ce1:
+				xil_printf("SRAM %d Read Counter 1 : %u\r\n", intel, err_inj_0[finsh_flag_0]);
+				break;
+			case rd_counter_2_ce0:
+				xil_printf("SRAM %d Read Counter 2 : %u\r\n", intel, err_inj_0[finsh_flag_0]);
+				break;
+			case rd_counter_2_ce1:
+				xil_printf("SRAM %d Read Counter 2 : %u\r\n", intel, err_inj_0[finsh_flag_0]);
+				break;
+			case rd_counter_3_ce0:
+				xil_printf("SRAM %d Read Counter 3 : %u\r\n", intel, err_inj_0[finsh_flag_0]);
+				break;
+			case rd_counter_3_ce1:
+				xil_printf("SRAM %d Read Counter 3 : %u\r\n", intel, err_inj_0[finsh_flag_0]);
+				break;
+			case rd_counter_addr_ce0:
+				xil_printf("SRAM %d Read Counter 3 address : 0x%08x\r\n", intel, err_inj_0[finsh_flag_0]);
+				break;
+			case rd_counter_addr_ce1:
+				xil_printf("SRAM %d Read Counter 3 address : 0x%08x\r\n", intel, err_inj_0[finsh_flag_0]);
+				break;
+			default:
+				break;
+			}
+			err_counter_0 = 0;
+		}
+	}
+	else
+	{
+		if (err_inj_flag_0)
+		{
+			print_injection_result(intel);
+			err_inj_flag_0 = 0;
+		}
+		else
+		{
+			xil_printf("SRAM %d Test write completed !\r\n", intel);
+		}
+	}
+
+	xil_printf("\r\n");
+}
+void print_2(int intel)
+{
+	if (err_counter_1)
+	{
+		xil_printf("SRAM %d testing completed !\r\n", intel);
+		xil_printf("SRAM %d Test result:\r\n", intel);
+
+		if (!((converted_data == rd_counter_1_ce0) || (converted_data == rd_counter_2_ce0) || (converted_data == rd_counter_3_ce0) || (converted_data == rd_counter_addr_ce0) || (converted_data == rd_counter_1_ce1) || (converted_data == rd_counter_2_ce1) || (converted_data == rd_counter_3_ce1) || (converted_data == rd_counter_addr_ce1)))
+		{
+			if (!rd_flag_1)
+			{
+				xil_printf("SRAM %d Test Round %d Error Count: %u\r\n", intel, finsh_flag_1 + 1, err_cnt_1[finsh_flag_1]);
+				if (auto_flag)
+				{
+					xil_printf("SRAM %d Test Round %d Read Counter 3: %u\r\n", intel, finsh_flag_1 + 1, err_inj_1[finsh_flag_1]);
+				}
+				if (err_sys_flag_1)
+				{
+					xil_printf("SRAM %d Test Round %d Three-Bit Error Injection Alarms Count: %u\r\n", intel, finsh_flag_1 + 1, err_sys_1[finsh_flag_1]);
+					err_sys_flag_1 = 0;
+				}
+				if (count_1 > 0)
+				{
+					xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+					xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+					for (int i = 1; i < count_1 + 1; i = i + 1)
+					{
+						printf("  Test Error %d : \r\n", i);
+						printf("  SRAM %d Test Error Addr: 0x%08lx\r\n", intel, err_addr_1[finsh_flag_1][i]);
+						printf("  SRAM %d Test Error Theoretical Data: 0x%016llx\r\n", intel, Theor_data_1[finsh_flag_1][i]);
+						printf("  SRAM %d Test Error Actual Data: 0x%016llx\r\n", intel, Actual_data_1[finsh_flag_1][i]);
+						printf("-----------------------------------------------------------------------------------------------\r\n");
+					}
+					print_failed();
+				}
+				else
+				{
+					print_passed();
+				}
+
+				err_counter_1 = 0;
+			}
+			else
+			{
+				xil_printf("SRAM %d Test Error Count: %u\r\n", intel, err_cnt_1[finsh_flag_1]);
+				for (int i = 1; i < count_1 + 1; i = i + 1)
+				{
+					printf("  Test Error %d : \r\n", i);
+					printf("  SRAM %d Test Error Addr: 0x%08lx\r\n", intel, err_addr_1[finsh_flag_1][i]);
+					printf("  SRAM %d Test Error Theoretical Data: 0x%016llx\r\n", intel, Theor_data_1[finsh_flag_1][i]);
+					printf("  SRAM %d Test Error Actual Data: 0x%016llx\r\n", intel, Actual_data_1[finsh_flag_1][i]);
+					printf("-----------------------------------------------------------------------------------------------\r\n");
+				}
+				if (err_sys_flag_1)
+				{
+					xil_printf("SRAM %d Test Round %d Three-Bit Error Injection Alarms Count: %u\r\n", intel, finsh_flag_1 + 1, err_sys_1[finsh_flag_1]);
+					err_sys_flag_1 = 0;
+				}
+				rd_flag_1 = 0;
+			}
+		}
+		else
+		{
+			switch (converted_data)
+			{
+			case rd_counter_1_ce0:
+				xil_printf("SRAM %d Read Counter 1 : %u\r\n", intel, err_inj_1[finsh_flag_0]);
+				break;
+			case rd_counter_1_ce1:
+				xil_printf("SRAM %d Read Counter 1 : %u\r\n", intel, err_inj_1[finsh_flag_0]);
+				break;
+			case rd_counter_2_ce0:
+				xil_printf("SRAM %d Read Counter 2 : %u\r\n", intel, err_inj_1[finsh_flag_0]);
+				break;
+			case rd_counter_2_ce1:
+				xil_printf("SRAM %d Read Counter 2 : %u\r\n", intel, err_inj_1[finsh_flag_0]);
+				break;
+			case rd_counter_3_ce0:
+				xil_printf("SRAM %d Read Counter 3 : %u\r\n", intel, err_inj_1[finsh_flag_0]);
+				break;
+			case rd_counter_3_ce1:
+				xil_printf("SRAM %d Read Counter 3 : %u\r\n", intel, err_inj_1[finsh_flag_0]);
+				break;
+			case rd_counter_addr_ce0:
+				xil_printf("SRAM %d Read Counter 3 address : 0x%08x\r\n", intel, err_inj_1[finsh_flag_0]);
+				break;
+			case rd_counter_addr_ce1:
+				xil_printf("SRAM %d Read Counter 3 address : 0x%08x\r\n", intel, err_inj_1[finsh_flag_0]);
+				break;
+			default:
+				break;
+			}
+			err_counter_1 = 0;
+		}
+	}
+	else
+	{
+
+		if (err_inj_flag_1)
+		{
+			print_injection_result(intel);
+			err_inj_flag_1 = 0;
+		}
+		else
+		{
+			xil_printf("SRAM %d Test write completed !\r\n", intel);
+		}
+	}
+
+	if (!executed_auto)
+	{
+		xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+	}
+}
+void print_auto_Injection_1(int intel)
+{
+
+	print_injection_result(intel);
+	xil_printf("SRAM %d Test Error Count: %u\r\n", intel, err_cnt_0[finsh_flag_0]);
+	switch (converted_data & mask_inj_p)
+	{
+	case 0x29:
+		xil_printf("SRAM %d Read Counter 1 : %u\r\n", intel, err_inj_0[finsh_flag_0]);
+		if (err_cnt_0[finsh_flag_0] != (u32)0x0)
+		{
+			xil_printf("Error : SRAM %d has not completed Single-bit error correction.\r\n", intel);
+		}
+		u8 count_inj_1 = (err_cnt_0[finsh_flag_0] >= (fifo_depth - 1)) ? (fifo_depth - 1) : err_cnt_0[finsh_flag_0];
+		if (count_inj_1 > 0)
+		{
+			for (int j = 1; j < count_inj_1 + 1; j = j + 1)
+			{
+				printf("  Test Error %d : \r\n", j);
+				printf("  Test Error Address : 0x%08lx\r\n", RAW_0.err_addr[0][j]);
+				printf("  Test Error Theoretical Data: 0x%016llx\r\n", RAW_0.err_theor[0][j]);
+				printf("  Test Error Actual Data: 0x%016llx\r\n", RAW_0.err_actual[0][j]);
+				xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+			}
+		}
+		if (err_inj_0[finsh_flag_0] != err_data)
+		{
+			xil_printf("Error : SRAM %d Single-bit error counter counting error.\r\n", intel);
+			xil_printf("Error : The number of error counts does not match the number of injected errors.\r\n");
+		}
+		if (((err_cnt_0[finsh_flag_0] == (u32)0x0) && (err_inj_0[finsh_flag_0] == err_data)))
+		{
+			print_passed();
+		}
+		else
+		{
+			print_failed();
+		}
+		break;
+	case 0x49:
+		xil_printf("SRAM %d Read Counter 2 : %u\r\n", intel, err_inj_0[finsh_flag_0]);
+		if (err_cnt_0[finsh_flag_0] != (u32)0x0)
+		{
+			xil_printf("Error : SRAM %d has not completed Double-bit error correction.\r\n", intel);
+		}
+		u8 count_inj_2 = (err_cnt_0[finsh_flag_0] >= (fifo_depth - 1)) ? (fifo_depth - 1) : err_cnt_0[finsh_flag_0];
+		if (count_inj_2 > 0)
+		{
+			for (int j = 1; j < count_inj_2 + 1; j = j + 1)
+			{
+				printf("  Test Error %d : \r\n", j);
+				printf("  Test Error Address : 0x%08lx\r\n", RAW_0.err_addr[0][j]);
+				printf("  Test Error Theoretical Data: 0x%016llx\r\n", RAW_0.err_theor[0][j]);
+				printf("  Test Error Actual Data: 0x%016llx\r\n", RAW_0.err_actual[0][j]);
+				xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+			}
+		}
+
+		if (err_inj_0[finsh_flag_0] != err_data)
+		{
+			xil_printf("Error : SRAM %d Double-bit error counter counting error.\r\n", intel);
+			xil_printf("Error : The number of error counts does not match the number of injected errors.\r\n");
+		}
+		if (((err_cnt_0[finsh_flag_0] == (u32)0x0) && (err_inj_0[finsh_flag_0] == err_data)))
+		{
+			print_passed();
+		}
+		else
+		{
+			print_failed();
+		}
+		break;
+	case 0x69:
+		xil_printf("SRAM %d Read Counter 3 : %u\r\n", intel, err_inj_0[finsh_flag_0]);
+		xil_printf("SRAM %d Read Counter 3 address : 0x%08x\r\n", intel, err_inj_addr_0[finsh_flag_0]);
+		if (err_inj_0[finsh_flag_0] != err_data)
+		{
+			xil_printf("Error : SRAM %d Triple-bit error counter counting error.\r\n", intel);
+			xil_printf("Error : The number of error counts does not match the number of injected errors.\r\n");
+		}
+		if ((err_inj_addr_0[finsh_flag_0] != (u32)(err_data - (u32)0x01)) && (err_inj_addr_0[finsh_flag_0] != (u32)(err_data + (u32)0x0007ffff)))
+		{
+			switch (converted_data & (u32)mask_sel)
+			{
+			case 0x0000:
+				if (err_inj_addr_0[finsh_flag_0] != (u32)(err_data - (u32)0x01))
+				{
+					xil_printf("Error : SRAM Triple-bit error counter address abnormal.\r\n");
+					xil_printf("Error : According to the number of injected errors, the counter address should be 0x%08x\r\n", (u32)(err_data - (u32)0x01));
+				}
+				break;
+			case 0x80:
+				if (err_inj_addr_0[finsh_flag_0] != (u32)(err_data + (u32)0x0007ffff))
+				{
+					xil_printf("Error : SRAM Triple-bit error counter address abnormal.\r\n");
+					xil_printf("Error : According to the number of injected errors, the counter address should be 0x%08x\r\n", (u32)(err_data + (u32)0x0007ffff));
+				}
+				break;
+			}
+		}
+		if (err_inj_0[finsh_flag_0] == err_data)
+		{
+			switch (converted_data & (u32)mask_sel)
+			{
+			case 0x0000:
+			{
+				if (err_inj_addr_0[finsh_flag_0] == (u32)(err_data - (u32)0x01))
+				{
+					print_passed();
+				}
+				else
+				{
+					print_failed();
+				}
+				break;
+			}
+			case 0x80:
+			{
+				if (err_inj_addr_0[finsh_flag_0] == (u32)(err_data + (u32)0x0007ffff))
+				{
+					print_passed();
+				}
+				else
+				{
+					print_failed();
+				}
+				break;
+		    }
+		  }
+		}
+		else
+		{
+			print_failed();
+		}
+		break;
+	default:
+		break;
+	}
+	xil_printf("\r\n");
+}
+
+void print_auto_Injection_2(int intel)
+{
+
+	print_injection_result(intel);
+	xil_printf("SRAM %d Test Error Count: %u\r\n", intel, err_cnt_1[finsh_flag_1]);
+	switch (converted_data & mask_inj_p)
+	{
+
+	case 0x29:
+		xil_printf("SRAM %d Read Counter 1 : %u\r\n", intel, err_inj_1[finsh_flag_1]);
+		if (err_cnt_1[finsh_flag_1] != (u32)0x0)
+		{
+			xil_printf("Error : SRAM %d has not completed Single-bit error correction.\r\n", intel);
+		}
+
+		u8 count_inj_1 = (err_cnt_1[finsh_flag_1] >= (fifo_depth - 1)) ? (fifo_depth - 1) : err_cnt_1[finsh_flag_1];
+		if (count_inj_1 > 0)
+		{
+			for (int j = 1; j < count_inj_1 + 1; j = j + 1)
+			{
+				printf("  Test Error %d : \r\n", j);
+				printf("  Test Error Address : 0x%08lx\r\n", RAW_1.err_addr[0][j]);
+				printf("  Test Error Theoretical Data: 0x%016llx\r\n", RAW_1.err_theor[0][j]);
+				printf("  Test Error Actual Data: 0x%016llx\r\n", RAW_1.err_actual[0][j]);
+				xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+			}
+		}
+		if (err_inj_1[finsh_flag_1] != err_data)
+		{
+			xil_printf("Error : SRAM %d Single-bit error counter counting error.\r\n", intel);
+			xil_printf("Error : The number of error counts does not match the number of injected errors.\r\n");
+		}
+		if (((err_cnt_1[finsh_flag_1] == (u32)0x0) && (err_inj_1[finsh_flag_1] == err_data)))
+		{
+			print_passed();
+		}
+		else
+		{
+			print_failed();
+		}
+		break;
+	case 0x49:
+		xil_printf("SRAM %d Read Counter 2 : %u\r\n", intel, err_inj_1[finsh_flag_1]);
+		if (err_cnt_1[finsh_flag_1] != (u32)0x0)
+		{
+			xil_printf("Error : SRAM %d has not completed Double-bit error correction.\r\n", intel);
+		}
+		u8 count_inj_2 = (err_cnt_1[finsh_flag_1] >= (fifo_depth - 1)) ? (fifo_depth - 1) : err_cnt_1[finsh_flag_1];
+		if (count_inj_2 > 0)
+		{
+			for (int j = 1; j < count_inj_2 + 1; j = j + 1)
+			{
+				printf("  Test Error %d : \r\n", j);
+				printf("  Test Error Address : 0x%08lx\r\n", RAW_1.err_addr[0][j]);
+				printf("  Test Error Theoretical Data: 0x%016llx\r\n", RAW_1.err_theor[0][j]);
+				printf("  Test Error Actual Data: 0x%016llx\r\n", RAW_1.err_actual[0][j]);
+				xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+			}
+		}
+		if (err_inj_1[finsh_flag_1] != err_data)
+		{
+			xil_printf("Error : SRAM %d Double-bit error counter counting error.\r\n", intel);
+			xil_printf("Error : The number of error counts does not match the number of injected errors.\r\n");
+		}
+		if (((err_cnt_1[finsh_flag_1] == (u32)0x0) && (err_inj_1[finsh_flag_1] == err_data)))
+		{
+			print_passed();
+		}
+		else
+		{
+			print_failed();
+		}
+		break;
+	case 0x69:
+		xil_printf("SRAM %d Read Counter 3 : %u\r\n", intel, err_inj_1[finsh_flag_1]);
+		xil_printf("SRAM %d Read Counter 3 address : 0x%08x\r\n", intel, err_inj_addr_1[finsh_flag_1]);
+		if (err_inj_1[finsh_flag_1] != err_data)
+		{
+			xil_printf("Error : SRAM %d Triple-bit error counter counting error.\r\n", intel);
+			xil_printf("Error : The number of error counts does not match the number of injected errors.\r\n");
+		}
+		if ((err_inj_addr_1[finsh_flag_1] != (u32)(err_data - (u32)0x01)) && (err_inj_addr_1[finsh_flag_1] != (u32)(err_data + (u32)0x0007ffff)))
+		{
+			switch (converted_data & (u32)mask_sel)
+			{
+			case 0x00:
+				if (err_inj_addr_1[finsh_flag_1] != (u32)(err_data - (u32)0x01))
+				{
+					xil_printf("Error : SRAM Triple-bit error counter address abnormal.\r\n");
+					xil_printf("Error : According to the number of injected errors, the counter address should be 0x%08x\r\n", (u32)(err_data - (u32)0x01));
+				}
+				break;
+			case 0x80:
+				if (err_inj_addr_1[finsh_flag_1] != (u32)(err_data + (u32)0x0007ffff))
+				{
+					xil_printf("Error : SRAM Triple-bit error counter address abnormal.\r\n");
+					xil_printf("Error : According to the number of injected errors, the counter address should be 0x%08x\r\n", (u32)(err_data + (u32)0x0007ffff));
+				}
+				break;
+			}
+		}
+		if (err_inj_1[finsh_flag_1] == err_data)
+		{
+			switch (converted_data & (u32)mask_sel)
+			{
+			case 0x00:
+			{
+				if (err_inj_addr_1[finsh_flag_1] == (u32)(err_data - (u32)0x01))
+				{
+					print_passed();
+				}
+				else
+				{
+					print_failed();
+				}
+				break;
+			}
+			case 0x80:
+			{
+				if (err_inj_addr_1[finsh_flag_1] == (u32)(err_data + (u32)0x0007ffff))
+				{
+					print_passed();
+				}
+				else
+				{
+					print_failed();
+				}
+				break;
+			}
+			}
+		}
+		else
+		{
+			print_failed();
+		}
+		break;
+	default:
+		break;
+	}
+
+	xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+}
+
+void print_tail()
+{
+	xil_printf("\r\n-----------------------------------------------------------------------------------------------\r\n");
+	xil_printf("                              Single Mode Test Completed !                                         \r\n");
+	xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+}
+
+void print_all()
+{
+	xil_printf("\r\n-----------------------------------------------------------------------------------------------\r\n");
+	xil_printf("                              All Modes Test Completed !                                         \r\n");
+	xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+}
+
+void check_mode()
+{
+
+	switch (state[auto_round * Mode + flag])
+	{
+
+	case STATE_RAW:
+		if (err_cnt_0[finsh_flag_0] != 0x0)
+		{
+			mode_cnt_0[auto_round * Mode + flag] = false;
+		}
+		else
+		{
+			mode_cnt_0[auto_round * Mode + flag] = true;
+		}
+
+		if (err_cnt_1[finsh_flag_1] != 0x0)
+		{
+			mode_cnt_1[auto_round * Mode + flag] = false;
+		}
+		else
+		{
+			mode_cnt_1[auto_round * Mode + flag] = true;
+		}
+
+		break;
+	case STATE_INJ_0:
+		if (((err_inj_0[finsh_flag_0] != err_data) || (err_cnt_0[finsh_flag_0] != 0x0)))
+		{
+			mode_cnt_0[auto_round * Mode + flag] = false;
+		}
+		else
+		{
+			mode_cnt_0[auto_round * Mode + flag] = true;
+		}
+		if (((err_inj_1[finsh_flag_1] != err_data) || (err_cnt_1[finsh_flag_1] != 0x0)))
+		{
+			mode_cnt_1[auto_round * Mode + flag] = false;
+		}
+		else
+		{
+
+			mode_cnt_1[auto_round * Mode + flag] = true;
+		}
+
+		break;
+	case STATE_INJ_1:
+
+		if (((err_inj_0[finsh_flag_0] != err_data) || (err_cnt_0[finsh_flag_0] != err_data) || (err_inj_addr_0[finsh_flag_0] != (u32)(err_data - (u32)0x01))))
+		{
+
+			mode_cnt_0[auto_round * Mode + flag] = false;
+		}
+		else
+		{
+			mode_cnt_0[auto_round * Mode + flag] = true;
+		}
+
+		if (((err_inj_1[finsh_flag_1] != err_data) || (err_cnt_1[finsh_flag_1] != err_data) || (err_inj_addr_1[finsh_flag_1] != (u32)(err_data - (u32)0x01))))
+		{
+
+			mode_cnt_1[auto_round * Mode + flag] = false;
+		}
+		else
+		{
+
+			mode_cnt_1[auto_round * Mode + flag] = true;
+		}
+
+		break;
+	case STATE_INJ_2:
+
+		if (((err_inj_0[finsh_flag_0] != err_data) || (err_cnt_0[finsh_flag_0] != err_data) || (err_inj_addr_0[finsh_flag_0] != (u32)(err_data + (u32)0x0007ffff))))
+		{
+
+			mode_cnt_0[auto_round * Mode + flag] = false;
+		}
+		else
+		{
+			mode_cnt_0[auto_round * Mode + flag] = true;
+		}
+
+		if (((err_inj_1[finsh_flag_1] != err_data) || (err_cnt_1[finsh_flag_1] != err_data) || (err_inj_addr_1[finsh_flag_1] != (u32)(err_data + (u32)0x0007ffff))))
+		{
+
+			mode_cnt_1[auto_round * Mode + flag] = false;
+		}
+		else
+		{
+
+			mode_cnt_1[auto_round * Mode + flag] = true;
+		}
+
+		break;
+	case STATE_MARCHC_0:
+	case STATE_MARCHC_1:
+
+		bool any_error_0 = false;
+		bool any_error_1 = false;
+
+		for (int ch = 0; ch < 5; ch++)
+		{
+			if (Mar_count_0[ch] > 0)
+			{
+				any_error_0 = true;
+				break;
+			}
+		}
+		if (any_error_0)
+		{
+			mode_cnt_0[auto_round * Mode + flag] = false;
+		}
+		else
+		{
+			mode_cnt_0[auto_round * Mode + flag] = true;
+		}
+
+		for (int ch = 0; ch < 5; ch++)
+		{
+			if (Mar_count_1[ch] > 0)
+			{
+				any_error_1 = true;
+				break;
+			}
+		}
+		if (any_error_1)
+		{
+			mode_cnt_1[auto_round * Mode + flag] = false;
+		}
+		else
+		{
+			mode_cnt_1[auto_round * Mode + flag] = true;
+		}
+
+		break;
+
+	default:
+		mode_cnt_0[auto_round * Mode + flag] = true;
+		mode_cnt_1[auto_round * Mode + flag] = true;
+		break;
+	}
+}
+
+bool has_false(const bool arr[], size_t length)
+{
+	for (size_t i = 0; i < length; i = i + 1)
+	{
+		if (!arr[i])
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+void print_test_report()
+{
+
+	u32 err_mode_cnt_0 = 0;
+	u32 err_mode_cnt_1 = 0;
+	xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+	xil_printf("                               Generating the test report...                                    \r\n");
+	xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+	vTaskDelay(pdMS_TO_TICKS(1000));
+	xil_printf("Traverse three voltage levels under full-mode testing, which are respectively : %s , %s , %s\r\n", combinations[0].type3_string, combinations[Mode].type3_string, combinations[2 * Mode].type3_string);
+
+	if (mod)
+	{
+		xil_printf("Sram 1 Current temperature : ");
+		uart_double(lane_0.TMP[finsh_flag_0]);
+		xil_printf(" ℃\r\n");
+		xil_printf("Sram 2 Current temperature : ");
+		uart_double(lane_1.TMP[finsh_flag_1]);
+		xil_printf(" ℃\r\n");
+	}
+	else
+	{
+		xil_printf("Sram 3 Current temperature : ");
+		uart_double(lane_0.TMP[finsh_flag_0]);
+		xil_printf(" ℃\r\n");
+		xil_printf("Sram 4 Current temperature : ");
+		uart_double(lane_1.TMP[finsh_flag_1]);
+		xil_printf(" ℃\r\n");
+	}
+
+	xil_printf("Configure Error Injection Count is %d.\r\n\r\n", err_data);
+
+	bool result_0 = has_false(mode_cnt_0, Mode_1);
+	bool result_1 = has_false(mode_cnt_1, Mode_1);
+	if (result_0 && result_1)
+	{
+		xil_printf("%dth ~ %dth test results have passed verification and are correct.\r\n", 1, Mode_1);         //all correct
+	}
+	else
+	{
+		for (int i = 0; i < Mode_1; i = i + 1)
+		{
+			if (!mode_cnt_0[i] || !mode_cnt_1[i])
+			{
+				
+				xil_printf("Mode %d test results are incorrect :\r\n", i + 1);
+				xil_printf("Mode Voltage Configure: %s\r\n", combinations[i].type3_string);
+				xil_printf("Test Frequencies : %s\r\n", combinations[i].type0_string);
+				xil_printf("Data format : %s\r\n", combinations[i].type1_string);
+				xil_printf("Test Mode : %s\r\n", combinations[i].type2_string);
+				if (!mode_cnt_0[i])
+				{
+					err_mode_cnt_0++;
+					if (mod)
+					{
+						xil_printf(" Sram 1 test results are incorrect :\r\n");
+					}
+					else
+					{
+						xil_printf(" Sram 3 test results are incorrect :\r\n");
+					}
+					switch (state[i])
+					{
+					case STATE_RAW:
+						xil_printf("  Test Error Count: %u\r\n", RAW_0.err_cnt[i]);
+						u8 count = (RAW_0.err_cnt[i] >= (fifo_depth - 1)) ? (fifo_depth - 1) : RAW_0.err_cnt[i];
+
+						xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+						xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+						if (count > 0)
+						{
+							for (int j = 1; j < count + 1; j = j + 1)
+							{
+								printf("  Test Error %d : \r\n", j);
+								printf("  Test Error Address : 0x%08lx\r\n", RAW_0.err_addr[i][j]);
+								printf("  Test Error Theoretical Data: 0x%016llx\r\n", RAW_0.err_theor[i][j]);
+								printf("  Test Error Actual Data: 0x%016llx\r\n", RAW_0.err_actual[i][j]);
+								xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+							}
+						}
+						break;
+					case STATE_INJ_0:
+						xil_printf("  Test Error Count: %u\r\n", inj_0.err_cnt[i]);
+						xil_printf("  Test Read Counter: %u\r\n", inj_0.err_counter[i]);
+						if (inj_0.err_cnt[i] != (u32)0x0)
+						{
+							xil_printf("Error : SRAM has not completed Single/Double-bit error correction.\r\n");
+						}
+						xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+						u8 count_inj = (inj_0.err_cnt[i] >= (fifo_depth - 1)) ? (fifo_depth - 1) : inj_0.err_cnt[i];
+						if (count_inj > 0)
+						{
+							for (int j = 1; j < count_inj + 1; j = j + 1)
+							{
+								printf("  Test Error %d : \r\n", j);
+								printf("  Test Error Address : 0x%08lx\r\n", RAW_0.err_addr[i][j]);
+								printf("  Test Error Theoretical Data: 0x%016llx\r\n", RAW_0.err_theor[i][j]);
+								printf("  Test Error Actual Data: 0x%016llx\r\n", RAW_0.err_actual[i][j]);
+								xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+							}
+						}
+						if (inj_0.err_counter[i] != err_data)
+						{
+							xil_printf("Error : SRAM Single/Double error counter counting error.\r\n");
+							xil_printf("Error : The number of error counts does not match the number of injected errors.\r\n");
+						}
+
+						break;
+					case STATE_INJ_1:
+					case STATE_INJ_2:
+						xil_printf("  Test Error Count: %u\r\n", inj_0.err_cnt[i]);
+						xil_printf("  Test Read Counter: %u\r\n", inj_0.err_counter[i]);
+						xil_printf("  Test Read Counter Address: 0x%08x\r\n", inj_0.err_counter_addr[i]);
+						if (inj_0.err_counter[i] != err_data)
+						{
+							xil_printf("Error : SRAM Triple-bit error counter counting error.\r\n");
+							xil_printf("Error : The number of error counts does not match the number of injected errors.\r\n");
+						}
+						switch (state[i])
+						{
+						case STATE_INJ_1:
+							if ((inj_0.err_counter_addr[i] != (u32)(err_data - (u32)0x01)))
+							{
+								xil_printf("Error : SRAM Triple-bit error counter address abnormal.\r\n");
+								xil_printf("Error : According to the number of injected errors, the counter address should be 0x%08x\r\n", (u32)(err_data - (u32)0x01));
+							}
+							break;
+						case STATE_INJ_2:
+							if ((inj_0.err_counter_addr[i] != (u32)(err_data + (u32)0x0007ffff)))
+							{
+								xil_printf("Error : SRAM Triple-bit error counter address abnormal.\r\n");
+								xil_printf("Error : According to the number of injected errors, the counter address should be 0x%08x\r\n", (u32)(err_data + (u32)0x0007ffff));
+							}
+							break;
+						default:
+							break;
+						}
+						break;
+					case STATE_MARCHC_0:
+					case STATE_MARCHC_1:
+
+						if (Mar_count_0[0] > 0)
+						{
+							xil_printf("Operation 1: Ascending Write 0, Ascending Read 0 .\r\n");
+						    printf("Up(w0,r0),Test Error Count: %lu\r\n", Marchc_0.Mar_err_cnt_0[finsh_flag_0]);
+							xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+							xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+							for (int j = 1; j < Mar_count_0[0] + 1; j = j + 1)
+							{
+								printf("  Test Error %d : \r\n", j);
+								printf("  Test Error Addr: 0x%08lx\r\n", err_info_0[finsh_flag_0].err_addr_0[j]);
+								printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_0[finsh_flag_0].err_theor_0[j]);
+								printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_0[finsh_flag_0].err_actual_0[j]);
+								xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+							}
+						}
+
+						if (Mar_count_0[1] > 0)
+						{
+							xil_printf("Operation 2: Ascending Write 1, Ascending Read 1 .\r\n");
+							printf("Up(w1,r1),Test Error Count: %lu\r\n", Marchc_0.Mar_err_cnt_1[finsh_flag_0]);
+							xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+							xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+							for (int j = 1; j < Mar_count_0[1] + 1; j = j + 1)
+							{
+								printf("  Test Error %d : \r\n", j);
+								printf("  Test Error Addr: 0x%08lx\r\n", err_info_1[finsh_flag_0].err_addr_0[j]);
+								printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_1[finsh_flag_0].err_theor_0[j]);
+								printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_1[finsh_flag_0].err_actual_0[j]);
+								xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+							}
+						}
+
+						if (Mar_count_0[2] > 0)
+						{
+							xil_printf("Operation 3: Ascending Write 0, Descending Read 0 .\r\n");
+							printf("Up(w0),Down(r0),Test Error Count: %lu\r\n", Marchc_0.Mar_err_cnt_2[finsh_flag_0]);
+							xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+							xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+							for (int j = 1; j < Mar_count_0[2] + 1; j = j + 1)
+							{
+								printf("  Test Error %d : \r\n", j);
+								printf("  Test Error Addr: 0x%08lx\r\n", err_info_2[finsh_flag_0].err_addr_0[j]);
+								printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_2[finsh_flag_0].err_theor_0[j]);
+								printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_2[finsh_flag_0].err_actual_0[j]);
+								xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+							}
+						}
+
+						if (Mar_count_0[3] > 0)
+						{
+							xil_printf("Operation 4: Descending Write 1, Descending Read 1 .\r\n");
+							printf("Down(w1,r1),Test Error Count: %lu\r\n", Marchc_0.Mar_err_cnt_3[finsh_flag_0]);
+							xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+							xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+							for (int j = 1; j < Mar_count_0[3] + 1; j = j + 1)
+							{
+								printf("  Test Error %d : \r\n", j);
+								printf("  Test Error Addr: 0x%08lx\r\n", err_info_3[finsh_flag_0].err_addr_0[j]);
+								printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_3[finsh_flag_0].err_theor_0[j]);
+								printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_3[finsh_flag_0].err_actual_0[j]);
+								xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+							}
+						}
+
+						if (Mar_count_0[4] > 0)
+						{
+							xil_printf("Operation 5: Descending Write 0, Descending Read 0 .\r\n");
+							printf("Down(w0,r0),Test Error Count: %lu\r\n", Marchc_0.Mar_err_cnt_4[finsh_flag_0]);
+							xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+							xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+							for (int j = 1; j < Mar_count_0[4] + 1; j = j + 1)
+							{
+								printf("  Test Error %d : \r\n", j);
+								printf("  Test Error Addr: 0x%08lx\r\n", err_info_4[finsh_flag_0].err_addr_0[j]);
+								printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_4[finsh_flag_0].err_theor_0[j]);
+								printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_4[finsh_flag_0].err_actual_0[j]);
+								xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+							}
+						}
+
+						break;
+
+					default:
+						break;
+					}
+				}
+				if (!mode_cnt_1[i])
+				{
+					err_mode_cnt_1++;
+					if (mod)
+					{
+						xil_printf(" Sram 2 test results are incorrect :\r\n");
+					}
+					else
+					{
+						xil_printf(" Sram 4 test results are incorrect :\r\n");
+					}
+					switch (state[i])
+					{
+					case STATE_RAW:
+						xil_printf("  Test Error Count: %u\r\n", RAW_1.err_cnt[i]);
+						u8 count = (RAW_1.err_cnt[i] >= (fifo_depth - 1)) ? (fifo_depth - 1) : RAW_1.err_cnt[i];
+						xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+						xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+						if (count > 0)
+						{
+							for (int j = 1; j < count + 1; j = j + 1)
+							{
+								printf("  Test Error %d : \r\n", j);
+								printf("  Test Error Address: 0x%08lx\r\n", RAW_1.err_addr[i][j]);
+								printf("  Test Error Theoretical Data: 0x%016llx\r\n", RAW_1.err_theor[i][j]);
+								printf("  Test Error Actual Data: 0x%016llx\r\n", RAW_1.err_actual[i][j]);
+
+								xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+							}
+						}
+						break;
+					case STATE_INJ_0:
+						xil_printf("  Test Error Count: %u\r\n", inj_1.err_cnt[i]);
+						xil_printf("  Test Read Counter: %u\r\n", inj_1.err_counter[i]);
+						if (inj_1.err_cnt[i] != (u32)0x0)
+						{
+							xil_printf("Error : SRAM has not completed Single/Double-bit error correction.\r\n");
+						}
+						xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+						u8 count_inj = (inj_1.err_cnt[i] >= (fifo_depth - 1)) ? (fifo_depth - 1) : inj_1.err_cnt[i];
+						if (count_inj > 0)
+						{
+							for (int j = 1; j < count_inj + 1; j = j + 1)
+							{
+								printf("  Test Error %d : \r\n", j);
+								printf("  Test Error Address: 0x%08lx\r\n", RAW_1.err_addr[i][j]);
+								printf("  Test Error Theoretical Data: 0x%016llx\r\n", RAW_1.err_theor[i][j]);
+								printf("  Test Error Actual Data: 0x%016llx\r\n", RAW_1.err_actual[i][j]);
+
+								xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+							}
+						}
+
+						if (inj_1.err_counter[i] != err_data)
+						{
+							xil_printf("Error : SRAM Single/Double error counter counting error.\r\n");
+							xil_printf("Error : The number of error counts does not match the number of injected errors.\r\n");
+						}
+
+						break;
+					case STATE_INJ_1:
+					case STATE_INJ_2:
+						xil_printf("  Test Error Count: %u\r\n", inj_1.err_cnt[i]);
+						xil_printf("  Test Read Counter: %u\r\n", inj_1.err_counter[i]);
+						xil_printf("  Test Read Counter Address: 0x%08x\r\n", inj_1.err_counter_addr[i]);
+						if (inj_1.err_counter[i] != err_data)
+						{
+							xil_printf("Error : SRAM Triple-bit error counter counting error.\r\n");
+							xil_printf("Error : The number of error counts does not match the number of injected errors.\r\n");
+						}
+
+						switch (state[i])
+						{
+						case STATE_INJ_1:
+							if ((inj_1.err_counter_addr[i] != (u32)(err_data - (u32)0x01)))
+							{
+								xil_printf("Error : SRAM Triple-bit error counter address abnormal.\r\n");
+								xil_printf("Error : According to the number of injected errors, the counter address should be 0x%08x\r\n", (u32)(err_data - (u32)0x01));
+							}
+							break;
+						case STATE_INJ_2:
+							if ((inj_1.err_counter_addr[i] != (u32)(err_data + (u32)0x0007ffff)))
+							{
+								xil_printf("Error : SRAM Triple-bit error counter address abnormal.\r\n");
+								xil_printf("Error : According to the number of injected errors, the counter address should be 0x%08x\r\n", (u32)(err_data + (u32)0x0007ffff));
+							}
+							break;
+						default:
+							break;
+						}
+
+						break;
+					case STATE_MARCHC_0:
+					case STATE_MARCHC_1:
+
+						if (Mar_count_1[0] > 0)
+						{
+							xil_printf("Operation 1: Ascending Write 0, Ascending Read 0 .\r\n");
+							printf("Up(w0,r0),Test Error Count: %lu\r\n", Marchc_1.Mar_err_cnt_0[finsh_flag_1]);
+
+							for (int j = 1; j < Mar_count_1[0] + 1; j = j + 1)
+							{
+								printf("  Test Error %d : \r\n", j);
+								printf("  Test Error Addr: 0x%08lx\r\n", err_info_0[finsh_flag_1].err_addr_1[j]);
+								printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_0[finsh_flag_1].err_theor_1[j]);
+								printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_0[finsh_flag_1].err_actual_1[j]);
+								xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+							}
+						}
+
+						if (Mar_count_1[1] > 0)
+						{
+							xil_printf("Operation 2: Ascending Write 1, Ascending Read 1 .\r\n");
+							printf("Up(w1,r1),Test Error Count: %lu\r\n", Marchc_1.Mar_err_cnt_1[finsh_flag_1]);
+							xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+							xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+							for (int j = 1; j < Mar_count_1[1] + 1; j = j + 1)
+							{
+								printf("  Test Error %d : \r\n", j);
+								printf("  Test Error Addr: 0x%08lx\r\n", err_info_1[finsh_flag_1].err_addr_1[j]);
+								printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_1[finsh_flag_1].err_theor_1[j]);
+								printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_1[finsh_flag_1].err_actual_1[j]);
+								xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+							}
+						}
+
+						if (Mar_count_1[2] > 0)
+						{
+							xil_printf("Operation 3: Ascending Write 0, Descending Read 0 .\r\n");
+							printf("Up(w0),Down(r0),Test Error Count: %lu\r\n", Marchc_1.Mar_err_cnt_2[finsh_flag_1]);
+							xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+							xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+							for (int j = 1; j < Mar_count_1[2] + 1; j = j + 1)
+							{
+								printf("  Test Error %d : \r\n", j);
+								printf("  Test Error Addr: 0x%08lx\r\n", err_info_2[finsh_flag_1].err_addr_1[j]);
+								printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_2[finsh_flag_1].err_theor_1[j]);
+								printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_2[finsh_flag_1].err_actual_1[j]);
+								xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+							}
+						}
+
+						if (Mar_count_1[3] > 0)
+						{
+							xil_printf("Operation 4: Descending Write 1, Descending Read 1 .\r\n");
+							printf("Down(w1,r1),Test Error Count: %lu\r\n", Marchc_1.Mar_err_cnt_3[finsh_flag_1]);
+							xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+							xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+							for (int j = 1; j < Mar_count_1[3] + 1; j = j + 1)
+							{
+								printf("  Test Error %d : \r\n", j);
+								printf("  Test Error Addr: 0x%08lx\r\n", err_info_3[finsh_flag_1].err_addr_1[j]);
+								printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_3[finsh_flag_1].err_theor_1[j]);
+								printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_3[finsh_flag_1].err_actual_1[j]);
+								xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+							}
+						}
+
+						if (Mar_count_1[4] > 0)
+						{
+							xil_printf("Operation 5: Descending Write 0, Descending Read 0 .\r\n");
+							printf("Down(w0,r0),Test Error Count: %lu\r\n", Marchc_1.Mar_err_cnt_4[finsh_flag_1]);
+							xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+							xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+							for (int j = 1; j < Mar_count_1[4] + 1; j = j + 1)
+							{
+								printf("  Test Error %d : \r\n", j);
+								printf("  Test Error Addr: 0x%08lx\r\n", err_info_4[finsh_flag_1].err_addr_1[j]);
+								printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_4[finsh_flag_1].err_theor_1[j]);
+								printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_4[finsh_flag_1].err_actual_1[j]);
+								xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+							}
+						}
+
+						break;
+
+					default:
+						break;
+					}
+				}
+				xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+			}
+		}
+	}
+	if(mod)
+	{
+	xil_printf("SRAM 1 All_Test result : Errors occurred in %d of the %d Test Modes.\r\n", err_mode_cnt_0, Mode_1);
+	if(err_mode_cnt_0 > 0){
+	xil_printf("The statistical result of SRAM 1 error pattern serial numbers is:\r\n");
+	}
+	for (int i = 0; i < Mode_1; i = i + 1)
+{
+	if (!mode_cnt_0[i]){
+		xil_printf("Mode %d \r\n", i + 1);
+	}
+}
+	xil_printf("SRAM 2 All_Test result : Errors occurred in %d of the %d Test Modes.\r\n", err_mode_cnt_1, Mode_1);
+	if(err_mode_cnt_1 > 0){
+	xil_printf("The statistical result of SRAM 2 error pattern serial numbers is:\r\n");
+	}
+	for (int i = 0; i < Mode_1; i = i + 1)
+{
+	if (!mode_cnt_1[i]){
+		xil_printf("Mode %d \r\n", i + 1);
+	}
+}
+	}
+	else 
+	{
+    xil_printf("SRAM 3 All_Test result : Errors occurred in %d of the %d Test Modes.\r\n", err_mode_cnt_0, Mode_1);
+	if(err_mode_cnt_0 > 0){
+	xil_printf("The statistical result of SRAM 3 error pattern serial numbers is:\r\n");
+	}
+	for (int i = 0; i < Mode_1; i = i + 1)
+{
+	if (!mode_cnt_0[i]){
+		xil_printf("Mode %d \r\n", i + 1);
+	}
+}
+	xil_printf("SRAM 4 All_Test result : Errors occurred in %d of the %d Test Modes.\r\n", err_mode_cnt_1, Mode_1);
+	if(err_mode_cnt_1 > 0){
+	xil_printf("The statistical result of SRAM 4 error pattern serial numbers is:\r\n");
+	}
+	for (int i = 0; i < Mode_1; i = i + 1)
+{
+	if (!mode_cnt_1[i]){
+		xil_printf("Mode %d \r\n", i + 1);
+	}
+}
+	}
+	xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+	xil_printf("              The test report has been generated and saved to the specified path.            \r\n");
+	xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+	xil_printf("sram_100\r\n");
+}
+
+void print_marchc_1(int intel)
+{
+
+	xil_printf("SRAM %d testing completed !\r\n", intel);
+	xil_printf("SRAM %d Test result:\r\n", intel);
+	xil_printf("SRAM %d Test Round %d :\r\n", intel, finsh_flag_0 + 1);
+
+	xil_printf("|| Operation 1: Ascending Write 0, Ascending Read 0 ||\r\n");
+	printf("Up(w0,r0),Test Error Count: %lu\r\n", Marchc_0.Mar_err_cnt_0[finsh_flag_0]);
+
+	if (Mar_count_0[0] > 0)
+	{
+		xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+		xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+		for (int j = 1; j < Mar_count_0[0] + 1; j = j + 1)
+		{
+			printf("  Test Error %d : \r\n", j);
+			printf("  Test Error Addr: 0x%08lx\r\n", err_info_0[finsh_flag_0].err_addr_0[j]);
+			printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_0[finsh_flag_0].err_theor_0[j]);
+			printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_0[finsh_flag_0].err_actual_0[j]);
+			xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+		}
+	}
+	xil_printf("|| Operation 2: Ascending Write 1, Ascending Read 1 ||\r\n");
+	printf("Up(w1,r1),Test Error Count: %lu\r\n", Marchc_0.Mar_err_cnt_1[finsh_flag_0]);
+
+	if (Mar_count_0[1] > 0)
+	{
+		xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+		xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+		for (int j = 1; j < Mar_count_0[1] + 1; j = j + 1)
+		{
+			printf("  Test Error %d : \r\n", j);
+			printf("  Test Error Addr: 0x%08lx\r\n", err_info_1[finsh_flag_0].err_addr_0[j]);
+			printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_1[finsh_flag_0].err_theor_0[j]);
+			printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_1[finsh_flag_0].err_actual_0[j]);
+			xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+		}
+	}
+
+	xil_printf("|| Operation 3: Ascending Write 0, Descending Read 0 ||\r\n");
+	printf("Up(w0),Down(r0),Test Error Count: %lu\r\n", Marchc_0.Mar_err_cnt_2[finsh_flag_0]);
+	if (Mar_count_0[2] > 0)
+	{
+		xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+		xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+		for (int j = 1; j < Mar_count_0[2] + 1; j = j + 1)
+		{
+			printf("  Test Error %d : \r\n", j);
+			printf("  Test Error Addr: 0x%08lx\r\n", err_info_2[finsh_flag_0].err_addr_0[j]);
+			printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_2[finsh_flag_0].err_theor_0[j]);
+			printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_2[finsh_flag_0].err_actual_0[j]);
+			xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+		}
+	}
+
+	xil_printf("|| Operation 4: Descending Write 1, Descending Read 1 ||\r\n");
+	printf("Down(w1,r1),Test Error Count: %lu\r\n", Marchc_0.Mar_err_cnt_3[finsh_flag_0]);
+	if (Mar_count_0[3] > 0)
+	{
+		xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+		xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+		for (int j = 1; j < Mar_count_0[3] + 1; j = j + 1)
+		{
+			printf("  Test Error %d : \r\n", j);
+			printf("  Test Error Addr: 0x%08lx\r\n", err_info_3[finsh_flag_0].err_addr_0[j]);
+			printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_3[finsh_flag_0].err_theor_0[j]);
+			printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_3[finsh_flag_0].err_actual_0[j]);
+			xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+		}
+	}
+
+	xil_printf("|| Operation 5: Descending Write 0, Descending Read 0 ||\r\n");
+	printf("Down(w0,r0),Test Error Count: %lu\r\n", Marchc_0.Mar_err_cnt_4[finsh_flag_0]);
+	if (Mar_count_0[4] > 0)
+	{
+		xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+		xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+		for (int j = 1; j < Mar_count_0[4] + 1; j = j + 1)
+		{
+			printf("  Test Error %d : \r\n", j);
+			printf("  Test Error Addr: 0x%08lx\r\n", err_info_4[finsh_flag_0].err_addr_0[j]);
+			printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_4[finsh_flag_0].err_theor_0[j]);
+			printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_4[finsh_flag_0].err_actual_0[j]);
+			xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+		}
+	}
+	if (((Mar_count_0[0] == 0x0) && (Mar_count_0[1] == 0x0) && (Mar_count_0[2] == 0x0) && (Mar_count_0[3] == 0x0) && (Mar_count_0[4] == 0x0)))
+	{
+		print_passed();
+	}
+	else
+	{
+		print_failed();
+	}
+	xil_printf("\r\n");
+}
+
+void print_marchc_2(int intel)
+{
+
+	xil_printf("SRAM %d testing completed !\r\n", intel);
+	xil_printf("SRAM %d Test result:\r\n", intel);
+	xil_printf("SRAM %d Test Round %d :\r\n", intel, finsh_flag_1 + 1);
+
+	xil_printf("|| Operation 1: Ascending Write 0, Ascending Read 0 ||\r\n");
+	printf("Up(w0,r0),Test Error Count: %lu\r\n", Marchc_1.Mar_err_cnt_0[finsh_flag_1]);
+	if (Mar_count_1[0] > 0)
+	{
+		xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+		xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+		for (int j = 1; j < Mar_count_1[0] + 1; j = j + 1)
+		{
+			printf("  Test Error %d : \r\n", j);
+			printf("  Test Error Addr: 0x%08lx\r\n", err_info_0[finsh_flag_1].err_addr_1[j]);
+			printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_0[finsh_flag_1].err_theor_1[j]);
+			printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_0[finsh_flag_1].err_actual_1[j]);
+			xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+		}
+	}
+
+	xil_printf("|| Operation 2: Ascending Write 1, Ascending Read 1 ||\r\n");
+	printf("Up(w1,r1),Test Error Count: %lu\r\n", Marchc_1.Mar_err_cnt_1[finsh_flag_1]);
+	if (Mar_count_1[1] > 0)
+	{
+		xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+		xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+		for (int j = 1; j < Mar_count_1[1] + 1; j = j + 1)
+		{
+			printf("  Test Error %d : \r\n", j);
+			printf("  Test Error Addr: 0x%08lx\r\n", err_info_1[finsh_flag_1].err_addr_1[j]);
+			printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_1[finsh_flag_1].err_theor_1[j]);
+			printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_1[finsh_flag_1].err_actual_1[j]);
+			xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+		}
+	}
+	xil_printf("|| Operation 3: Ascending Write 0, Descending Read 0 ||\r\n");
+	printf("Up(w0),Down(r0),Test Error Count: %lu\r\n", Marchc_1.Mar_err_cnt_2[finsh_flag_1]);
+	if (Mar_count_1[2] > 0)
+	{
+		xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+		xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+		for (int j = 1; j < Mar_count_1[2] + 1; j = j + 1)
+		{
+			printf("  Test Error %d : \r\n", j);
+			printf("  Test Error Addr: 0x%08lx\r\n", err_info_2[finsh_flag_1].err_addr_1[j]);
+			printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_2[finsh_flag_1].err_theor_1[j]);
+			printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_2[finsh_flag_1].err_actual_1[j]);
+			xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+		}
+	}
+
+	xil_printf("|| Operation 4: Descending Write 1, Descending Read 1 ||\r\n");
+	printf("Down(w1,r1),Test Error Count: %lu\r\n", Marchc_1.Mar_err_cnt_3[finsh_flag_1]);
+	if (Mar_count_1[3] > 0)
+	{
+		xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+		xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+		for (int j = 1; j < Mar_count_1[3] + 1; j = j + 1)
+		{
+			printf("  Test Error %d : \r\n", j);
+			printf("  Test Error Addr: 0x%08lx\r\n", err_info_3[finsh_flag_1].err_addr_1[j]);
+			printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_3[finsh_flag_1].err_theor_1[j]);
+			printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_3[finsh_flag_1].err_actual_1[j]);
+			xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+		}
+	}
+
+	xil_printf("|| Operation 5: Descending Write 0, Descending Read 0 ||\r\n");
+	printf("Down(w0,r0),Test Error Count: %lu\r\n", Marchc_1.Mar_err_cnt_4[finsh_flag_1]);
+	if (Mar_count_1[4] > 0)
+	{
+		xil_printf("  During the full-address write-after-read test, data inconsistencies were detected in some memory locations !\r\n");
+		xil_printf("  The following are the error data and their corresponding addresses:\r\n");
+		for (int j = 1; j < Mar_count_1[4] + 1; j = j + 1)
+		{
+			printf("  Test Error %d : \r\n", j);
+			printf("  Test Error Addr: 0x%08lx\r\n", err_info_4[finsh_flag_1].err_addr_1[j]);
+			printf("  Test Error Theoretical Data: 0x%016llx\r\n", err_info_4[finsh_flag_1].err_theor_1[j]);
+			printf("  Test Error Actual Data: 0x%016llx\r\n", err_info_4[finsh_flag_1].err_actual_1[j]);
+			xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+		}
+	}
+	if (((Mar_count_1[0] == 0x0) && (Mar_count_1[1] == 0x0) && (Mar_count_1[2] == 0x0) && (Mar_count_1[3] == 0x0) && (Mar_count_1[4] == 0x0)))
+	{
+		print_passed();
+	}
+	else
+	{
+		print_failed();
+	}
+	xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+}
+
+void print_result()
+{
+
+	// EventBits_t xBits;
+	// const EventBits_t xBitsToWaitFor = BIT_0 | BIT_1 ;
+
+	// xBits = xEventGroupWaitBits(xEventGroup,xBitsToWaitFor,pdTRUE,pdTRUE, portMAX_DELAY);
+	if (print_flag_0 && print_flag_1)
+	{
+
+		xil_printf("I1_");
+		uart_double(lane_0.I_sense[finsh_flag_0]);
+		xil_printf("\r\n");
+
+		xil_printf("I2_");
+		uart_double(lane_1.I_sense[finsh_flag_1]);
+		xil_printf("\r\n");
+
+		xil_printf("V1_");
+		uart_double(lane_0.V_bus[finsh_flag_0]);
+		xil_printf("\r\n");
+
+		xil_printf("V2_");
+		uart_double(lane_1.V_bus[finsh_flag_1]);
+		xil_printf("\r\n");
+
+		xil_printf("P1_");
+		uart_double(lane_0.power[finsh_flag_0]);
+		xil_printf("\r\n");
+
+		xil_printf("P2_");
+		uart_double(lane_1.power[finsh_flag_1]);
+		xil_printf("\r\n");
+
+		xil_printf("T1_");
+		uart_double(lane_0.TMP[finsh_flag_0]);
+		xil_printf("\r\n");
+
+		xil_printf("T2_");
+		uart_double(lane_1.TMP[finsh_flag_1]);
+		xil_printf("\r\n");
+
+		if (mod)
+		{
+			if (!executed_auto)
+			{
+				switch (state[auto_round * Mode + flag])
+				{
+				case STATE_MARCHC_0:
+				case STATE_MARCHC_1:
+					print_marchc_1(1);
+					print_marchc_2(2);
+					break;
+				default:
+					if (auto_flag && ((converted_data & mask_inj) == 0x00000009))
+					{
+						print_auto_Injection_1(1);
+						print_auto_Injection_2(2);
+					}
+					else
+					{
+						print_1(1);
+						print_2(2);
+					}
+					break;
+				}
+			}
+			else
+			{
+
+				check_mode();
+			}
+		}
+		else
+		{
+
+			if (!executed_auto)
+			{
+				switch (state[auto_round * Mode + flag])
+				{
+				case STATE_MARCHC_0:
+				case STATE_MARCHC_1:
+					print_marchc_1(3);
+					print_marchc_2(4);
+					break;
+				default:
+					if (auto_flag && ((converted_data & mask_inj) == 0x00000009))
+					{
+						print_auto_Injection_1(3);
+						print_auto_Injection_2(4);
+					}
+					else
+					{
+						print_1(3);
+						print_2(4);
+					}
+					break;
+				}
+			}
+			else
+			{
+
+				check_mode();
+			}
+		}
+
+		if (!executed_auto)
+								{
+												if (test_round == 10)
+												{
+													for (int i = (finsh_flag_0) * 10 + 1 ; i < (finsh_flag_0 + 1) * 10 + 1; i++)
+													{
+														xil_printf("sram_");
+														xil_printf("%d\r\n", i);
+														vTaskDelay(pdMS_TO_TICKS(1));
+													}
+												}
+												else
+												{
+													for (int i = finsh_flag_0 + 1; i < (finsh_flag_0 + 1) * 100 + 1; i++)
+													{
+														xil_printf("sram_");
+														xil_printf("%d\r\n", i);
+														vTaskDelay(pdMS_TO_TICKS(1));
+													}
+												}
+											}
+	   else
+		{
+
+					float f = (float)(auto_round * Mode + flag) / (round_cnt * Mode) * 100;
+					int s = (int)f;
+					xil_printf("sram_");
+					xil_printf("%d\r\n", s);
+		}
+
+		if ((finsh_flag_0 == test_round - 1) && (finsh_flag_1 == test_round - 1))
+		{
+
+			finsh_flag_0 = 0;
+			finsh_flag_1 = 0;
+
+			if (!executed_auto)
+			{
+
+				print_tail();
+			}
+			else
+			{
+				xil_printf("-----------------------------------------------------------------------------------------------\r\n");
+				flag++;
+			}
+
+			if (flag == Mode)
+			{
+
+				taskENTER_CRITICAL();
+				flag = 0;
+
+				if(config_select == 0x0)
+				{
+				auto_round++;
+				}
+				taskEXIT_CRITICAL();
+
+				free(voltage_info);
+
+				config_data = (config_data + V_adder) % 9;
+			}
+
+			if (auto_round == round_cnt)
+			{
+
+				print_all();
+
+				print_test_report();
+
+				auto_round = 0;
+
+				executed_auto = false;
+			}
+
+			xSemaphoreGive(xSemaphore);
+		}
+		else
+		{
+
+			finsh_flag_0++;
+			finsh_flag_1++;
+		}
+
+
+		timeoutflag = 0;
+
+		taskENTER_CRITICAL();
+		print_flag_0 = 0;
+		print_flag_1 = 0;
+		taskEXIT_CRITICAL();
+		xSemaphoreGive(xSemaphore_0);
+		xSemaphoreGive(xSemaphore_1);
+	}
+}
+
+void UART_Receive()
+{
+
+	u8 Auto_send_Buffer[1];
+	u8 auto_rececount;
+	auto_rececount = XUartPs_Recv(&UartPs, Auto_send_Buffer, 1);
+
+	if (auto_rececount > 0)
+	{
+		xQueueSend(xQueue, &Auto_send_Buffer[0], 0UL);
+	}
+	
+}
+
+
+void p3v3_en()
+{
+	XGpioPs_SetDirectionPin(&Gpio, Gpio_28, 0x1);	 // output
+	XGpioPs_SetOutputEnablePin(&Gpio, Gpio_28, 0x1); // output
+	XGpioPs_WritePin(&Gpio, Gpio_28, 0x1);			 // 3v3 en
+}
+
+void p1v1_en()
+{
+	XGpioPs_SetDirectionPin(&Gpio, Gpio_37, 0x1);	 // output
+	XGpioPs_SetOutputEnablePin(&Gpio, Gpio_37, 0x1); // output
+	XGpioPs_WritePin(&Gpio, Gpio_37, 0x1);			 // 1v1 en
+}
+
+static void prvUARTTask(void *pvParameters)
+{
+	while (1)
+	{
+		UART_Receive();
+		vTaskDelay(pdMS_TO_TICKS(1000));
+	}
+	vTaskDelete(NULL);
+}
+
+static void prvSENDTask(void *pvParameters)
+{
+	while (1)
+	{
+		send_data();
+		vTaskDelay(pdMS_TO_TICKS(50));
+	}
+	vTaskDelete(NULL);
+}
+
+static void prvRECETask_0(void *pvParameters)
+{
+	while (1)
+	{
+
+		if (send_flag_0)
+		{
+			receive_data_0();
+
+		}
+		vTaskDelay(pdMS_TO_TICKS(25));
+	}
+	vTaskDelete(NULL);
+}
+
+static void prvRECETask_1(void *pvParameters)
+{
+	while (1)
+	{
+		if (send_flag_1)
+		{
+			receive_data_1();
+		}
+		vTaskDelay(pdMS_TO_TICKS(25));
+	}
+	vTaskDelete(NULL);
+}
+
+static void prvPrint_result(void *pvParameters)
+{
+	while (1)
+	{
+
+		print_result();
+		vTaskDelay(pdMS_TO_TICKS(40));
+	}
+	vTaskDelete(NULL);
+}
+
+// int main_thread()
+// {
+
+// 	lwip_init();
+
+// 	sys_thread_new("NW_THRD", network_thread, 0,
+// 				   THREAD_STACKSIZE,
+// 				   DEFAULT_THREAD_PRIO);
+
+// 	while (1)
+// 	{
+// 		vTaskDelay(50000 / portTICK_RATE_MS);
+// 		IP4_ADDR(&(server_netif.ip_addr), 192, 168, 1, 10);
+// 		IP4_ADDR(&(server_netif.netmask), 255, 255, 255, 0);
+// 		IP4_ADDR(&(server_netif.gw), 192, 168, 1, 1);
+
+// 		print_ip_settings(&(server_netif.ip_addr), &(server_netif.netmask), &(server_netif.gw));
+
+// 		xil_printf("%s %s %s\r\n", "TCP client |", " Port 7 |", "Ready to connect With..");
+
+// 		sys_thread_new("echod", echo_application_thread, 0,
+// 					   THREAD_STACKSIZE,
+// 					   DEFAULT_THREAD_PRIO);
+// 		break;
+// 	}
+// 	xil_printf("Connected successfully.\r\n");
+// 	lit_led();
+
+// 	vTaskDelete(NULL);
+// 	return 0;
+// }
+
+int main()
+{
+
+	init_intr_sys();
+
+	    //    sys_thread_new("main_thrd", (void(*)(void*))main_thread, 0,
+	 	//                 THREAD_STACKSIZE,
+	   	//                 DEFAULT_THREAD_PRIO + 1);
+
+	xTaskCreate(prvUARTTask, (const char *)"UART",
+				THREAD_STACKSIZE,
+				NULL,
+				DEFAULT_THREAD_PRIO + 1,
+				NULL);
+
+	xTaskCreate(prvSENDTask, (const char *)"SEND",
+				THREAD_STACKSIZE,
+				NULL,
+				DEFAULT_THREAD_PRIO,
+				NULL);
+
+	xTaskCreate(prvRECETask_0, (const char *)"RECE0",
+				THREAD_STACKSIZE,
+				NULL,
+				DEFAULT_THREAD_PRIO,
+				NULL);
+
+	xTaskCreate(prvRECETask_1, (const char *)"RECE1",
+				THREAD_STACKSIZE,
+				NULL,
+				DEFAULT_THREAD_PRIO,
+				NULL);
+
+	xTaskCreate(prvPrint_result, (const char *)"Print_result",
+				THREAD_STACKSIZE,
+				NULL,
+				DEFAULT_THREAD_PRIO,
+				NULL);
+
+	vTaskStartScheduler();
+
+	while (1)
+		;
+	return 0;
+}

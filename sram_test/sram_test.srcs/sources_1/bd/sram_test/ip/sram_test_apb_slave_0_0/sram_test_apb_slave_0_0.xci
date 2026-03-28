@@ -1,0 +1,179 @@
+{
+  "schema": "xilinx.com:schema:json_instance:1.0",
+  "ip_inst": {
+    "xci_name": "sram_test_apb_slave_0_0",
+    "cell_name": "apb_slave_0",
+    "component_reference": "xilinx.com:user:apb_slave:1.0",
+    "ip_revision": "2",
+    "gen_directory": "../../../../../../sram_test.gen/sources_1/bd/sram_test/ip/sram_test_apb_slave_0_0",
+    "parameters": {
+      "component_parameters": {
+        "SRAM_ADDR_WIDTH": [ { "value": "19", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "SRAM_DATA_WIDTH": [ { "value": "40", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "APB_DATA_WIDTH": [ { "value": "32", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "APB_ADDR_WIDTH": [ { "value": "32", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "Component_Name": [ { "value": "sram_test_apb_slave_0_0", "resolve_type": "user", "usage": "all" } ]
+      },
+      "model_parameters": {
+        "SRAM_ADDR_WIDTH": [ { "value": "19", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "SRAM_DATA_WIDTH": [ { "value": "40", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "APB_DATA_WIDTH": [ { "value": "32", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "APB_ADDR_WIDTH": [ { "value": "32", "resolve_type": "generated", "format": "long", "usage": "all" } ]
+      },
+      "project_parameters": {
+        "ARCHITECTURE": [ { "value": "zynq" } ],
+        "BASE_BOARD_PART": [ { "value": "" } ],
+        "BOARD_CONNECTIONS": [ { "value": "" } ],
+        "DEVICE": [ { "value": "xc7z020" } ],
+        "PACKAGE": [ { "value": "clg484" } ],
+        "PREFHDL": [ { "value": "VERILOG" } ],
+        "SILICON_REVISION": [ { "value": "" } ],
+        "SIMULATOR_LANGUAGE": [ { "value": "MIXED" } ],
+        "SPEEDGRADE": [ { "value": "-2" } ],
+        "STATIC_POWER": [ { "value": "" } ],
+        "TEMPERATURE_GRADE": [ { "value": "" } ]
+      },
+      "runtime_parameters": {
+        "IPCONTEXT": [ { "value": "IP_Integrator" } ],
+        "IPREVISION": [ { "value": "2" } ],
+        "MANAGED": [ { "value": "TRUE" } ],
+        "OUTPUTDIR": [ { "value": "../../../../../../sram_test.gen/sources_1/bd/sram_test/ip/sram_test_apb_slave_0_0" } ],
+        "SELECTEDSIMMODEL": [ { "value": "" } ],
+        "SHAREDDIR": [ { "value": "../../ipshared" } ],
+        "SWVERSION": [ { "value": "2023.1" } ],
+        "SYNTHESISFLOW": [ { "value": "OUT_OF_CONTEXT" } ]
+      }
+    },
+    "boundary": {
+      "ports": {
+        "resetn": [ { "direction": "in" } ],
+        "clk": [ { "direction": "in" } ],
+        "uart_rst": [ { "direction": "out" } ],
+        "led_status": [ { "direction": "out", "size_left": "1", "size_right": "0" } ],
+        "s_apb_paddr_0": [ { "direction": "in", "size_left": "31", "size_right": "0" } ],
+        "s_apb_penable_0": [ { "direction": "in" } ],
+        "s_apb_psel_0": [ { "direction": "in" } ],
+        "s_apb_pwdata_0": [ { "direction": "in", "size_left": "31", "size_right": "0" } ],
+        "s_apb_pwrite_0": [ { "direction": "in" } ],
+        "s_apb_prdata_0": [ { "direction": "out", "size_left": "31", "size_right": "0" } ],
+        "s_apb_pready_0": [ { "direction": "out" } ],
+        "s_apb_pslverr_0": [ { "direction": "out" } ],
+        "s_apb_paddr_1": [ { "direction": "in", "size_left": "31", "size_right": "0" } ],
+        "s_apb_penable_1": [ { "direction": "in" } ],
+        "s_apb_psel_1": [ { "direction": "in" } ],
+        "s_apb_pwdata_1": [ { "direction": "in", "size_left": "31", "size_right": "0" } ],
+        "s_apb_pwrite_1": [ { "direction": "in" } ],
+        "s_apb_prdata_1": [ { "direction": "out", "size_left": "31", "size_right": "0" } ],
+        "s_apb_pready_1": [ { "direction": "out" } ],
+        "s_apb_pslverr_1": [ { "direction": "out" } ],
+        "m_data_s2d_0": [ { "direction": "in", "size_left": "39", "size_right": "0" } ],
+        "err_sys_hit_0": [ { "direction": "in", "size_left": "19", "size_right": "0" } ],
+        "err_counter_0": [ { "direction": "in", "size_left": "19", "size_right": "0" } ],
+        "fifo_wen_0": [ { "direction": "in" } ],
+        "err_addr_0": [ { "direction": "in", "size_left": "18", "size_right": "0" } ],
+        "err_data_0": [ { "direction": "in", "size_left": "39", "size_right": "0" } ],
+        "cor_data_0": [ { "direction": "in", "size_left": "39", "size_right": "0" } ],
+        "control_0": [ { "direction": "out", "size_left": "14", "size_right": "0" } ],
+        "freq_0": [ { "direction": "out" } ],
+        "up_down_0": [ { "direction": "out" } ],
+        "err_inj_num_0": [ { "direction": "out", "size_left": "19", "size_right": "0" } ],
+        "m_data_s2d_1": [ { "direction": "in", "size_left": "39", "size_right": "0" } ],
+        "err_sys_hit_1": [ { "direction": "in", "size_left": "19", "size_right": "0" } ],
+        "err_counter_1": [ { "direction": "in", "size_left": "19", "size_right": "0" } ],
+        "fifo_wen_1": [ { "direction": "in" } ],
+        "err_addr_1": [ { "direction": "in", "size_left": "18", "size_right": "0" } ],
+        "err_data_1": [ { "direction": "in", "size_left": "39", "size_right": "0" } ],
+        "cor_data_1": [ { "direction": "in", "size_left": "39", "size_right": "0" } ],
+        "control_1": [ { "direction": "out", "size_left": "14", "size_right": "0" } ],
+        "freq_1": [ { "direction": "out" } ],
+        "up_down_1": [ { "direction": "out" } ],
+        "err_inj_num_1": [ { "direction": "out", "size_left": "19", "size_right": "0" } ]
+      },
+      "interfaces": {
+        "resetn": {
+          "vlnv": "xilinx.com:signal:reset:1.0",
+          "abstraction_type": "xilinx.com:signal:reset_rtl:1.0",
+          "mode": "slave",
+          "parameters": {
+            "POLARITY": [ { "value": "ACTIVE_LOW", "value_src": "constant", "value_permission": "bd_and_user", "usage": "all" } ],
+            "INSERT_VIP": [ { "value": "0", "resolve_type": "user", "format": "long", "usage": "simulation.rtl", "is_ips_inferred": true, "is_static_object": false } ]
+          },
+          "port_maps": {
+            "RST": [ { "physical_name": "resetn" } ]
+          }
+        },
+        "uart_rst": {
+          "vlnv": "xilinx.com:signal:reset:1.0",
+          "abstraction_type": "xilinx.com:signal:reset_rtl:1.0",
+          "mode": "master",
+          "parameters": {
+            "POLARITY": [ { "value": "ACTIVE_LOW", "value_permission": "bd_and_user", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
+            "INSERT_VIP": [ { "value": "0", "resolve_type": "user", "format": "long", "usage": "simulation.rtl", "is_ips_inferred": true, "is_static_object": false } ]
+          },
+          "port_maps": {
+            "RST": [ { "physical_name": "uart_rst" } ]
+          }
+        },
+        "clk": {
+          "vlnv": "xilinx.com:signal:clock:1.0",
+          "abstraction_type": "xilinx.com:signal:clock_rtl:1.0",
+          "mode": "slave",
+          "parameters": {
+            "ASSOCIATED_RESET": [ { "value": "resetn", "value_src": "constant", "value_permission": "bd_and_user", "usage": "all" } ],
+            "FREQ_HZ": [ { "value": "200000000", "value_src": "user_prop", "value_permission": "bd_and_user", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "FREQ_TOLERANCE_HZ": [ { "value": "0", "value_permission": "bd_and_user", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "PHASE": [ { "value": "0.0", "value_permission": "bd_and_user", "resolve_type": "generated", "format": "float", "is_ips_inferred": true, "is_static_object": false } ],
+            "CLK_DOMAIN": [ { "value": "sram_test_processing_system7_0_0_FCLK_CLK0", "value_src": "default_prop", "value_permission": "bd_and_user", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
+            "ASSOCIATED_BUSIF": [ { "value": "", "value_permission": "bd_and_user", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
+            "ASSOCIATED_PORT": [ { "value": "", "value_permission": "bd_and_user", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
+            "INSERT_VIP": [ { "value": "0", "resolve_type": "user", "format": "long", "usage": "simulation.rtl", "is_ips_inferred": true, "is_static_object": false } ]
+          },
+          "port_maps": {
+            "CLK": [ { "physical_name": "clk" } ]
+          }
+        },
+        "s_apb_0": {
+          "vlnv": "xilinx.com:interface:apb:1.0",
+          "abstraction_type": "xilinx.com:interface:apb_rtl:1.0",
+          "mode": "slave",
+          "port_maps": {
+            "PADDR": [ { "physical_name": "s_apb_paddr_0" } ],
+            "PSEL": [ { "physical_name": "s_apb_psel_0" } ],
+            "PENABLE": [ { "physical_name": "s_apb_penable_0" } ],
+            "PWRITE": [ { "physical_name": "s_apb_pwrite_0" } ],
+            "PWDATA": [ { "physical_name": "s_apb_pwdata_0" } ],
+            "PREADY": [ { "physical_name": "s_apb_pready_0" } ],
+            "PRDATA": [ { "physical_name": "s_apb_prdata_0" } ],
+            "PSLVERR": [ { "physical_name": "s_apb_pslverr_0" } ]
+          }
+        },
+        "s_apb_1": {
+          "vlnv": "xilinx.com:interface:apb:1.0",
+          "abstraction_type": "xilinx.com:interface:apb_rtl:1.0",
+          "mode": "slave",
+          "memory_map_ref": "s_apb_1",
+          "port_maps": {
+            "PADDR": [ { "physical_name": "s_apb_paddr_1" } ],
+            "PSEL": [ { "physical_name": "s_apb_psel_1" } ],
+            "PENABLE": [ { "physical_name": "s_apb_penable_1" } ],
+            "PWRITE": [ { "physical_name": "s_apb_pwrite_1" } ],
+            "PWDATA": [ { "physical_name": "s_apb_pwdata_1" } ],
+            "PREADY": [ { "physical_name": "s_apb_pready_1" } ],
+            "PRDATA": [ { "physical_name": "s_apb_prdata_1" } ],
+            "PSLVERR": [ { "physical_name": "s_apb_pslverr_1" } ]
+          }
+        }
+      },
+      "memory_maps": {
+        "s_apb_1": {
+          "address_blocks": {
+            "s_apb": {
+              "base_address": "0",
+              "range": "4096"
+            }
+          }
+        }
+      }
+    }
+  }
+}

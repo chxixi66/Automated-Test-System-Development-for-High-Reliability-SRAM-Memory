@@ -1,0 +1,18 @@
+#-----------------------------------------------------------
+# Vivado v2023.1 (64-bit)
+# SW Build 3865809 on Sun May  7 15:05:29 MDT 2023
+# IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
+# SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
+# Start of session at: Tue Sep  2 15:25:56 2025
+# Process ID: 3720
+# Current directory: D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent2524 D:\HuaweiMoveData\Users\chx\Desktop\Sram_test\sram_test\sram_test.xpr
+# Log file: D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/vivado.log
+# Journal file: D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test\vivado.jou
+# Running On: LAPTOP-H14EUFIU, OS: Windows, CPU Frequency: 2304 MHz, CPU Physical cores: 4, Host memory: 17000 MB
+#-----------------------------------------------------------
+start_gui
+open_project D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.xpr
+update_compile_order -fileset sources_1
+open_bd_design {D:/HuaweiMoveData/Users/chx/Desktop/Sram_test/sram_test/sram_test.srcs/sources_1/bd/sram_test/sram_test.bd}
+regenerate_bd_layout

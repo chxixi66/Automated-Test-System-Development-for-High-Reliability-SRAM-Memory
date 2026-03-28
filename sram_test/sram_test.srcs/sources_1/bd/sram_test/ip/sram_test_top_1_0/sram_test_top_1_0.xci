@@ -1,0 +1,85 @@
+{
+  "schema": "xilinx.com:schema:json_instance:1.0",
+  "ip_inst": {
+    "xci_name": "sram_test_top_1_0",
+    "cell_name": "top_1",
+    "component_reference": "xilinx.com:user:top:1.0",
+    "ip_revision": "2",
+    "gen_directory": "../../../../../../sram_test.gen/sources_1/bd/sram_test/ip/sram_test_top_1_0",
+    "parameters": {
+      "component_parameters": {
+        "SRAM_DATA_WIDTH": [ { "value": "40", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "SRAM_ADDR_WIDTH": [ { "value": "19", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "Component_Name": [ { "value": "sram_test_top_1_0", "resolve_type": "user", "usage": "all" } ]
+      },
+      "model_parameters": {
+        "SRAM_DATA_WIDTH": [ { "value": "40", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "SRAM_ADDR_WIDTH": [ { "value": "19", "resolve_type": "generated", "format": "long", "usage": "all" } ]
+      },
+      "project_parameters": {
+        "ARCHITECTURE": [ { "value": "zynq" } ],
+        "BASE_BOARD_PART": [ { "value": "" } ],
+        "BOARD_CONNECTIONS": [ { "value": "" } ],
+        "DEVICE": [ { "value": "xc7z020" } ],
+        "PACKAGE": [ { "value": "clg484" } ],
+        "PREFHDL": [ { "value": "VERILOG" } ],
+        "SILICON_REVISION": [ { "value": "" } ],
+        "SIMULATOR_LANGUAGE": [ { "value": "MIXED" } ],
+        "SPEEDGRADE": [ { "value": "-2" } ],
+        "STATIC_POWER": [ { "value": "" } ],
+        "TEMPERATURE_GRADE": [ { "value": "" } ]
+      },
+      "runtime_parameters": {
+        "IPCONTEXT": [ { "value": "IP_Integrator" } ],
+        "IPREVISION": [ { "value": "2" } ],
+        "MANAGED": [ { "value": "TRUE" } ],
+        "OUTPUTDIR": [ { "value": "../../../../../../sram_test.gen/sources_1/bd/sram_test/ip/sram_test_top_1_0" } ],
+        "SELECTEDSIMMODEL": [ { "value": "" } ],
+        "SHAREDDIR": [ { "value": "../../ipshared" } ],
+        "SWVERSION": [ { "value": "2023.1" } ],
+        "SYNTHESISFLOW": [ { "value": "OUT_OF_CONTEXT" } ]
+      }
+    },
+    "boundary": {
+      "ports": {
+        "ext_clk_200M": [ { "direction": "in" } ],
+        "ext_rst_n": [ { "direction": "in" } ],
+        "control": [ { "direction": "in", "size_left": "14", "size_right": "0" } ],
+        "led": [ { "direction": "out" } ],
+        "sram_ce0_n": [ { "direction": "out" } ],
+        "sram_ce1_n": [ { "direction": "out" } ],
+        "sram_we_n": [ { "direction": "out" } ],
+        "sram_oe_n": [ { "direction": "out" } ],
+        "sram_addr": [ { "direction": "out", "size_left": "18", "size_right": "0" } ],
+        "sram_data": [ { "direction": "inout", "size_left": "39", "size_right": "0" } ],
+        "err_sys": [ { "direction": "in" } ],
+        "err_inj": [ { "direction": "out", "size_left": "1", "size_right": "0" } ],
+        "err_a": [ { "direction": "out" } ],
+        "freq": [ { "direction": "in" } ],
+        "up_down": [ { "direction": "in" } ],
+        "err_inj_num": [ { "direction": "in", "size_left": "19", "size_right": "0" } ],
+        "m_data_s2d": [ { "direction": "out", "size_left": "39", "size_right": "0" } ],
+        "err_sys_hit": [ { "direction": "out", "size_left": "19", "size_right": "0" } ],
+        "err_counter": [ { "direction": "out", "size_left": "19", "size_right": "0" } ],
+        "fifo_wen": [ { "direction": "out" } ],
+        "err_addr": [ { "direction": "out", "size_left": "18", "size_right": "0" } ],
+        "err_data": [ { "direction": "out", "size_left": "39", "size_right": "0" } ],
+        "cor_data": [ { "direction": "out", "size_left": "39", "size_right": "0" } ]
+      },
+      "interfaces": {
+        "ext_rst_n": {
+          "vlnv": "xilinx.com:signal:reset:1.0",
+          "abstraction_type": "xilinx.com:signal:reset_rtl:1.0",
+          "mode": "slave",
+          "parameters": {
+            "POLARITY": [ { "value": "ACTIVE_LOW", "value_src": "constant", "value_permission": "bd_and_user", "usage": "all" } ],
+            "INSERT_VIP": [ { "value": "0", "resolve_type": "user", "format": "long", "usage": "simulation.rtl", "is_ips_inferred": true, "is_static_object": false } ]
+          },
+          "port_maps": {
+            "RST": [ { "physical_name": "ext_rst_n" } ]
+          }
+        }
+      }
+    }
+  }
+}
